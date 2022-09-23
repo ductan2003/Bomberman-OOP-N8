@@ -25,6 +25,7 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
+    public Map map = new Map();
 
 
     public static void main(String[] args) {
@@ -57,7 +58,7 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        createMap();
+        map.createMap(1);
 
         Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         entities.add(bomberman);
@@ -84,8 +85,11 @@ public class BombermanGame extends Application {
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        stillObjects.forEach(g -> g.render(gc));
+        for (int i = 0; i < map.getMap().size(); i++) {
+            map.getMap().get(i).forEach(g -> g.render(gc));
+        }
         entities.forEach(g -> g.render(gc));
     }
     //tesst
+
 }

@@ -23,10 +23,7 @@ public class Camera {
         this.width = width;
     }
 
-    public void update(Entity bomber) {
-        if(bomber.getX() < Graphics * Sprite.SCALED_SIZE) {
-            x=0;
-        }
-        
-    }
+//    public void update(Entity bomber) {
+//
+//    }
 }

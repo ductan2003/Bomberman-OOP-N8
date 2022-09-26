@@ -71,4 +71,13 @@ public class Map {
     public List<List<Entity>> getMap() {
         return map;
     }
+
+    /**
+     * Return entity in [xPos][yPos].
+     */
+    public Entity getCoordinate(int x, int y) {
+        int xPos = Math.round(x/Sprite.SCALED_SIZE);
+        int yPos = Math.round(y/Sprite.SCALED_SIZE);
+        return map.get(yPos).get(xPos);
+    }
 }

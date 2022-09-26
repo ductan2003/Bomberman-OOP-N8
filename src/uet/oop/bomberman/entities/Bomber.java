@@ -24,7 +24,7 @@ public class Bomber extends DestroyableEntity {
         super( x, y, img);
         speed = 1;
     }
-// new Constructor
+// new Constructor with keyEvent
     public Bomber(int x, int y, Image img, KeyListener keyEvent) {
         super( x, y, img);
         this.keyEvent = keyEvent;
@@ -37,17 +37,17 @@ public class Bomber extends DestroyableEntity {
             y -= speed;
             System.out.println("Up" + " " + x + " " + y);
         }
-        if (keyEvent.pressed(KeyCode.DOWN)) {
+        else if (keyEvent.pressed(KeyCode.DOWN)) {
             y += speed;
             System.out.println("DOWN" + " " + x + " " + y);
         }
-        if (keyEvent.pressed(KeyCode.LEFT)) {
+        else if (keyEvent.pressed(KeyCode.LEFT)) {
             x -= speed;
             System.out.println("LEFT" + " " + x + " " + y);
         }
-        if (keyEvent.pressed(KeyCode.RIGHT)) {
+        else if (keyEvent.pressed(KeyCode.RIGHT)) {
             x += speed;
-            System.out.println("Up" + " " + x + " " + y);
-        }
+            System.out.println("RIGHT" + " " + x + " " + y);
+        } else return;
     }
 }

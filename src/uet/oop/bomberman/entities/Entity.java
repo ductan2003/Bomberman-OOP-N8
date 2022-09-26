@@ -30,13 +30,13 @@ public abstract class Entity {
         this.y = y;
     }
 
-    public void setXUnit(int x) {
-        this.x = x * Sprite.SCALED_SIZE;
-    }
-
-    public void setYUnit(int y) {
-        this.y = y * Sprite.SCALED_SIZE;
-    }
+//    public void setXUnit(int x) {
+//        this.x = x * Sprite.SCALED_SIZE;
+//    }
+//
+//    public void setYUnit(int y) {
+//        this.y = y * Sprite.SCALED_SIZE;
+//    }
 
     protected Image img;
 

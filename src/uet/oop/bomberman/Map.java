@@ -36,7 +36,7 @@ public class Map {
         // Read a map file
 
         Path path = Paths.get("").toAbsolutePath();
-        File file = new File(path.normalize().toString()+"/res/levels/Level" + level + ".txt");
+        File file = new File(path.normalize().toString() + "/res/levels/Level" + level + ".txt");
 
         try {
             Scanner scanner = new Scanner(file);
@@ -44,19 +44,19 @@ public class Map {
             height = scanner.nextInt();
             width = scanner.nextInt();
             scanner.nextLine();
-            for(int i=0;i<height;i++) {
+            for(int i = 0; i < height; i++) {
                 String tempStr = scanner.nextLine();
                 List<Entity> tempList = new ArrayList<>();
-                for (int j=0;j<width;j++) {
+                for (int j = 0; j < width; j++) {
                     switch (tempStr.charAt(j)) {
                         case '#':
-                            tempList.add(new Wall(j,i, Sprite.wall.getFxImage()));
+                            tempList.add(new Wall(j, i, Sprite.wall.getFxImage()));
                             break;
                         case '*':
-                            tempList.add(new Brick(j,i,Sprite.brick.getFxImage()));
+                            tempList.add(new Brick(j, i,Sprite.brick.getFxImage()));
                             break;
                         default:
-                            tempList.add(new Grass(j,i,Sprite.grass.getFxImage()));
+                            tempList.add(new Grass(j, i,Sprite.grass.getFxImage()));
                             break;
                     }
                 }

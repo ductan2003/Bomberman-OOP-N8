@@ -12,19 +12,26 @@ public class KeyListener {
     private Set<KeyCode> keyList = new HashSet<>();
 
     public KeyListener(Scene scene) {
-        scene.setOnKeyPressed(this::update);
-        scene.setOnKeyReleased(this::update);
-    }
-    public void update(KeyEvent event) {
-        if (KeyEvent.KEY_PRESSED.equals(event.getEventType())) {
-            keyList.add(event.getCode());
-        } else if (KeyEvent.KEY_RELEASED.equals(event.getEventType())) {
-            keyList.remove(event.getCode());
-        }
+        KeyEvent event;
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (KeyEvent.KEY_PRESSED.equals(event.getEventType())) {
+                    keyList.add(event.getCode());
+                }
+            }
+        });
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (KeyEvent.KEY_RELEASED.equals(event.getEventType())) {
+                    keyList.remove(event.getCode());
+                }
+            }
+        });
     }
 
     public boolean pressed(KeyCode keycode) {
         return (keyList.contains(keycode));
     }
-
 }

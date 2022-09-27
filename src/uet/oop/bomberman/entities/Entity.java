@@ -47,6 +47,11 @@ public abstract class Entity {
         this.img = img;
     }
 
+    public Entity(int xUnit, int yUnit) {
+        this.x = xUnit * Sprite.SCALED_SIZE;
+        this.y = yUnit * Sprite.SCALED_SIZE;
+    }
+
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }

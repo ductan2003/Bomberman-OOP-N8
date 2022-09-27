@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import uet.oop.bomberman.controlSystem.Collision;
 import uet.oop.bomberman.controlSystem.KeyListener;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
@@ -27,6 +28,7 @@ public class BombermanGame extends Application {
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
     private KeyListener keyEvent;
+    private Collision collision;
     public Map map = new Map();
 
 
@@ -61,9 +63,10 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        map.createMap(2);
+        map.createMap(1);
+        collision = new Collision(map);
 
-        Entity bomberman = new Bomber(5, 10, Sprite.player_right.getFxImage(), keyEvent);
+        Entity bomberman = new Bomber(10, 5, Sprite.player_right.getFxImage(), keyEvent, collision);
         entities.add(bomberman);
     }
 

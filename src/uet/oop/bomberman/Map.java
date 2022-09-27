@@ -80,4 +80,5 @@ public class Map {
         int yPos = Math.round(y/Sprite.SCALED_SIZE);
         return map.get(yPos).get(xPos);
     }
+
 }

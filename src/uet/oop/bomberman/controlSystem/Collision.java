@@ -19,7 +19,7 @@ public class Collision {
     public Entity getEntity(int xPos, int yPos) {
         return map.getMap().get(yPos).get(xPos);
     }
-
+// add direction to the entity to compare to entity1
     public boolean collide(Entity entity, Entity entity1) {
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
         coordinates.add(new Pair<Integer, Integer> (entity1.getX(), entity1.getY()));
@@ -38,4 +38,9 @@ public class Collision {
                 point.getValue() >= entity.getY() &&
                 entity.getY() + SCALED_SIZE >= point.getValue());
     }
+
+//    public Entity getNextPosition(Entity entity, Direction direction) {
+//
+//    }
+
 }

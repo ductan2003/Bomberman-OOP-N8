@@ -23,7 +23,7 @@ public class Camera {
         this.width = width;
     }
 
-//    public void update(Entity bomber) {
-//
-//    }
+    public void update(Entity bomber) {
+
+    }
 }

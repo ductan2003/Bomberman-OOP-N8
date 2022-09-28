@@ -16,16 +16,18 @@ public class Collision {
         this.map = map;
     }
 
-    public Entity getEntity(int xPos, int yPos) {
-        return map.getMap().get(yPos).get(xPos);
+    public Entity getEntity (int xPos, int yPos) {
+        return map.getEntity(xPos,yPos);
     }
 // add direction to the entity to compare to entity1
     public boolean collide(Entity entity, Entity entity1) {
+        System.out.println(entity.getX()+" "+entity.getY());
+        System.out.println(entity1.getX()+" "+ entity1.getY());
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
         coordinates.add(new Pair<Integer, Integer> (entity1.getX(), entity1.getY()));
-        coordinates.add(new Pair<Integer, Integer> (entity1.getX(), entity1.getX() + SCALED_SIZE));
-        coordinates.add(new Pair<Integer, Integer> (entity1.getX() + SCALED_SIZE, entity1.getX()));
-        coordinates.add(new Pair<Integer, Integer> (entity1.getX() + SCALED_SIZE, entity1.getX() + SCALED_SIZE));
+        coordinates.add(new Pair<Integer, Integer> (entity1.getX(), entity1.getY() + SCALED_SIZE));
+        coordinates.add(new Pair<Integer, Integer> (entity1.getX() + SCALED_SIZE, entity1.getY()));
+        coordinates.add(new Pair<Integer, Integer> (entity1.getX() + SCALED_SIZE, entity1.getY() + SCALED_SIZE));
         return contain(entity, coordinates.get(0))
                 || contain(entity, coordinates.get(1))
                 || contain(entity, coordinates.get(2))
@@ -38,9 +40,8 @@ public class Collision {
                 point.getValue() >= entity.getY() &&
                 entity.getY() + SCALED_SIZE >= point.getValue());
     }
-
-//    public Entity getNextPosition(Entity entity, Direction direction) {
-//
-//    }
+    public boolean BomberCollide(Entity entity,int x, int y) {
+        return collide(entity,map.getEntity(x,y));
+    }
 
 }

@@ -19,6 +19,10 @@ public class Collision {
         this.map = map;
     }
 
+    public Map getMap() {
+        return map;
+    }
+
     public Entity getEntity(int xPos, int yPos) {
         return map.getEntity(xPos, yPos);
     }

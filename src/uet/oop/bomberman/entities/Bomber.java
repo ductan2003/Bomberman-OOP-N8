@@ -6,10 +6,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import uet.oop.bomberman.Map;
 import uet.oop.bomberman.controlSystem.BombControl;
 import uet.oop.bomberman.controlSystem.Collision;
 import uet.oop.bomberman.controlSystem.Direction;
 import uet.oop.bomberman.controlSystem.KeyListener;
+import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
@@ -27,6 +29,14 @@ public class Bomber extends DestroyableEntity {
         isGoToNextLevel = goToNextLevel;
     }
 
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
     public boolean isGoToNextLevel() {
         return isGoToNextLevel;
     }
@@ -42,6 +52,11 @@ public class Bomber extends DestroyableEntity {
         speed = 3;
         this.collisionManage = collisionManage;
         this.bombControl = bombControl;
+        direction = RIGHT;
+    }
+
+    public void getBomberInfo() {
+        System.out.println("Bomber: " + this.getCoordinateInfo() + ". Going " + this.getDirection());
     }
 
     @Override
@@ -50,36 +65,71 @@ public class Bomber extends DestroyableEntity {
         if (keyEvent.pressed(KeyCode.UP)) {
             if (collisionManage.canMove(x,y,speed,UP)) {
                 y -= speed;
-                System.out.println("Up" + " " + x + " " + y);
+                setDirection(UP);
+                getBomberInfo();
             }
         }
         else if (keyEvent.pressed(KeyCode.DOWN)) {
             if (collisionManage.canMove(x,y,speed,DOWN)) {
                 y += speed;
-                System.out.println("DOWN" + " " + x + " " + y);
+                setDirection(DOWN);
+                getBomberInfo();
             }
         }
         else if (keyEvent.pressed(KeyCode.LEFT)) {
             if (collisionManage.canMove(x,y,speed,LEFT)) {
                 x -= speed;
-                System.out.println("LEFT" + " " + x + " " + y);
+                setDirection(LEFT);
+                getBomberInfo();
             }
         }
         else if (keyEvent.pressed(KeyCode.RIGHT)) {
             if (collisionManage.canMove(x,y,speed,RIGHT)) {
                 x += speed;
-                System.out.println("RIGHT" + " " + x + " " + y);
+                setDirection(RIGHT);
+                getBomberInfo();
             }
         } else if (keyEvent.pressed(KeyCode.SPACE)) {
-            if (collisionManage.canMove(x,y,0, UP)) {
+            getBomberInfo();
+            int xPos = getXMapCoordinate(x);
+            int yPos = getYMapCoordinate(y);
+            if (bombControl.canSetBomb(xPos, yPos, getDirection())) {
                 // to do
                 System.out.println("Add Bomb");
-                int xPos = Math.round(x / SCALED_SIZE);
-                int yPos = Math.round(y / SCALED_SIZE);
+                switch (getDirection()) {
+                    case UP:
+                        yPos -= 1;
+                        break;
+                    case DOWN:
+                        yPos += 1;
+                        break;
+                    case LEFT:
+                        xPos -= 1;
+                        break;
+                    case RIGHT:
+                        xPos += 1;
+                        break;
+                    default: break;
+                }
                 Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage());
                 bombControl.addBomb(newBomb);
             }
-        } else return;
+        }
+        img = getImg(getDirection());
+    }
+
+    public Image getImg(Direction direction) {
+        switch (direction) {
+            case UP:
+                return Sprite.player_up.getFxImage();
+            case DOWN:
+                return Sprite.player_down.getFxImage();
+            case RIGHT:
+                return Sprite.player_right.getFxImage();
+            case LEFT:
+                return Sprite.player_left.getFxImage();
+        }
+        return img;
     }
 
 }

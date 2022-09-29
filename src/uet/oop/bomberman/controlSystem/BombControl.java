@@ -6,6 +6,8 @@ import uet.oop.bomberman.entities.Bomb;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
+
 public class BombControl {
     // Todo: setup bomb
     private List<Bomb> bombList = new ArrayList<>();
@@ -29,16 +31,33 @@ public class BombControl {
 
     }
 
+//    public void getBombInfo() {
+//        System.out.println("Bomb: " + this.);
+//    }
     public void addBomb(Bomb bomb) {
         bombList.add(bomb);
-        // add cả vô Map nữa
         map.addEntity(bomb);
-        System.out.println("New Bomb " + bomb.getX() + " " + bomb.getY());
+        System.out.println("Bomb: " + bomb.getCoordinateInfo());
     }
 
-    public boolean canSetBomb(int x, int y) {
+    public boolean canSetBomb(int x, int y, Direction direction) {
         // to do
-        if (collisionManage.canMove(x,y,0, Direction.UP))
+        switch (direction) {
+            case UP:
+                y -= 1;
+                break;
+            case DOWN:
+                y += 1;
+                break;
+            case LEFT:
+                x -= 1;
+                break;
+            case RIGHT:
+                x += 1;
+                break;
+            default: break;
+        }
+        if (collisionManage.canMove(x * SCALED_SIZE,y * SCALED_SIZE,0, direction))
             return true;
         return false;
     }

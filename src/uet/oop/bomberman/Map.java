@@ -72,8 +72,6 @@ public class Map {
     public void addEntity(Entity entity) {
         int xPos = Math.round(entity.getX()/Sprite.SCALED_SIZE);
         int yPos = Math.round(entity.getY()/Sprite.SCALED_SIZE);
-        System.out.println("X: " + xPos + " " + yPos);
-        System.out.println("X: " + entity.getX() + " " + entity.getY());
         map.get(yPos).set(xPos, entity);
     }
 

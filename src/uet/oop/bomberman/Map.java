@@ -1,9 +1,6 @@
 package uet.oop.bomberman;
 
-import uet.oop.bomberman.entities.Brick;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Grass;
-import uet.oop.bomberman.entities.Wall;
+import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.File;
@@ -70,6 +67,14 @@ public class Map {
 
     public List<List<Entity>> getMap() {
         return map;
+    }
+
+    public void addEntity(Entity entity) {
+        int xPos = Math.round(entity.getX()/Sprite.SCALED_SIZE);
+        int yPos = Math.round(entity.getY()/Sprite.SCALED_SIZE);
+        System.out.println("X: " + xPos + " " + yPos);
+        System.out.println("X: " + entity.getX() + " " + entity.getY());
+        map.get(yPos).set(xPos, entity);
     }
 
     /**

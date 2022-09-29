@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import uet.oop.bomberman.controlSystem.BombControl;
 import uet.oop.bomberman.controlSystem.Collision;
 import uet.oop.bomberman.controlSystem.Direction;
 import uet.oop.bomberman.controlSystem.KeyListener;
@@ -18,6 +19,7 @@ public class Bomber extends DestroyableEntity {
     private boolean isGoToNextLevel = false;
     private KeyListener keyEvent;
     private Collision collisionManage;
+    private BombControl bombControl;
     private Direction direction;
     private static int FIX_LENGTH = 3;
 
@@ -34,11 +36,12 @@ public class Bomber extends DestroyableEntity {
         speed = 1;
     }
 // new Constructor with keyEvent
-    public Bomber(int x, int y, Image img, KeyListener keyEvent, Collision collisionManage) {
+    public Bomber(int x, int y, Image img, KeyListener keyEvent, Collision collisionManage, BombControl bombControl) {
         super( x, y, img);
         this.keyEvent = keyEvent;
         speed = 3;
         this.collisionManage = collisionManage;
+        this.bombControl = bombControl;
     }
 
     @Override
@@ -67,36 +70,17 @@ public class Bomber extends DestroyableEntity {
                 x += speed;
                 System.out.println("RIGHT" + " " + x + " " + y);
             }
+        } else if (keyEvent.pressed(KeyCode.SPACE)) {
+            if (collisionManage.canMove(x,y,0, UP)) {
+                // to do
+                System.out.println("Add Bomb");
+                int xPos = Math.round(x / SCALED_SIZE);
+                int yPos = Math.round(y / SCALED_SIZE);
+                Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage());
+                bombControl.addBomb(newBomb);
+            }
         } else return;
     }
 
-//    public boolean isMetBarrier(Direction direction) {
-//        Entity nextPos = new Wall(x,y, img);
-//        nextPos.setX(x);
-//        nextPos.setY(y);
-//        Entity nextEntity = new Brick(x,y,img);
-//        switch (direction) {
-//            case UP:
-//                nextEntity = collisionManage.getEntity(x, y-speed);
-//                nextPos.setY(y-speed);
-//                break;
-//            case DOWN:
-//                nextEntity = collisionManage.getEntity(x, y+speed+SCALED_SIZE);
-//                nextPos.setY(y+speed-FIX_LENGTH);
-//                break;
-//            case LEFT:
-//                nextEntity = collisionManage.getEntity(x+speed, y);
-//                nextPos.setX(x+speed-FIX_LENGTH);
-//                break;
-//            case RIGHT:
-//                nextEntity = collisionManage.getEntity(x-speed+SCALED_SIZE, y);
-//                nextPos.setX(x-speed+FIX_LENGTH);
-//                break;
-//        }
-//        if (nextEntity instanceof Grass && collisionManage.collide(nextEntity, nextPos)) {
-//            return true;
-//        }
-//        return false;
-//    }
 }
 

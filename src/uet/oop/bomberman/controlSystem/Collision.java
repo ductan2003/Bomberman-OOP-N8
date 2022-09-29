@@ -80,4 +80,7 @@ public class Collision {
         return false;
     }
 
+    public Map getMap() {
+        return map;
+    }
 }

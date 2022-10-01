@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import uet.oop.bomberman.controlSystem.Camera;
 import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
@@ -69,5 +70,6 @@ public abstract class Entity {
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }
+    public void render(GraphicsContext gc, Camera camera) {gc.drawImage(img,x- camera.getX(),y-camera.getY());}
     public abstract void update();
 }

@@ -25,11 +25,8 @@ public class BombermanGame extends Application {
     
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
     private KeyListener keyEvent;
-    private Collision collision;
-    private BombControl bombControl;
     public Map map = new Map();
 
     public Screen screen;
@@ -66,22 +63,17 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        map.createMap(1);
-        collision = new Collision(map);
-        bombControl = new BombControl(collision);
+        map.createMap(1,keyEvent);
 
-        Entity bomberman = new Bomber(6, 4, Sprite.player_right.getFxImage(), keyEvent, collision, bombControl);
-        entities.add(bomberman);
     }
 
     public void update() {
-        entities.forEach(Entity::update);
+        map.update();
     }
 
     public void render() {
         screen.clearScreen(canvas);
         screen.renderMap(map);
-        screen.renderEntity(entities);
     }
 
 }

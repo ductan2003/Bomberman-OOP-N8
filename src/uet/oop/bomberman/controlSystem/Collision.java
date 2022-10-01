@@ -50,8 +50,8 @@ public class Collision {
         Entity object2;
         switch (direction) {
             case UP:
-                object1 = map.getEntity(x + FIX, y + speed + FIX);
-                object2 = map.getEntity(x + SCALED_SIZE - 2 * FIX, y + speed - FIX);
+                object1 = map.getEntity(x + FIX, y + speed );
+                object2 = map.getEntity(x + SCALED_SIZE - 2 * FIX, y + speed );
 //                entity.setY(y + speed);
                 break;
             case DOWN:
@@ -60,13 +60,13 @@ public class Collision {
 //                entity.setY(y - speed);
                 break;
             case RIGHT:
-                object1 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + 2 * FIX);
-                object2 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + SCALED_SIZE - FIX);
+                object1 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + 3*FIX);
+                object2 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + SCALED_SIZE -FIX);
 //                entity.setX(x + speed);
                 break;
             case LEFT:
-                object1 = map.getEntity(x - speed, y + 2 * FIX);
-                object2 = map.getEntity(x - speed, y + SCALED_SIZE - FIX);
+                object1 = map.getEntity(x - speed, y + 3*FIX );
+                object2 = map.getEntity(x - speed, y + SCALED_SIZE -FIX);
 //                entity.setX(x - speed);
                 break;
             default:

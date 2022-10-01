@@ -19,12 +19,9 @@ public class Screen {
 
     public void renderMap(Map map) {
         for (int i = 0; i < map.getMap().size(); i++) {
-            map.getMap().get(i).forEach(g -> g.render(gc));
+            map.getMap().get(i).forEach(g -> g.render(gc, map.getCamera()));
         }
-    }
-
-    public void renderEntity(List<Entity> entities) {
-        entities.forEach(g -> g.render(gc));
+        map.getEntities().forEach(g -> g.render(gc,map.getCamera()));
     }
 
     public void clearScreen(Canvas canvas) {

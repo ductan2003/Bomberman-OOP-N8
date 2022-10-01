@@ -24,6 +24,7 @@ public class Bomber extends DestroyableEntity {
     private BombControl bombControl;
     private Direction direction;
     private static int FIX_LENGTH = 3;
+    int count = 0;
 
     public void setGoToNextLevel(boolean goToNextLevel) {
         isGoToNextLevel = goToNextLevel;
@@ -53,6 +54,7 @@ public class Bomber extends DestroyableEntity {
         this.collisionManage = collisionManage;
         this.bombControl = bombControl;
         direction = RIGHT;
+        count = 0;
     }
 
     public void getBomberInfo() {
@@ -67,6 +69,7 @@ public class Bomber extends DestroyableEntity {
                 y -= speed;
                 setDirection(UP);
                 getBomberInfo();
+                count ++;
             }
         }
         else if (keyEvent.pressed(KeyCode.DOWN)) {
@@ -74,6 +77,7 @@ public class Bomber extends DestroyableEntity {
                 y += speed;
                 setDirection(DOWN);
                 getBomberInfo();
+                count ++;
             }
         }
         else if (keyEvent.pressed(KeyCode.LEFT)) {
@@ -81,6 +85,7 @@ public class Bomber extends DestroyableEntity {
                 x -= speed;
                 setDirection(LEFT);
                 getBomberInfo();
+                count ++;
             }
         }
         else if (keyEvent.pressed(KeyCode.RIGHT)) {
@@ -88,11 +93,12 @@ public class Bomber extends DestroyableEntity {
                 x += speed;
                 setDirection(RIGHT);
                 getBomberInfo();
+                count ++;
             }
         } else if (keyEvent.pressed(KeyCode.SPACE)) {
             getBomberInfo();
-            int xPos = getXMapCoordinate(x);
-            int yPos = getYMapCoordinate(y);
+            int xPos = Math.round(getXMapCoordinate(x + SCALED_SIZE / 2));
+            int yPos = Math.round(getYMapCoordinate(y + SCALED_SIZE / 2));
             if (bombControl.canSetBomb(xPos, yPos, getDirection())) {
                 // to do
                 System.out.println("Add Bomb");
@@ -114,20 +120,28 @@ public class Bomber extends DestroyableEntity {
                 Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage());
                 bombControl.addBomb(newBomb);
             }
-        }
+        } else count = 0;
         img = getImg(getDirection());
     }
 
     public Image getImg(Direction direction) {
         switch (direction) {
             case UP:
-                return Sprite.player_up.getFxImage();
+                if (count % 10 == 0) return Sprite.player_up.getFxImage();
+                if (count % 10 == 3) return Sprite.player_up_1.getFxImage();
+                if (count % 10 == 7) return Sprite.player_up_2.getFxImage();
             case DOWN:
-                return Sprite.player_down.getFxImage();
+                if (count % 10 == 0) return Sprite.player_down.getFxImage();
+                if (count % 10 == 3) return Sprite.player_down_1.getFxImage();
+                if (count % 10 == 7) return Sprite.player_down_2.getFxImage();
             case RIGHT:
-                return Sprite.player_right.getFxImage();
+                if (count % 10 == 0) return Sprite.player_right.getFxImage();
+                if (count % 10 == 3) return Sprite.player_right_1.getFxImage();
+                if (count % 10 == 7) return Sprite.player_right_2.getFxImage();
             case LEFT:
-                return Sprite.player_left.getFxImage();
+                if (count % 10 == 0) return Sprite.player_left.getFxImage();
+                if (count % 10 == 3) return Sprite.player_left_1.getFxImage();
+                if (count % 10 == 7) return Sprite.player_left_2.getFxImage();
         }
         return img;
     }

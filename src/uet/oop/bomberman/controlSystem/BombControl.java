@@ -2,6 +2,7 @@ package uet.oop.bomberman.controlSystem;
 
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.Bomb;
+import uet.oop.bomberman.entities.Grass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +58,15 @@ public class BombControl {
                 break;
             default: break;
         }
-        if (collisionManage.canMove(x * SCALED_SIZE,y * SCALED_SIZE,0, direction))
+//        if (collisionManage.canMove(x * SCALED_SIZE,y * SCALED_SIZE,0, direction)) {
+//            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
+//            return true;
+//        }
+        if (map.getEntity(x * SCALED_SIZE,y * SCALED_SIZE) instanceof Grass) {
+            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
             return true;
+        }
+
         return false;
     }
 }

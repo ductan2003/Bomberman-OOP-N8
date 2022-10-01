@@ -57,8 +57,11 @@ public class BombControl {
                 break;
             default: break;
         }
-        if (collisionManage.canMove(x * SCALED_SIZE,y * SCALED_SIZE,0, direction))
+        if (collisionManage.canMove(x * SCALED_SIZE,y * SCALED_SIZE,0, direction)) {
+            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
             return true;
+        }
+
         return false;
     }
 }

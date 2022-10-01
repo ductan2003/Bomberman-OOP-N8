@@ -14,15 +14,14 @@ import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Grass;
 import uet.oop.bomberman.entities.Wall;
+import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BombermanGame extends Application {
-    
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
+
     
     private GraphicsContext gc;
     private Canvas canvas;
@@ -33,6 +32,8 @@ public class BombermanGame extends Application {
     private BombControl bombControl;
     public Map map = new Map();
 
+    public Screen screen;
+
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -41,8 +42,8 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) {
         // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
-        gc = canvas.getGraphicsContext2D();
+        canvas = new Canvas(Sprite.SCALED_SIZE * Screen.WIDTH, Sprite.SCALED_SIZE * Screen.HEIGHT);
+        screen = new Screen(canvas);
 
         // Tao root container
         Group root = new Group();
@@ -78,10 +79,9 @@ public class BombermanGame extends Application {
     }
 
     public void render() {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (int i = 0; i < map.getMap().size(); i++) {
-            map.getMap().get(i).forEach(g -> g.render(gc));
-        }
-        entities.forEach(g -> g.render(gc));
+        screen.clearScreen(canvas);
+        screen.renderMap(map);
+        screen.renderEntity(entities);
     }
+
 }

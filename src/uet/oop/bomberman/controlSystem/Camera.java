@@ -2,6 +2,7 @@ package uet.oop.bomberman.controlSystem;
 
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.*;
@@ -24,6 +25,17 @@ public class Camera {
     }
 
     public void update(Entity bomber) {
+        //to make bomber at the center of screen
+        x = bomber.getX() - Screen.WIDTH * Sprite.DEFAULT_SIZE;
+        if (x<0) x=0;
 
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

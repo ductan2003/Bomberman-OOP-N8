@@ -29,7 +29,12 @@ public class BombControl {
     }
 
     public void updateBombList() {
-
+        for (int i=0; i<bombList.size();i++) {
+            bombList.get(i).update();
+            if (bombList.get(i).isExploded()) {
+                bombList.remove(i);
+            }
+        }
     }
 
 //    public void getBombInfo() {

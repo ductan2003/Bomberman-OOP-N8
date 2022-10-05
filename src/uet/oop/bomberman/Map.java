@@ -93,7 +93,6 @@ public class Map {
             if(entities.get(index) instanceof Bomber) break;
         }
         camera.update(entities.get(index));
-        System.out.println(camera.getX()+" "+camera.getY());
     }
 
     public void addEntity(Entity entity) {

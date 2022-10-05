@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import uet.oop.bomberman.controlSystem.BombControl;
 import uet.oop.bomberman.controlSystem.Collision;
 import uet.oop.bomberman.controlSystem.KeyListener;
+import uet.oop.bomberman.controlSystem.Timer;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Grass;
@@ -30,6 +31,7 @@ public class BombermanGame extends Application {
     public Map map = new Map();
 
     public Screen screen;
+    public Timer timer;
 
 
     public static void main(String[] args) {
@@ -54,17 +56,15 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
 
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                render();
-                update();
-            }
-        };
-        timer.start();
+        timer = new Timer(this);
 
         map.createMap(1,keyEvent);
 
+    }
+
+    public void loop() {
+        update();
+        render();
     }
 
     public void update() {

@@ -14,8 +14,7 @@ import uet.oop.bomberman.controlSystem.KeyListener;
 import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
-import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
-import static uet.oop.bomberman.graphics.Sprite.bomb;
+import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Bomber extends DestroyableEntity {
     private boolean isGoToNextLevel = false;
@@ -43,12 +42,13 @@ public class Bomber extends DestroyableEntity {
     }
 
     public Bomber(int x, int y, Image img) {
-        super( x, y, img);
+        super(x, y, img);
         speed = 1;
     }
-// new Constructor with keyEvent
+
+    // new Constructor with keyEvent
     public Bomber(int x, int y, Image img, KeyListener keyEvent, Collision collisionManage, BombControl bombControl) {
-        super( x, y, img);
+        super(x, y, img);
         this.keyEvent = keyEvent;
         speed = 3;
         this.collisionManage = collisionManage;
@@ -65,35 +65,32 @@ public class Bomber extends DestroyableEntity {
     public void update() {
 
         if (keyEvent.pressed(KeyCode.UP)) {
-            if (collisionManage.canMove(x,y,speed,UP)) {
+            if (collisionManage.canMove(x, y, speed, UP)) {
                 y -= speed;
                 setDirection(UP);
                 getBomberInfo();
-                count ++;
+                count++;
             }
-        }
-        else if (keyEvent.pressed(KeyCode.DOWN)) {
-            if (collisionManage.canMove(x,y,speed,DOWN)) {
+        } else if (keyEvent.pressed(KeyCode.DOWN)) {
+            if (collisionManage.canMove(x, y, speed, DOWN)) {
                 y += speed;
                 setDirection(DOWN);
                 getBomberInfo();
-                count ++;
+                count++;
             }
-        }
-        else if (keyEvent.pressed(KeyCode.LEFT)) {
-            if (collisionManage.canMove(x,y,speed,LEFT)) {
+        } else if (keyEvent.pressed(KeyCode.LEFT)) {
+            if (collisionManage.canMove(x, y, speed, LEFT)) {
                 x -= speed;
                 setDirection(LEFT);
                 getBomberInfo();
-                count ++;
+                count++;
             }
-        }
-        else if (keyEvent.pressed(KeyCode.RIGHT)) {
-            if (collisionManage.canMove(x,y,speed,RIGHT)) {
+        } else if (keyEvent.pressed(KeyCode.RIGHT)) {
+            if (collisionManage.canMove(x, y, speed, RIGHT)) {
                 x += speed;
                 setDirection(RIGHT);
                 getBomberInfo();
-                count ++;
+                count++;
             }
         } else if (keyEvent.pressed(KeyCode.SPACE)) {
             getBomberInfo();
@@ -115,21 +112,21 @@ public class Bomber extends DestroyableEntity {
                     case RIGHT:
                         xPos += 1;
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
                 Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage());
                 bombControl.addBomb(newBomb);
             }
         } else count = 0;
         img = getImg(getDirection());
+        bombControl.updateBombList();
     }
 
     public Image getImg(Direction direction) {
         switch (direction) {
             case UP:
-                if (count % 10 == 0) return Sprite.player_up.getFxImage();
-                if (count % 10 == 3) return Sprite.player_up_1.getFxImage();
-                if (count % 10 == 7) return Sprite.player_up_2.getFxImage();
+                return movingSprite(player_up, player_up_1, player_up_2, count, 9).getFxImage();
             case DOWN:
                 if (count % 10 == 0) return Sprite.player_down.getFxImage();
                 if (count % 10 == 3) return Sprite.player_down_1.getFxImage();

@@ -63,60 +63,66 @@ public class Bomber extends DestroyableEntity {
 
     @Override
     public void update() {
-
+        bombControl.updateBombList();
         if (keyEvent.pressed(KeyCode.UP)) {
-            if (collisionManage.canMove(x, y, speed, UP)) {
+            if (collisionManage.canMove(x, y, speed, UP) || bombControl.HasJustSetBomb()) {
+                System.out.println(1);
                 y -= speed;
                 setDirection(UP);
                 getBomberInfo();
                 count++;
+                bombControl.setHasJustSetBomb(false);
             }
         } else if (keyEvent.pressed(KeyCode.DOWN)) {
-            if (collisionManage.canMove(x, y, speed, DOWN)) {
+            if (collisionManage.canMove(x, y, speed, DOWN) || bombControl.HasJustSetBomb()) {
                 y += speed;
                 setDirection(DOWN);
                 getBomberInfo();
                 count++;
+                bombControl.setHasJustSetBomb(false);
             }
         } else if (keyEvent.pressed(KeyCode.LEFT)) {
-            if (collisionManage.canMove(x, y, speed, LEFT)) {
+            if (collisionManage.canMove(x, y, speed, LEFT) || bombControl.HasJustSetBomb()) {
                 x -= speed;
                 setDirection(LEFT);
                 getBomberInfo();
                 count++;
+                bombControl.setHasJustSetBomb(false);
             }
         } else if (keyEvent.pressed(KeyCode.RIGHT)) {
-            if (collisionManage.canMove(x, y, speed, RIGHT)) {
+            if (collisionManage.canMove(x, y, speed, RIGHT) || bombControl.HasJustSetBomb()) {
                 x += speed;
                 setDirection(RIGHT);
                 getBomberInfo();
                 count++;
+                bombControl.setHasJustSetBomb(false);
             }
         } else if (keyEvent.pressed(KeyCode.SPACE)) {
             getBomberInfo();
-            int xPos = Math.round(getXMapCoordinate(x + SCALED_SIZE / 2));
-            int yPos = Math.round(getYMapCoordinate(y + SCALED_SIZE / 2));
+            int xPos = Math.round(getXMapCoordinate(x));
+            int yPos = Math.round(getYMapCoordinate(y));
             if (bombControl.canSetBomb(xPos, yPos, getDirection())) {
                 // to do
                 System.out.println("Add Bomb");
-                switch (getDirection()) {
-                    case UP:
-                        yPos -= 1;
-                        break;
-                    case DOWN:
-                        yPos += 1;
-                        break;
-                    case LEFT:
-                        xPos -= 1;
-                        break;
-                    case RIGHT:
-                        xPos += 1;
-                        break;
-                    default:
-                        break;
-                }
+//                switch (getDirection()) {
+//                    case UP:
+//                        y -= SCALED_SIZE;
+//                        break;
+//                    case DOWN:
+//                        y += SCALED_SIZE;
+//                        break;
+//                    case LEFT:
+//                        x -= SCALED_SIZE;
+//                        break;
+//                    case RIGHT:
+//                        x += SCALED_SIZE;
+//                        break;
+//                    default:
+//                        break;
+//                }
                 Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage());
                 bombControl.addBomb(newBomb);
+                bombControl.setHasJustSetBomb(true);
             }
         } else count = 0;
         img = getImg(getDirection());
@@ -128,20 +134,13 @@ public class Bomber extends DestroyableEntity {
             case UP:
                 return movingSprite(player_up, player_up_1, player_up_2, count, 9).getFxImage();
             case DOWN:
-                if (count % 10 == 0) return Sprite.player_down.getFxImage();
-                if (count % 10 == 3) return Sprite.player_down_1.getFxImage();
-                if (count % 10 == 7) return Sprite.player_down_2.getFxImage();
+                return movingSprite(player_down, player_down_1, player_down_2,count,9).getFxImage();
             case RIGHT:
-                if (count % 10 == 0) return Sprite.player_right.getFxImage();
-                if (count % 10 == 3) return Sprite.player_right_1.getFxImage();
-                if (count % 10 == 7) return Sprite.player_right_2.getFxImage();
+                return movingSprite(player_right, player_right_1, player_right_2, count, 9).getFxImage();
             case LEFT:
-                if (count % 10 == 0) return Sprite.player_left.getFxImage();
-                if (count % 10 == 3) return Sprite.player_left_1.getFxImage();
-                if (count % 10 == 7) return Sprite.player_left_2.getFxImage();
+                return movingSprite(player_left, player_left_1, player_left_2, count, 9).getFxImage();
         }
         return img;
     }
-
 }
 

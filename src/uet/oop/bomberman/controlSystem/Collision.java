@@ -2,6 +2,8 @@ package uet.oop.bomberman.controlSystem;
 
 import javafx.util.Pair;
 import uet.oop.bomberman.Map;
+import uet.oop.bomberman.entities.Bomb;
+import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Grass;
 
@@ -74,6 +76,8 @@ public class Collision {
                 object2 = map.getEntity(x, y);
                 break;
         }
+//        System.out.println("Bomber " + object1);
+//        System.out.println("Next bomber " + object2);
         if (object2 instanceof Grass && object1 instanceof Grass) {
             return true;
         }

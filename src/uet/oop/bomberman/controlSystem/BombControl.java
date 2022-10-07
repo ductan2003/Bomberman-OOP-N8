@@ -3,6 +3,7 @@ package uet.oop.bomberman.controlSystem;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.Bomb;
 import uet.oop.bomberman.entities.Grass;
+import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +14,20 @@ public class BombControl {
     // Todo: setup bomb
     private List<Bomb> bombList = new ArrayList<>();
     Collision collisionManage;
+    boolean hasJustSetBomb = false;
     Map map;
 
     public BombControl(Collision collisionManage) {
         this.collisionManage = collisionManage;
         this.map = collisionManage.getMap();
+    }
+
+    public void setHasJustSetBomb(boolean hasJustSetBomb) {
+        this.hasJustSetBomb = hasJustSetBomb;
+    }
+
+    public boolean HasJustSetBomb() {
+        return hasJustSetBomb;
     }
 
     public Map getMap() {
@@ -32,6 +42,10 @@ public class BombControl {
         for (int i=0; i<bombList.size();i++) {
             bombList.get(i).update();
             if (bombList.get(i).isExploded()) {
+                bombExplode();
+                Grass g = new Grass(bombList.get(i).getXMapCoordinate(bombList.get(i).getX()),
+                        bombList.get(i).getYMapCoordinate(bombList.get(i).getY()), Sprite.grass.getFxImage());
+                map.addEntity(g);
                 bombList.remove(i);
             }
         }
@@ -48,30 +62,30 @@ public class BombControl {
 
     public boolean canSetBomb(int x, int y, Direction direction) {
         // to do
-        switch (direction) {
-            case UP:
-                y -= 1;
-                break;
-            case DOWN:
-                y += 1;
-                break;
-            case LEFT:
-                x -= 1;
-                break;
-            case RIGHT:
-                x += 1;
-                break;
-            default: break;
-        }
-//        if (collisionManage.canMove(x * SCALED_SIZE,y * SCALED_SIZE,0, direction)) {
-//            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
-//            return true;
+//        switch (direction) {
+//            case UP:
+//                y -= 1;
+//                break;
+//            case DOWN:
+//                y += 1;
+//                break;
+//            case LEFT:
+//                x -= 1;
+//                break;
+//            case RIGHT:
+//                x += 1;
+//                break;
+//            default: break;
 //        }
         if (map.getEntity(x * SCALED_SIZE,y * SCALED_SIZE) instanceof Grass) {
             System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
             return true;
         }
-
         return false;
+    }
+
+    public void bombExplode() {
+        System.out.println("Bomb Explode");
+
     }
 }

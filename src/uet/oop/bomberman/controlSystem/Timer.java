@@ -19,6 +19,6 @@ public class Timer {
     }
 
     public static long now() {
-        return System.nanoTime();
+        return System.nanoTime()/10;
     }
 }

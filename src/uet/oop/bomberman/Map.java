@@ -24,6 +24,9 @@ public class Map {
     protected int numberBomberDie = 0;
     protected int numberBomberLife = 3;
 
+    protected int startxPos = 6;
+    protected int startyPos = 4;
+
     protected boolean isWin = false;
     protected Camera camera;
     private List<Entity> entities = new ArrayList<>();
@@ -73,8 +76,8 @@ public class Map {
 
         camera = new Camera(0, 0, width, height);
         collision = new Collision(this);
-        bombControl = new BombControl(collision);
-        Entity bomberman = new Bomber(6, 4, Sprite.player_right.getFxImage(), keyListener, collision, bombControl);
+        bombControl = new BombControl(collision, startxPos, startyPos);
+        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision, bombControl);
         entities.add(bomberman);
     }
 

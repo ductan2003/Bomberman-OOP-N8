@@ -17,7 +17,7 @@ public class BombControl {
     boolean hasJustSetBomb = false;
     Map map;
 
-    public BombControl(Collision collisionManage) {
+    public BombControl(Collision collisionManage, int x, int y) {
         this.collisionManage = collisionManage;
         this.map = collisionManage.getMap();
     }
@@ -49,6 +49,11 @@ public class BombControl {
                 bombList.remove(i);
             }
         }
+//        if (hasJustSetBomb) {
+//            for (int i=0; i<bombList.size();i++) {
+//                if (collisionManage.collide(bombList.get(i), ))
+//            }
+//        }
     }
 
 //    public void getBombInfo() {
@@ -61,24 +66,8 @@ public class BombControl {
     }
 
     public boolean canSetBomb(int x, int y, Direction direction) {
-        // to do
-//        switch (direction) {
-//            case UP:
-//                y -= 1;
-//                break;
-//            case DOWN:
-//                y += 1;
-//                break;
-//            case LEFT:
-//                x -= 1;
-//                break;
-//            case RIGHT:
-//                x += 1;
-//                break;
-//            default: break;
-//        }
         if (map.getEntity(x * SCALED_SIZE,y * SCALED_SIZE) instanceof Grass) {
-            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
+//            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
             return true;
         }
         return false;

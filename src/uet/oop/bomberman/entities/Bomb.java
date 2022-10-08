@@ -9,7 +9,7 @@ public class Bomb extends AnimationEntity{
     private long timeSet;
     private boolean isExploded;
     private int flame;
-    private final long EXPLODE = 950000000;
+    private final long EXPLODE = 222222222;
 
     public boolean isExploded() {
         return isExploded;

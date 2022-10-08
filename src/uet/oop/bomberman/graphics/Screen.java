@@ -22,6 +22,7 @@ public class Screen {
             map.getMap().get(i).forEach(g -> g.render(gc, map.getCamera()));
         }
         map.getEntities().forEach(g -> g.render(gc,map.getCamera()));
+
     }
 
     public void clearScreen(Canvas canvas) {

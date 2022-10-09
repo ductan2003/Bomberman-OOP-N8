@@ -55,6 +55,10 @@ public abstract class Entity {
         this.y = yUnit * SCALED_SIZE;
     }
 
+    public void setImg(Image img) {
+        this.img = img;
+    }
+
     public int getXMapCoordinate(int x) {
         return Math.round(x / SCALED_SIZE);
     }

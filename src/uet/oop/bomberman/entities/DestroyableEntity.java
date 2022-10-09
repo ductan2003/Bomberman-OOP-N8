@@ -2,7 +2,7 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
 
-public class DestroyableEntity extends MoveableEntity{
+public class DestroyableEntity extends MoveableEntity implements Obstacle{
     protected boolean isDead = false;
 
     public DestroyableEntity(int xUnit, int yUnit, Image img) {

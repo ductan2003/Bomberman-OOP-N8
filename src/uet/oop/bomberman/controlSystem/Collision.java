@@ -6,6 +6,7 @@ import uet.oop.bomberman.entities.Bomb;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Grass;
+import uet.oop.bomberman.entities.Obstacle;
 
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class Collision {
         }
 //        System.out.println("Bomber " + object1);
 //        System.out.println("Next bomber " + object2);
-        if (object2 instanceof Grass && object1 instanceof Grass) {
+        if (!(object2 instanceof Obstacle) && !(object1 instanceof Obstacle)) {
             return true;
         }
         return false;

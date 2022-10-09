@@ -7,6 +7,7 @@ import uet.oop.bomberman.controlSystem.KeyListener;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
@@ -117,4 +118,7 @@ public class Map {
         return map.get(yPos).get(xPos);
     }
 
+    public void replace(int x, int y, Entity entity) {
+        map.get(y).set(x,entity);
+    }
 }

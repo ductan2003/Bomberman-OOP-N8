@@ -7,10 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.Map;
-import uet.oop.bomberman.controlSystem.BombControl;
-import uet.oop.bomberman.controlSystem.Collision;
-import uet.oop.bomberman.controlSystem.Direction;
-import uet.oop.bomberman.controlSystem.KeyListener;
+import uet.oop.bomberman.controlSystem.*;
 import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
@@ -77,7 +74,6 @@ public class Bomber extends DestroyableEntity {
                 setDirection(UP);
                 getBomberInfo();
                 count++;
-//                bombControl.setHasJustSetBomb(false);
             }
         } else if (keyEvent.pressed(KeyCode.DOWN)) {
             if (collisionManage.canMove(x, y, speed, DOWN) || bombControl.HasJustSetBomb()) {
@@ -85,7 +81,6 @@ public class Bomber extends DestroyableEntity {
                 setDirection(DOWN);
                 getBomberInfo();
                 count++;
-//                bombControl.setHasJustSetBomb(false);
             }
         } else if (keyEvent.pressed(KeyCode.LEFT)) {
             if (collisionManage.canMove(x, y, speed, LEFT) || bombControl.HasJustSetBomb()) {
@@ -93,7 +88,6 @@ public class Bomber extends DestroyableEntity {
                 setDirection(LEFT);
                 getBomberInfo();
                 count++;
-//                bombControl.setHasJustSetBomb(false);
             }
         } else if (keyEvent.pressed(KeyCode.RIGHT)) {
             if (collisionManage.canMove(x, y, speed, RIGHT) || bombControl.HasJustSetBomb()) {
@@ -101,14 +95,30 @@ public class Bomber extends DestroyableEntity {
                 setDirection(RIGHT);
                 getBomberInfo();
                 count++;
-//                bombControl.setHasJustSetBomb(false);
             }
         } else if (keyEvent.pressed(KeyCode.SPACE)) {
             getBomberInfo();
             int xPos = Math.round(getXMapCoordinate(x + SCALED_SIZE / 2));
             int yPos = Math.round(getYMapCoordinate(y + SCALED_SIZE / 2));
             if (bombControl.canSetBomb(xPos, yPos, getDirection())) {
+                // to do
                 System.out.println("Add Bomb");
+                switch (getDirection()) {
+                    case UP:
+                        yPos -= 1;
+                        break;
+                    case DOWN:
+                        yPos += 1;
+                        break;
+                    case LEFT:
+                        xPos -= 1;
+                        break;
+                    case RIGHT:
+                        xPos += 1;
+                        break;
+                    default:
+                        break;
+                }
                 Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage());
                 bombControl.addBomb(newBomb);
                 bombControl.setHasJustSetBomb(true);
@@ -131,5 +141,12 @@ public class Bomber extends DestroyableEntity {
         }
         return img;
     }
+
+    @Override
+    public void render(GraphicsContext gc, Camera camera) {
+        super.render(gc, camera);
+        bombControl.renderBombs(gc, camera);
+    }
+
 }
 

@@ -61,27 +61,11 @@ public class BombControl {
 //    }
     public void addBomb(Bomb bomb) {
         bombList.add(bomb);
-        //map.addEntity(bomb);
+//        map.addEntity(bomb);
         System.out.println("Bomb: " + bomb.getCoordinateInfo());
     }
 
     public boolean canSetBomb(int x, int y, Direction direction) {
-        // to do
-        switch (direction) {
-            case UP:
-                y -= 1;
-                break;
-            case DOWN:
-                y += 1;
-                break;
-            case LEFT:
-                x -= 1;
-                break;
-            case RIGHT:
-                x += 1;
-                break;
-            default: break;
-        }
 //        if (collisionManage.canMove(x * SCALED_SIZE,y * SCALED_SIZE,0, direction)) {
 //            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
 //            return true;
@@ -91,6 +75,14 @@ public class BombControl {
             return true;
         }
 
+        return false;
+    }
+
+    public boolean isNextPosBomb(Entity bomber) {
+        if (bombList.size() == 0) return false;
+        for (int i = 0; i < bombList.size(); i++) {
+            if (collisionManage.collide(bomber, bombList.get(i))) return true;
+        }
         return false;
     }
 

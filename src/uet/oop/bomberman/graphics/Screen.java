@@ -19,9 +19,11 @@ public class Screen {
     }
 
     public void renderMap(Map map) {
+
         for (int i = 0; i < map.getMap().size(); i++) {
             map.getMap().get(i).forEach(g -> g.render(gc, map.getCamera()));
         }
+
         for (Entity entity: map.getEntities()) {
             if (entity instanceof Bomber) {
                 ((Bomber) entity).render(gc, map.getCamera());

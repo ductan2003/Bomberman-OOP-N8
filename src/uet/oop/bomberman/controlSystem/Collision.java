@@ -28,8 +28,8 @@ public class Collision {
 
     // add direction to the entity to compare to entity1
     public boolean collide(Entity entity, Entity entity1) {
-        System.out.println(entity.getX() + " " + entity.getY());
-        System.out.println(entity1.getX() + " " + entity1.getY());
+//        System.out.println(entity.getX() + " " + entity.getY());
+//        System.out.println(entity1.getX() + " " + entity1.getY());
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
         coordinates.add(new Pair<Integer, Integer>(entity1.getX(), entity1.getY()));
         coordinates.add(new Pair<Integer, Integer>(entity1.getX(), entity1.getY() + SCALED_SIZE));
@@ -84,6 +84,7 @@ public class Collision {
         }
         return false;
     }
+
 
     public Map getMap() {
         return map;

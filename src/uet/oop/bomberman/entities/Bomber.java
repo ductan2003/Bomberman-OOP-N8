@@ -63,34 +63,37 @@ public class Bomber extends DestroyableEntity {
         bombControl.updateBombList();
         if (bombControl.HasJustSetBomb()) {
             for (int i=0; i<bombControl.getBombList().size();i++) {
+                System.out.println("Bomb " + bombControl.getBombList().get(i).getX() + " " + bombControl.getBombList().get(i).getY());
                 if (!collisionManage.collide(bombControl.getBombList().get(i), this)) {
                     bombControl.setHasJustSetBomb(false);
+                    System.out.println("Through Bomb false");
                 }
             }
+            System.out.println("Bombs num: " + bombControl.getBombList().size());
         }
         if (keyEvent.pressed(KeyCode.UP)) {
-            if (collisionManage.canMove(x, y, speed, UP) || bombControl.HasJustSetBomb()) {
+            if ((collisionManage.canMove(x, y, speed, UP) && !bombControl.isNextPosBomb(this)) || bombControl.HasJustSetBomb()) {
                 y -= speed;
                 setDirection(UP);
                 getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.DOWN)) {
-            if (collisionManage.canMove(x, y, speed, DOWN) || bombControl.HasJustSetBomb()) {
+            if ((collisionManage.canMove(x, y, speed, DOWN) && !bombControl.isNextPosBomb(this))|| bombControl.HasJustSetBomb()) {
                 y += speed;
                 setDirection(DOWN);
                 getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.LEFT)) {
-            if (collisionManage.canMove(x, y, speed, LEFT) || bombControl.HasJustSetBomb()) {
+            if ((collisionManage.canMove(x, y, speed, LEFT) && !bombControl.isNextPosBomb(this))|| bombControl.HasJustSetBomb()) {
                 x -= speed;
                 setDirection(LEFT);
                 getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.RIGHT)) {
-            if (collisionManage.canMove(x, y, speed, RIGHT) || bombControl.HasJustSetBomb()) {
+            if ((collisionManage.canMove(x, y, speed, RIGHT) && !bombControl.isNextPosBomb(this)) || bombControl.HasJustSetBomb()) {
                 x += speed;
                 setDirection(RIGHT);
                 getBomberInfo();
@@ -101,24 +104,7 @@ public class Bomber extends DestroyableEntity {
             int xPos = Math.round(getXMapCoordinate(x + SCALED_SIZE / 2));
             int yPos = Math.round(getYMapCoordinate(y + SCALED_SIZE / 2));
             if (bombControl.canSetBomb(xPos, yPos, getDirection())) {
-                // to do
                 System.out.println("Add Bomb");
-                switch (getDirection()) {
-                    case UP:
-                        yPos -= 1;
-                        break;
-                    case DOWN:
-                        yPos += 1;
-                        break;
-                    case LEFT:
-                        xPos -= 1;
-                        break;
-                    case RIGHT:
-                        xPos += 1;
-                        break;
-                    default:
-                        break;
-                }
                 Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage());
                 bombControl.addBomb(newBomb);
                 bombControl.setHasJustSetBomb(true);
@@ -144,8 +130,9 @@ public class Bomber extends DestroyableEntity {
 
     @Override
     public void render(GraphicsContext gc, Camera camera) {
-        super.render(gc, camera);
         bombControl.renderBombs(gc, camera);
+        super.render(gc, camera);
+
     }
 
 }

@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.Bomber;
+import uet.oop.bomberman.entities.Enemy;
 import uet.oop.bomberman.entities.Entity;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class Screen {
             entity.render(gc, map.getCamera());
         }
 
+//        for (Enemy enemy)
     }
 
     public void clearScreen(Canvas canvas) {

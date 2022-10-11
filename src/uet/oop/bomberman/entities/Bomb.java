@@ -3,9 +3,11 @@ package uet.oop.bomberman.entities;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.controlSystem.Timer;
 
+import static uet.oop.bomberman.graphics.Sprite.*;
+
 public class Bomb extends Entity{
     private long timeRemain;
-    private long countTime;
+    private int count = 0;
     private long timeSet;
     private boolean isExploded;
     private int flame;
@@ -21,17 +23,22 @@ public class Bomb extends Entity{
 
     public Bomb(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-        countTime = 0;
+        count = 0;
         timeSet = Timer.now();
         isExploded = false;
     }
 
     @Override
     public void update() {
-        countTime++;
+        count ++;
         if(!isExploded) {
             if ((Timer.now() - timeSet) > EXPLODE) isExploded = true;
         }
+        img = getImg();
+    }
+
+    public Image getImg() {
+        return movingSprite(bomb, bomb_1, bomb_2, count, 100).getFxImage();
     }
 
 }

@@ -80,6 +80,8 @@ public class Map {
         bombControl = new BombControl(collision, startxPos, startyPos);
         Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision, bombControl);
         entities.add(bomberman);
+        Enemy ballomEnemy = new Balloom(10, 11, Sprite.balloom_right1.getFxImage(), collision);
+        entities.add(ballomEnemy);
     }
 
     public List<List<Entity>> getMap() {

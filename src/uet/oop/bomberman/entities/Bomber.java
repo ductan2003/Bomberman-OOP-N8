@@ -40,7 +40,7 @@ public class Bomber extends DestroyableEntity {
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
-        speed = 1;
+        speed = 3;
     }
 
     // new Constructor with keyEvent
@@ -72,28 +72,28 @@ public class Bomber extends DestroyableEntity {
             System.out.println("Bombs num: " + bombControl.getBombList().size());
         }
         if (keyEvent.pressed(KeyCode.UP)) {
-            if ((collisionManage.canMove(x, y, speed, UP) && !bombControl.isNextPosBomb(this)) || bombControl.HasJustSetBomb()) {
+            if ((collisionManage.canMove(x, y, speed, UP) && !bombControl.isNextPosBomb(this, UP, speed)) || bombControl.HasJustSetBomb()) {
                 y -= speed;
                 setDirection(UP);
                 getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.DOWN)) {
-            if ((collisionManage.canMove(x, y, speed, DOWN) && !bombControl.isNextPosBomb(this))|| bombControl.HasJustSetBomb()) {
+            if ((collisionManage.canMove(x, y, speed, DOWN) && !bombControl.isNextPosBomb(this, DOWN, speed))|| bombControl.HasJustSetBomb()) {
                 y += speed;
                 setDirection(DOWN);
                 getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.LEFT)) {
-            if ((collisionManage.canMove(x, y, speed, LEFT) && !bombControl.isNextPosBomb(this))|| bombControl.HasJustSetBomb()) {
+            if ((collisionManage.canMove(x, y, speed, LEFT) && !bombControl.isNextPosBomb(this, LEFT, speed)) || bombControl.HasJustSetBomb()) {
                 x -= speed;
                 setDirection(LEFT);
                 getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.RIGHT)) {
-            if ((collisionManage.canMove(x, y, speed, RIGHT) && !bombControl.isNextPosBomb(this)) || bombControl.HasJustSetBomb()) {
+            if ((collisionManage.canMove(x, y, speed, RIGHT) && !bombControl.isNextPosBomb(this, RIGHT, speed)) || bombControl.HasJustSetBomb()) {
                 x += speed;
                 setDirection(RIGHT);
                 getBomberInfo();

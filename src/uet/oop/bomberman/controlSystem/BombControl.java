@@ -66,10 +66,6 @@ public class BombControl {
     }
 
     public boolean canSetBomb(int x, int y, Direction direction) {
-//        if (collisionManage.canMove(x * SCALED_SIZE,y * SCALED_SIZE,0, direction)) {
-//            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
-//            return true;
-//        }
         if (map.getEntity(x * SCALED_SIZE,y * SCALED_SIZE) instanceof Grass) {
             System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
             return true;
@@ -78,10 +74,28 @@ public class BombControl {
         return false;
     }
 
-    public boolean isNextPosBomb(Entity bomber) {
+    public boolean isNextPosBomb(Entity bomber, Direction direction, int speed) {
         if (bombList.size() == 0) return false;
+        int a = bomber.getX();
+        int b = bomber.getY();
+        switch (direction) {
+            case LEFT:
+                a -= speed;
+                break;
+            case RIGHT:
+                a += speed;
+                break;
+            case DOWN:
+                b += speed;
+                break;
+            case UP:
+                b -= speed;
+                break;
+            default:
+                break;
+        }
         for (int i = 0; i < bombList.size(); i++) {
-            if (collisionManage.collide(bomber, bombList.get(i))) return true;
+            if (collisionManage.collide(bombList.get(i), a, b)) return true;
         }
         return false;
     }

@@ -41,6 +41,18 @@ public class Collision {
                 || contain(entity, coordinates.get(3));
     }
 
+    public boolean collide(Entity entity, int x, int y) {
+        ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
+        coordinates.add(new Pair<Integer, Integer>(x, y));
+        coordinates.add(new Pair<Integer, Integer>(x, y + SCALED_SIZE));
+        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE, y));
+        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE, y + SCALED_SIZE));
+        return contain(entity, coordinates.get(0))
+                || contain(entity, coordinates.get(1))
+                || contain(entity, coordinates.get(2))
+                || contain(entity, coordinates.get(3));
+    }
+
     public boolean contain(Entity entity, Pair<Integer, Integer> point) {
         return (entity.getX() <= point.getKey() &&
                 point.getKey() <= entity.getX() + SCALED_SIZE &&

@@ -31,8 +31,6 @@ public class Screen {
             }
             else entity.render(gc, map.getCamera());
         }
-
-//        for (Enemy enemy)
     }
 
     public void clearScreen(Canvas canvas) {

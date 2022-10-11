@@ -2,14 +2,11 @@ package uet.oop.bomberman.controlSystem;
 
 import javafx.util.Pair;
 import uet.oop.bomberman.Map;
-import uet.oop.bomberman.entities.Bomb;
-import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Grass;
-import uet.oop.bomberman.entities.Obstacle;
+import uet.oop.bomberman.entities.*;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
@@ -97,6 +94,13 @@ public class Collision {
         return false;
     }
 
+    public boolean checkEnemyCanMove(List<Enemy> enemyList, Enemy enemy) {
+        for (int i = 0; i < enemyList.size(); i++) {
+            if (collide(enemyList.get(i), enemy))
+                return true && canMove(enemy.getX(), enemy.getY(), enemy.getSpeed(), enemy.getDirection());
+        }
+        return false;
+    }
 
     public Map getMap() {
         return map;

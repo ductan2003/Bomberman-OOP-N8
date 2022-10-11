@@ -65,7 +65,6 @@ public class BombControl {
             if (bomb.getX() == bomb1.getX() && bomb.getY() ==bomb1.getY()) return;
         }
         bombList.add(bomb);
-//        map.addEntity(bomb);
         System.out.println("Bomb: " + bomb.getCoordinateInfo());
     }
 

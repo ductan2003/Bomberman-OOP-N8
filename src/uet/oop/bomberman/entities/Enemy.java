@@ -13,7 +13,7 @@ public class Enemy extends DestroyableEntity{
     Collision collision;
     Direction direction;
     public int count = 0;
-//    public List<Enemy> enemyList = new ArrayList<>();
+
     public Enemy(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
     }

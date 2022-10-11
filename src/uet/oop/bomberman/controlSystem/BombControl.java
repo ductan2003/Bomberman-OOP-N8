@@ -61,7 +61,6 @@ public class BombControl {
 //    }
     public void addBomb(Bomb bomb) {
         bombList.add(bomb);
-//        map.addEntity(bomb);
         System.out.println("Bomb: " + bomb.getCoordinateInfo());
     }
 

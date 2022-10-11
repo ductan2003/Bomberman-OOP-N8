@@ -60,16 +60,20 @@ public class Bomber extends DestroyableEntity {
 
     @Override
     public void update() {
-        bombControl.updateBombList();
+            System.out.println(bombControl.HasJustSetBomb());
+//        bombControl.updateBombList();
         if (bombControl.HasJustSetBomb()) {
+            boolean check = false;
             for (int i=0; i<bombControl.getBombList().size();i++) {
-                System.out.println("Bomb " + bombControl.getBombList().get(i).getX() + " " + bombControl.getBombList().get(i).getY());
-                if (!collisionManage.collide(bombControl.getBombList().get(i), this)) {
-                    bombControl.setHasJustSetBomb(false);
-                    System.out.println("Through Bomb false");
+//                System.out.println("Bomb " + bombControl.getBombList().get(i).getX() + " " + bombControl.getBombList().get(i).getY());
+                if (collisionManage.collide(this, bombControl.getBombList().get(i))) {
+                    bombControl.setHasJustSetBomb(true);
+                    check = true;
+//                    System.out.println("Through Bomb false");
                 }
             }
-            System.out.println("Bombs num: " + bombControl.getBombList().size());
+            if (!check) bombControl.setHasJustSetBomb(false);
+//            System.out.println("Bombs num: " + bombControl.getBombList().size());
         }
         if (keyEvent.pressed(KeyCode.UP)) {
             if ((collisionManage.canMove(x, y, speed, UP) && !bombControl.isNextPosBomb(this, UP, speed)) || bombControl.HasJustSetBomb()) {

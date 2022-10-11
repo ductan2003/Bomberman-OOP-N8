@@ -24,7 +24,7 @@ public class Balloom extends Enemy{
 
     public void go() {
         //slow the enemy
-//        if (count % 6 == 1 || count % 6 == 3 || count % 6 == 5) return;
+        if (count % 2 == 1) return;
         //go
         if (getDirection() == RIGHT) {
             if (goRight()) return;

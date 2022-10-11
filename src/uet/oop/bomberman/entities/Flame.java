@@ -9,24 +9,27 @@ import uet.oop.bomberman.controlSystem.Direction;
 import uet.oop.bomberman.controlSystem.Timer;
 import uet.oop.bomberman.graphics.Sprite;
 
+import static uet.oop.bomberman.graphics.Sprite.*;
+
 public class Flame extends Entity implements Obstacle{
+    public enum TYPE {
+        BRICK, LAST, BODY
+    }
+    private TYPE type;
     private Collision collision;
     private Direction direction;
     private boolean exploded;
     private long timeSet;
     private long limit;
 
-    public Flame(int xUnit, int yUnit, Direction direction, Collision collisionManager) {
+    private int count = 0;
+
+    public Flame(int xUnit, int yUnit, Direction direction, TYPE type, Collision collisionManager) {
         super(xUnit, yUnit);
         this.direction = direction;
         this.collision = collisionManager;
-        if (direction.equals(Direction.LEFT) || direction.equals(Direction.RIGHT)) {
-            this.setImg(Sprite.explosion_horizontal2.getFxImage());
-        } else if (direction.equals(Direction.CENTER)) {
-            this.setImg(Sprite.bomb_exploded2.getFxImage());
-        } else {
-            this.setImg(Sprite.explosion_vertical2.getFxImage());
-        }
+        this.type = type;
+        this.setImg(getImg());
         exploded = false;
         timeSet = Timer.now();
         limit = 100000000;
@@ -41,6 +44,49 @@ public class Flame extends Entity implements Obstacle{
             }
         }
         if (Timer.now()-timeSet>limit) exploded = true;
+        count++;
+        img = getImg();
     }
     public boolean isExploded() {return exploded;}
+
+    public Image getImg() {
+        switch (type) {
+            case BODY:
+                switch (direction) {
+                    case LEFT:
+                    case RIGHT:
+                        return movingSprite(explosion_horizontal2, explosion_horizontal1,
+                                explosion_horizontal, count, 100).getFxImage();
+                    case DOWN:
+                    case UP:
+                        return movingSprite(explosion_vertical2, explosion_vertical1,
+                                explosion_vertical, count, 100).getFxImage();
+                    case CENTER:
+                        return movingSprite(bomb_exploded2, bomb_exploded1, bomb_exploded,
+                                count, 100).getFxImage();
+                }
+            case LAST:
+                switch (direction) {
+                    case LEFT:
+                        return movingSprite(explosion_horizontal_left_last2,explosion_horizontal_left_last1,
+                                explosion_horizontal_left_last,count,100).getFxImage();
+                    case RIGHT:
+                        return movingSprite(explosion_horizontal_right_last2, explosion_horizontal_right_last1,
+                                explosion_horizontal_right_last, count, 100).getFxImage();
+                    case DOWN:
+                        return movingSprite(explosion_vertical_down_last2,explosion_vertical_down_last1,
+                                explosion_vertical_down_last,count,100).getFxImage();
+                    case UP:
+                        return movingSprite(explosion_vertical_top_last2, explosion_vertical_top_last1,
+                                explosion_vertical_top_last, count, 100).getFxImage();
+                    case CENTER:
+                        return movingSprite(bomb_exploded2, bomb_exploded1, bomb_exploded,
+                                count, 100).getFxImage();
+                }
+            case BRICK:
+                return movingSprite(brick_exploded,brick_exploded1,
+                        brick_exploded2,count,100).getFxImage();
+        }
+        return null;
+    }
 }

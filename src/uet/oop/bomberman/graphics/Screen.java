@@ -29,7 +29,7 @@ public class Screen {
             if (entity instanceof Bomber) {
                 ((Bomber) entity).render(gc, map.getCamera());
             }
-            entity.render(gc, map.getCamera());
+            else entity.render(gc, map.getCamera());
         }
 
 //        for (Enemy enemy)

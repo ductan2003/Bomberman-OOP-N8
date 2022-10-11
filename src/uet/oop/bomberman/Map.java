@@ -96,9 +96,13 @@ public class Map {
         entities.forEach(Entity::update);
         int index=0;
         for(;index<entities.size();index++) {
-            if(entities.get(index) instanceof Bomber) break;
+            if(entities.get(index) instanceof Bomber) {
+                Bomber bomber = (Bomber) entities.get(index);
+                camera.update(bomber);
+                bomber.getBombControl().updateBomb();
+            }
         }
-        camera.update(entities.get(index));
+
     }
 
     public void addEntity(Entity entity) {

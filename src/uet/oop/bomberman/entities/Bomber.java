@@ -60,7 +60,6 @@ public class Bomber extends DestroyableEntity {
 
     @Override
     public void update() {
-        bombControl.updateBombList();
         if (bombControl.HasJustSetBomb()) {
             for (int i=0; i<bombControl.getBombList().size();i++) {
                 System.out.println("Bomb " + bombControl.getBombList().get(i).getX() + " " + bombControl.getBombList().get(i).getY());
@@ -111,7 +110,6 @@ public class Bomber extends DestroyableEntity {
             }
         } else count = 0;
         img = getImg(getDirection());
-        bombControl.updateBombList();
     }
 
     public Image getImg(Direction direction) {
@@ -126,6 +124,10 @@ public class Bomber extends DestroyableEntity {
                 return movingSprite(player_left, player_left_1, player_left_2, count, 9).getFxImage();
         }
         return img;
+    }
+
+    public BombControl getBombControl() {
+        return bombControl;
     }
 
     @Override

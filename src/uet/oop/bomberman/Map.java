@@ -1,9 +1,6 @@
 package uet.oop.bomberman;
 
-import uet.oop.bomberman.controlSystem.BombControl;
-import uet.oop.bomberman.controlSystem.Camera;
-import uet.oop.bomberman.controlSystem.Collision;
-import uet.oop.bomberman.controlSystem.KeyListener;
+import uet.oop.bomberman.controlSystem.*;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -33,6 +30,7 @@ public class Map {
     private List<Entity> entities = new ArrayList<>();
     private Collision collision;
     private BombControl bombControl;
+    private EnemyControl enemyControl;
 
     public void createMap(int level, KeyListener keyListener) {
         map = new ArrayList<>();
@@ -78,10 +76,13 @@ public class Map {
         camera = new Camera(0, 0, width, height);
         collision = new Collision(this);
         bombControl = new BombControl(collision, startxPos, startyPos);
-        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision, bombControl);
+        enemyControl = new EnemyControl(collision);
+        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision, bombControl, enemyControl);
         entities.add(bomberman);
         Enemy ballomEnemy = new Balloom(10, 11, Sprite.balloom_right1.getFxImage(), collision);
-        entities.add(ballomEnemy);
+        enemyControl.addBalloomEnemy(ballomEnemy, entities);
+        Enemy ballom2 = new Balloom(8, 9, Sprite.balloom_right1.getFxImage(), collision);
+        enemyControl.addBalloomEnemy(ballom2, entities);
     }
 
     public List<List<Entity>> getMap() {
@@ -96,9 +97,12 @@ public class Map {
         entities.forEach(Entity::update);
         int index=0;
         for(;index<entities.size();index++) {
-            if(entities.get(index) instanceof Bomber) break;
+            if(entities.get(index) instanceof Bomber) {
+                camera.update(entities.get(index));
+                break;
+            }
         }
-        camera.update(entities.get(index));
+
     }
 
     public void addEntity(Entity entity) {

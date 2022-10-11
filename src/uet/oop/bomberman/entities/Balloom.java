@@ -4,12 +4,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.controlSystem.Camera;
 import uet.oop.bomberman.controlSystem.Collision;
+import uet.oop.bomberman.controlSystem.EnemyControl;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Balloom extends Enemy{
-    public Collision collision;
+    private Collision collision;
+
     public Balloom(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         speed = 1;
@@ -63,7 +65,7 @@ public class Balloom extends Enemy{
     }
 
     public void render(GraphicsContext gc, Camera camera) {
-        gc.drawImage(img, x, y);
+        gc.drawImage(img, x - camera.getX(), y - camera.getY());
     }
 
     public boolean goLeft() {

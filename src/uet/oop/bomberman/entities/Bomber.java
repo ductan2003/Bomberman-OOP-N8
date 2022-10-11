@@ -19,6 +19,7 @@ public class Bomber extends DestroyableEntity {
     private Collision collisionManage;
     private BombControl bombControl;
     private Direction direction;
+    private EnemyControl enemyControl;
     private static int FIX_LENGTH = 3;
     int count = 0;
 
@@ -44,12 +45,14 @@ public class Bomber extends DestroyableEntity {
     }
 
     // new Constructor with keyEvent
-    public Bomber(int x, int y, Image img, KeyListener keyEvent, Collision collisionManage, BombControl bombControl) {
+    public Bomber(int x, int y, Image img, KeyListener keyEvent,
+                  Collision collisionManage, BombControl bombControl, EnemyControl enemyControl) {
         super(x, y, img);
         this.keyEvent = keyEvent;
         speed = 3;
         this.collisionManage = collisionManage;
         this.bombControl = bombControl;
+        this.enemyControl = enemyControl;
         direction = RIGHT;
         count = 0;
     }
@@ -60,12 +63,10 @@ public class Bomber extends DestroyableEntity {
 
     @Override
     public void update() {
-            System.out.println(bombControl.HasJustSetBomb());
 //        bombControl.updateBombList();
         if (bombControl.HasJustSetBomb()) {
             boolean check = false;
             for (int i=0; i<bombControl.getBombList().size();i++) {
-//                System.out.println("Bomb " + bombControl.getBombList().get(i).getX() + " " + bombControl.getBombList().get(i).getY());
                 if (collisionManage.collide(this, bombControl.getBombList().get(i))) {
                     bombControl.setHasJustSetBomb(true);
                     check = true;
@@ -76,28 +77,32 @@ public class Bomber extends DestroyableEntity {
 //            System.out.println("Bombs num: " + bombControl.getBombList().size());
         }
         if (keyEvent.pressed(KeyCode.UP)) {
-            if ((collisionManage.canMove(x, y, speed, UP) && !bombControl.isNextPosBomb(this, UP, speed)) || bombControl.HasJustSetBomb()) {
+//            if ((collisionManage.canMove(x, y, speed, UP) && !bombControl.isNextPosBomb(this, UP, speed)) || bombControl.HasJustSetBomb()) {
+            if (checkCanMove(x,y, speed, UP)) {
                 y -= speed;
                 setDirection(UP);
                 getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.DOWN)) {
-            if ((collisionManage.canMove(x, y, speed, DOWN) && !bombControl.isNextPosBomb(this, DOWN, speed))|| bombControl.HasJustSetBomb()) {
+//            if ((collisionManage.canMove(x, y, speed, DOWN) && !bombControl.isNextPosBomb(this, DOWN, speed))|| bombControl.HasJustSetBomb()) {
+            if (checkCanMove(x,y, speed, DOWN)) {
                 y += speed;
                 setDirection(DOWN);
                 getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.LEFT)) {
-            if ((collisionManage.canMove(x, y, speed, LEFT) && !bombControl.isNextPosBomb(this, LEFT, speed)) || bombControl.HasJustSetBomb()) {
+//            if ((collisionManage.canMove(x, y, speed, LEFT) && !bombControl.isNextPosBomb(this, LEFT, speed)) || bombControl.HasJustSetBomb()) {
+            if (checkCanMove(x,y, speed, LEFT)) {
                 x -= speed;
                 setDirection(LEFT);
                 getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.RIGHT)) {
-            if ((collisionManage.canMove(x, y, speed, RIGHT) && !bombControl.isNextPosBomb(this, RIGHT, speed)) || bombControl.HasJustSetBomb()) {
+//            if ((collisionManage.canMove(x, y, speed, RIGHT) && !bombControl.isNextPosBomb(this, RIGHT, speed)) || bombControl.HasJustSetBomb()) {
+            if (checkCanMove(x,y, speed, RIGHT)) {
                 x += speed;
                 setDirection(RIGHT);
                 getBomberInfo();
@@ -136,8 +141,20 @@ public class Bomber extends DestroyableEntity {
     public void render(GraphicsContext gc, Camera camera) {
         bombControl.renderBombs(gc, camera);
         super.render(gc, camera);
-
     }
 
+    public boolean checkCanMove(int x, int y, int speed, Direction direction) {
+        return (collisionManage.canMove(x,y,speed, direction)
+                && !bombControl.isNextPosBomb(this, direction, speed) && !isCollideEnemy())
+                || bombControl.HasJustSetBomb();
+    }
+
+    public boolean isCollideEnemy() {
+        for (int i = 0; i < enemyControl.getEnemyList().size(); i++) {
+            if (collisionManage.collide(this, enemyControl.getEnemyList().get(i)))
+                return true;
+        }
+        return false;
+    }
 }
 

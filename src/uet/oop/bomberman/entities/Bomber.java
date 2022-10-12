@@ -121,7 +121,18 @@ public class Bomber extends DestroyableEntity {
             }
         } else count = 0;
         img = getImg(getDirection());
+        updateItems();
         //bombControl.updateBombList();
+    }
+
+    public void updateItems() {
+        Entity entity = collisionManage.getMap().getEntity(x+16,y+16);
+        if (entity instanceof Item) {
+            Item item = (Item) entity;
+            item.powerUp(this);
+            collisionManage.getMap().replace((x+16)/SCALED_SIZE,(y+16)/SCALED_SIZE,
+                    new Grass((x+16)/SCALED_SIZE,(y+16)/SCALED_SIZE, grass.getFxImage()));
+        }
     }
 
     public Image getImg(Direction direction) {

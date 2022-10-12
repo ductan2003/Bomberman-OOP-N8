@@ -56,7 +56,6 @@ public class BombControl {
             bombList.get(i).update();
             if (bombList.get(i).isExploded()) {
                 this.bombExplode(i);
-                System.out.println(bombList.size());
             }
         }
     }
@@ -65,8 +64,8 @@ public class BombControl {
 //        System.out.println("Bomb: " + this.);
 //    }
     public void addBomb(Bomb bomb) {
-        for (Bomb bomb1:bombList) {
-            if (bomb.getX() == bomb1.getX() && bomb.getY() ==bomb1.getY()) return;
+        for (Bomb bomb1 : bombList) {
+            if (bomb.getX() == bomb1.getX() && bomb.getY() == bomb1.getY()) return;
         }
         bombList.add(bomb);
         System.out.println("Bomb: " + bomb.getCoordinateInfo());
@@ -122,7 +121,7 @@ public class BombControl {
                 int posX = x + i * valX[j];
                 int posY = y + i * valY[j];
                 Flame.TYPE type = Flame.TYPE.BODY;
-                if (i == power) type = Flame.TYPE.LAST;System.out.println(i+" "+j+" "+" "+valCheck[j]);
+                if (i == power) type = Flame.TYPE.LAST;
                 if (valCheck[j]) {
 
                     if (!(map.getMap().get(posY).get(posX) instanceof Obstacle)) {
@@ -130,7 +129,21 @@ public class BombControl {
                     } else {
                         valCheck[j] = false;
                         if ((map.getMap().get(posY).get(posX) instanceof Brick)) {
-                            map.replace(posX, posY, new Grass(posX, posY, Sprite.grass.getFxImage()));
+                            int random = (int) (Math.random() * 15);
+                            switch (random) {
+                                case 0:
+                                    map.replace(posX, posY, new FlameItem(posX, posY, Sprite.powerup_flames.getFxImage()));
+                                    break;
+                                case 1:
+                                    map.replace(posX, posY, new BombItem(posX, posY, Sprite.powerup_bombs.getFxImage()));
+                                    break;
+                                case 2:
+                                    map.replace(posX, posY, new SpeedItem(posX, posY, Sprite.powerup_speed.getFxImage()));
+                                    break;
+                                default:
+                                    map.replace(posX, posY, new Grass(posX, posY, Sprite.grass.getFxImage()));
+                                    break;
+                            }
                             flameList.add(new Flame(posX, posY, valD[j], Flame.TYPE.BRICK, collisionManage));
                         }
                     }
@@ -147,5 +160,13 @@ public class BombControl {
         for (Flame flame : flameList) {
             flame.render(gc, camera);
         }
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
     }
 }

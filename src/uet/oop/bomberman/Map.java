@@ -76,13 +76,15 @@ public class Map {
         camera = new Camera(0, 0, width, height);
         collision = new Collision(this);
         bombControl = new BombControl(collision, startxPos, startyPos);
-        enemyControl = new EnemyControl(collision);
+        enemyControl = new EnemyControl(collision, bombControl);
         Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision, bombControl, enemyControl);
         entities.add(bomberman);
         Enemy ballomEnemy = new Balloom(10, 11, Sprite.balloom_right1.getFxImage(), collision);
         enemyControl.addBalloomEnemy(ballomEnemy, entities);
         Enemy ballom2 = new Balloom(8, 9, Sprite.balloom_right1.getFxImage(), collision);
         enemyControl.addBalloomEnemy(ballom2, entities);
+//        addEntity(ballomEnemy);
+//        addEntity(ballom2);
     }
 
     public List<List<Entity>> getMap() {

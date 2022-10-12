@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.controlSystem.BombControl;
 import uet.oop.bomberman.controlSystem.Collision;
 import uet.oop.bomberman.controlSystem.Direction;
 
@@ -11,6 +12,7 @@ import static uet.oop.bomberman.controlSystem.Direction.*;
 
 public class Enemy extends DestroyableEntity{
     Collision collision;
+    BombControl bombControl;
     Direction direction;
     public int count = 0;
 
@@ -18,9 +20,10 @@ public class Enemy extends DestroyableEntity{
         super(xUnit, yUnit, img);
     }
 
-    public Enemy(int xUnit, int yUnit, Image img, Collision collision) {
+    public Enemy(int xUnit, int yUnit, Image img, Collision collision, BombControl bombControl) {
         super(xUnit, yUnit, img);
         this.collision = collision;
+        this.bombControl = bombControl;
         direction = RIGHT;
     }
 
@@ -32,7 +35,13 @@ public class Enemy extends DestroyableEntity{
         return direction;
     }
 
+    @Override
+    public void setDead(boolean dead) {
+        super.setDead(dead);
+    }
+
     public void render() {
 
     }
+
 }

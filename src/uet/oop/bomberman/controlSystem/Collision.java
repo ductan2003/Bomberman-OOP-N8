@@ -50,6 +50,13 @@ public class Collision {
                 || contain(entity, coordinates.get(3));
     }
 
+    public boolean collide(Pair<Integer, Integer> point1, Pair<Integer, Integer> point2) {
+        return (point1.getKey() <= point2.getKey() &&
+                point2.getKey() <= point1.getKey() + SCALED_SIZE &&
+                point2.getValue() >= point1.getValue() &&
+                point1.getValue() + SCALED_SIZE >= point2.getValue());
+    }
+
     public boolean contain(Entity entity, Pair<Integer, Integer> point) {
         return (entity.getX() <= point.getKey() &&
                 point.getKey() <= entity.getX() + SCALED_SIZE &&
@@ -86,8 +93,6 @@ public class Collision {
                 object2 = map.getEntity(x, y);
                 break;
         }
-//        System.out.println("Bomber " + object1);
-//        System.out.println("Next bomber " + object2);
         if (!(object2 instanceof Obstacle) && !(object1 instanceof Obstacle)) {
             return true;
         }

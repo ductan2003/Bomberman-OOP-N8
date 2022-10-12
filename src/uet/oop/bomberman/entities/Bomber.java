@@ -45,7 +45,6 @@ public class Bomber extends DestroyableEntity {
     }
 
     // new Constructor with keyEvent
-    // new Constructor with keyEvent
     public Bomber(int x, int y, Image img, KeyListener keyEvent,
                   Collision collisionManage, BombControl bombControl, EnemyControl enemyControl) {
         super(x, y, img);
@@ -65,6 +64,8 @@ public class Bomber extends DestroyableEntity {
     @Override
     public void update() {
 //        bombControl.updateBombList();
+        enemyControl.updateEnemyList();
+//        System.out.println(enemyControl.getEnemyList().size());
         if (bombControl.HasJustSetBomb()) {
             boolean check = false;
             for (int i=0; i<bombControl.getBombList().size();i++) {
@@ -151,12 +152,30 @@ public class Bomber extends DestroyableEntity {
     public boolean checkCanMove(int x, int y, int speed, Direction direction) {
         return (collisionManage.canMove(x,y,speed, direction)
                 && !bombControl.isNextPosBomb(this, direction, speed) && !isCollideEnemy())
-                || bombControl.HasJustSetBomb();
+                || (bombControl.HasJustSetBomb() && collisionManage.canMove(x,y,speed, direction));
     }
 
     public boolean isCollideEnemy() {
+        int a = x;
+        int b = y;
+        switch (direction) {
+            case DOWN:
+                b= y + speed;
+                break;
+            case RIGHT:
+                a = x + speed;
+                break;
+            case LEFT:
+                a = x - speed;
+                break;
+            case UP:
+                b = y - speed;
+                break;
+            default:
+                break;
+        }
         for (int i = 0; i < enemyControl.getEnemyList().size(); i++) {
-            if (collisionManage.collide(this, enemyControl.getEnemyList().get(i)))
+            if (collisionManage.collide(enemyControl.getEnemyList().get(i), a, b))
                 return true;
         }
         return false;

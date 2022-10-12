@@ -15,7 +15,7 @@ public class BombControl {
     private List<Bomb> bombList = new ArrayList<>();
     private Collision collisionManage;
     private Map map;
-    private int power = 5;
+    private int power = 1;
     private List<Flame> flameList = new ArrayList<>();
     boolean hasJustSetBomb = false;
 
@@ -38,6 +38,10 @@ public class BombControl {
 
     public List<Bomb> getBombList() {
         return bombList;
+    }
+
+    public List<Flame> getFlameList() {
+        return flameList;
     }
 
     public void updateBomb() {

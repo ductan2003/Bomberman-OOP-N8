@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.controlSystem.Camera;
 import uet.oop.bomberman.controlSystem.Collision;
+import uet.oop.bomberman.controlSystem.Direction;
 import uet.oop.bomberman.controlSystem.EnemyControl;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
@@ -24,9 +25,15 @@ public class Balloom extends Enemy{
         direction = RIGHT;
     }
 
+    @Override
+    public void setDead(boolean dead) {
+        super.setDead(dead);
+    }
+
     public void go() {
         //slow the enemy
         if (count % 2 == 1) return;
+
         //go
         if (getDirection() == RIGHT) {
             if (goRight()) return;
@@ -50,9 +57,11 @@ public class Balloom extends Enemy{
     }
 
     public void update() {
-        count++;
-        go();
-        img = getImg();
+        if (!isDead) {
+            count++;
+            go();
+            img = getImg();
+        }
     }
 
     public Image getImg() {
@@ -65,7 +74,8 @@ public class Balloom extends Enemy{
     }
 
     public void render(GraphicsContext gc, Camera camera) {
-        gc.drawImage(img, x - camera.getX(), y - camera.getY());
+        if (!isDead)
+            gc.drawImage(img, x - camera.getX(), y - camera.getY());
     }
 
     public boolean goLeft() {

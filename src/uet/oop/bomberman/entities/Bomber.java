@@ -83,7 +83,7 @@ public class Bomber extends DestroyableEntity {
             if (checkCanMove(x,y, speed, UP)) {
                 y -= speed;
                 setDirection(UP);
-                getBomberInfo();
+//                getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.DOWN)) {
@@ -91,7 +91,7 @@ public class Bomber extends DestroyableEntity {
             if (checkCanMove(x,y, speed, DOWN)) {
                 y += speed;
                 setDirection(DOWN);
-                getBomberInfo();
+//                getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.LEFT)) {
@@ -99,7 +99,7 @@ public class Bomber extends DestroyableEntity {
             if (checkCanMove(x,y, speed, LEFT)) {
                 x -= speed;
                 setDirection(LEFT);
-                getBomberInfo();
+//                getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.RIGHT)) {
@@ -107,7 +107,7 @@ public class Bomber extends DestroyableEntity {
             if (checkCanMove(x,y, speed, RIGHT)) {
                 x += speed;
                 setDirection(RIGHT);
-                getBomberInfo();
+//                getBomberInfo();
                 count++;
             }
         } else if (keyEvent.pressed(KeyCode.SPACE)) {
@@ -162,7 +162,7 @@ public class Bomber extends DestroyableEntity {
 
     public boolean checkCanMove(int x, int y, int speed, Direction direction) {
         return (collisionManage.canMove(x,y,speed, direction)
-                && !bombControl.isNextPosBomb(this, direction, speed) && !isCollideEnemy())
+                && !collisionManage.isNextPosBomb(this, direction, speed) && !isCollideEnemy())
                 || (bombControl.HasJustSetBomb() && collisionManage.canMove(x,y,speed, direction));
     }
 

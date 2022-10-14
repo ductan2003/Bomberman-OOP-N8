@@ -13,9 +13,13 @@ import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
 public class Collision {
     private Map map;
+    private BombControl bombControl;
+    private EnemyControl enemyControl;
     private final int FIX = 4;
 
-    public Collision(Map map) {
+    public Collision(Map map, BombControl bombControl, EnemyControl enemyControl) {
+        this.bombControl = bombControl;
+        this.enemyControl = enemyControl;
         this.map = map;
     }
 
@@ -48,13 +52,6 @@ public class Collision {
                 || contain(entity, coordinates.get(1))
                 || contain(entity, coordinates.get(2))
                 || contain(entity, coordinates.get(3));
-    }
-
-    public boolean collide(Pair<Integer, Integer> point1, Pair<Integer, Integer> point2) {
-        return (point1.getKey() <= point2.getKey() &&
-                point2.getKey() <= point1.getKey() + SCALED_SIZE &&
-                point2.getValue() >= point1.getValue() &&
-                point1.getValue() + SCALED_SIZE >= point2.getValue());
     }
 
     public boolean contain(Entity entity, Pair<Integer, Integer> point) {
@@ -99,13 +96,68 @@ public class Collision {
         return false;
     }
 
-    public boolean checkEnemyCanMove(List<Enemy> enemyList, Enemy enemy) {
-        for (int i = 0; i < enemyList.size(); i++) {
-            if (collide(enemyList.get(i), enemy))
-                return true && canMove(enemy.getX(), enemy.getY(), enemy.getSpeed(), enemy.getDirection());
+//    public boolean checkEnemyCanMove(List<Enemy> enemyList, Enemy enemy) {
+//        for (int i = 0; i < enemyList.size(); i++) {
+//            if (collide(enemyList.get(i), enemy))
+//                return true && canMove(enemy.getX(), enemy.getY(), enemy.getSpeed(), enemy.getDirection());
+//        }
+//        return false;
+//    }
+
+    public boolean isNextPosBomb(Entity entity, Direction direction, int speed) {
+        if (bombControl.getBombList().size() == 0) return false;
+        int a = entity.getX();
+        int b = entity.getY();
+        switch (direction) {
+            case LEFT:
+                a -= speed;
+                break;
+            case RIGHT:
+                a += speed;
+                break;
+            case DOWN:
+                b += speed;
+                break;
+            case UP:
+                b -= speed;
+                break;
+            default:
+                break;
+        }
+        for (int i = 0; i < bombControl.getBombList().size(); i++) {
+            if (collide(bombControl.getBombList().get(i), a, b)) return true;
         }
         return false;
     }
+
+    public boolean isNextPosEnemy(Entity entity, Direction direction, int speed) {
+        int countDuplicate = 0;
+        if (enemyControl.getEnemyList().size() == 0) return false;
+        int a = entity.getX();
+        int b = entity.getY();
+        switch (direction) {
+            case LEFT:
+                a -= speed;
+                break;
+            case RIGHT:
+                a += speed;
+                break;
+            case DOWN:
+                b += speed;
+                break;
+            case UP:
+                b -= speed;
+                break;
+            default:
+                break;
+        }
+        for (int i = 0; i < enemyControl.getEnemyList().size(); i++) {
+            if (collide(enemyControl.getEnemyList().get(i), a, b)) countDuplicate++;
+            if (countDuplicate > 1) return true;
+        }
+        return false;
+    }
+
 
     public Map getMap() {
         return map;

@@ -1,6 +1,8 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
+//import jdk.internal.net.http.common.Pair;
+import javafx.util.Pair;
 import uet.oop.bomberman.controlSystem.BombControl;
 import uet.oop.bomberman.controlSystem.Collision;
 import uet.oop.bomberman.controlSystem.Direction;
@@ -42,6 +44,27 @@ public class Enemy extends DestroyableEntity{
 
     public void render() {
 
+    }
+
+    public Pair<Integer, Integer> getNextPos(Direction direction, int speed) {
+        int a = x;
+        int b = y;
+        switch (direction) {
+            case UP:
+                b -= speed;
+                break;
+            case DOWN:
+                b += speed;
+                break;
+            case LEFT:
+                x -= speed;
+                break;
+            case RIGHT:
+                x += speed;
+                break;
+            default: break;
+        }
+        return new Pair<>(a, b);
     }
 
 }

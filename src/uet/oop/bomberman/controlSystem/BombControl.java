@@ -13,15 +13,13 @@ import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 public class BombControl {
     // Todo: setup bomb
     private List<Bomb> bombList = new ArrayList<>();
-    private Collision collisionManage;
     private Map map;
     private int power = 1;
     private List<Flame> flameList = new ArrayList<>();
     boolean hasJustSetBomb = false;
 
-    public BombControl(Collision collisionManage, int x, int y) {
-        this.collisionManage = collisionManage;
-        this.map = collisionManage.getMap();
+    public BombControl(Map map, int x, int y) {
+        this.map = map;
     }
 
     public void setHasJustSetBomb(boolean hasJustSetBomb) {
@@ -80,31 +78,31 @@ public class BombControl {
         return false;
     }
 
-    public boolean isNextPosBomb(Entity bomber, Direction direction, int speed) {
-        if (bombList.size() == 0) return false;
-        int a = bomber.getX();
-        int b = bomber.getY();
-        switch (direction) {
-            case LEFT:
-                a -= speed;
-                break;
-            case RIGHT:
-                a += speed;
-                break;
-            case DOWN:
-                b += speed;
-                break;
-            case UP:
-                b -= speed;
-                break;
-            default:
-                break;
-        }
-        for (int i = 0; i < bombList.size(); i++) {
-            if (collisionManage.collide(bombList.get(i), a, b)) return true;
-        }
-        return false;
-    }
+//    public boolean isNextPosBomb(Entity entity, Direction direction, int speed) {
+//        if (bombList.size() == 0) return false;
+//        int a = entity.getX();
+//        int b = entity.getY();
+//        switch (direction) {
+//            case LEFT:
+//                a -= speed;
+//                break;
+//            case RIGHT:
+//                a += speed;
+//                break;
+//            case DOWN:
+//                b += speed;
+//                break;
+//            case UP:
+//                b -= speed;
+//                break;
+//            default:
+//                break;
+//        }
+//        for (int i = 0; i < bombList.size(); i++) {
+//            if (collisionManage.collide(bombList.get(i), a, b)) return true;
+//        }
+//        return false;
+//    }
 
     public void bombExplode(int index) {
         Bomb bomb = bombList.get(index);
@@ -115,7 +113,7 @@ public class BombControl {
         int x = bomb.getX() / SCALED_SIZE;
         int y = bomb.getY() / SCALED_SIZE;
 
-        flameList.add(new Flame(x, y, Direction.CENTER, Flame.TYPE.BODY, collisionManage));
+        flameList.add(new Flame(x, y, Direction.CENTER, Flame.TYPE.BODY, map));
         for (int i = 1; i <= power; i++) {
             for (int j = 0; j < 4; j++) {
                 int posX = x + i * valX[j];
@@ -125,7 +123,7 @@ public class BombControl {
                 if (valCheck[j]) {
 
                     if (!(map.getMap().get(posY).get(posX) instanceof Obstacle)) {
-                        flameList.add(new Flame(posX, posY, valD[j], type, collisionManage));
+                        flameList.add(new Flame(posX, posY, valD[j], type, map));
                     } else {
                         valCheck[j] = false;
                         if ((map.getMap().get(posY).get(posX) instanceof Brick)) {
@@ -144,7 +142,7 @@ public class BombControl {
                                     map.replace(posX, posY, new Grass(posX, posY, Sprite.grass.getFxImage()));
                                     break;
                             }
-                            flameList.add(new Flame(posX, posY, valD[j], Flame.TYPE.BRICK, collisionManage));
+                            flameList.add(new Flame(posX, posY, valD[j], Flame.TYPE.BRICK, map));
                         }
                     }
                 }

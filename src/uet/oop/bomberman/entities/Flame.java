@@ -16,7 +16,8 @@ public class Flame extends Entity implements Obstacle{
         BRICK, LAST, BODY
     }
     private TYPE type;
-    private Collision collision;
+//    private Collision collision;
+    private Map map;
     private Direction direction;
     private boolean exploded;
     private long timeSet;
@@ -24,10 +25,11 @@ public class Flame extends Entity implements Obstacle{
 
     private int count = 0;
 
-    public Flame(int xUnit, int yUnit, Direction direction, TYPE type, Collision collisionManager) {
+    public Flame(int xUnit, int yUnit, Direction direction, TYPE type, Map map) {
         super(xUnit, yUnit);
         this.direction = direction;
-        this.collision = collisionManager;
+//        this.collision = collisionManager;
+        this.map = map;
         this.type = type;
         this.setImg(getImg());
         exploded = false;
@@ -37,7 +39,7 @@ public class Flame extends Entity implements Obstacle{
 
     @Override
     public void update() {
-        Map map = collision.getMap();
+//        Map map = collision.getMap();
         for (int i = 0; i < map.getEntities().size(); i++) {
             if (map.getEntities().get(i) instanceof DestroyableEntity) {
 

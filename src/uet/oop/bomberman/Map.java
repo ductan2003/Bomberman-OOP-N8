@@ -74,15 +74,16 @@ public class Map {
         }
 
         camera = new Camera(0, 0, width, height);
-        collision = new Collision(this);
-        bombControl = new BombControl(collision, startxPos, startyPos);
-        enemyControl = new EnemyControl(collision, bombControl);
+        bombControl = new BombControl(this, startxPos, startyPos);
+        enemyControl = new EnemyControl(bombControl, this);
+        collision = new Collision(this, bombControl, enemyControl);
         Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision, bombControl, enemyControl);
         entities.add(bomberman);
-        Enemy ballomEnemy = new Balloom(10, 11, Sprite.balloom_right1.getFxImage(), collision);
+        Enemy ballomEnemy = new Balloom(10, 11, Sprite.balloom_right1.getFxImage(), collision, bombControl);
         enemyControl.addBalloomEnemy(ballomEnemy, entities);
-        Enemy ballom2 = new Balloom(8, 9, Sprite.balloom_right1.getFxImage(), collision);
+        Enemy ballom2 = new Balloom(7, 11, Sprite.balloom_right1.getFxImage(), collision, bombControl);
         enemyControl.addBalloomEnemy(ballom2, entities);
+
 //        addEntity(ballomEnemy);
 //        addEntity(ballom2);
     }

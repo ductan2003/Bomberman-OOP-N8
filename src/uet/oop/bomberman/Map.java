@@ -97,6 +97,11 @@ public class Map {
     }
 
     public void update() {
+        Bomber bomber1 = (Bomber) entities.get(0);
+        if (bomber1.isDead()) {
+            bomber1.update();
+            return;
+        }
         entities.forEach(Entity::update);
         int index=0;
         for(;index<entities.size();index++) {

@@ -20,6 +20,7 @@ public class Bomber extends DestroyableEntity {
     private BombControl bombControl;
     private Direction direction;
     private EnemyControl enemyControl;
+    private int timeDead = 0;
     private static int FIX_LENGTH = 3;
     int count = 0;
 
@@ -66,6 +67,8 @@ public class Bomber extends DestroyableEntity {
 //        bombControl.updateBombList();
         enemyControl.updateEnemyList();
 //        System.out.println(enemyControl.getEnemyList().size());
+        if (isCollideEnemy())
+            setDead(true);
         if (bombControl.HasJustSetBomb()) {
             boolean check = false;
             for (int i=0; i<bombControl.getBombList().size();i++) {
@@ -78,6 +81,7 @@ public class Bomber extends DestroyableEntity {
             if (!check) bombControl.setHasJustSetBomb(false);
 //            System.out.println("Bombs num: " + bombControl.getBombList().size());
         }
+
         if (keyEvent.pressed(KeyCode.UP)) {
 //            if ((collisionManage.canMove(x, y, speed, UP) && !bombControl.isNextPosBomb(this, UP, speed)) || bombControl.HasJustSetBomb()) {
             if (checkCanMove(x,y, speed, UP)) {
@@ -114,7 +118,7 @@ public class Bomber extends DestroyableEntity {
             getBomberInfo();
             int xPos = Math.round(getXMapCoordinate(x + SCALED_SIZE / 2));
             int yPos = Math.round(getYMapCoordinate(y + SCALED_SIZE / 2));
-            if (bombControl.canSetBomb(xPos, yPos, getDirection())) {
+            if (bombControl.canSetBomb(xPos, yPos, getDirection()) && !isDead) {
                 System.out.println("Add Bomb");
                 Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage());
                 bombControl.addBomb(newBomb);
@@ -123,7 +127,7 @@ public class Bomber extends DestroyableEntity {
         } else count = 0;
         img = getImg(getDirection());
         updateItems();
-        //bombControl.updateBombList();
+        bombControl.updateBomb();
     }
 
     public void updateItems() {
@@ -137,6 +141,11 @@ public class Bomber extends DestroyableEntity {
     }
 
     public Image getImg(Direction direction) {
+        if (isDead()) {
+            if (timeDead++ <100)
+                return movingSprite(player_dead1,player_dead2,player_dead3,timeDead,100).getFxImage();
+            return null;
+        }
         switch (direction) {
             case UP:
                 return movingSprite(player_up, player_up_1, player_up_2, count, 9).getFxImage();
@@ -161,6 +170,7 @@ public class Bomber extends DestroyableEntity {
     }
 
     public boolean checkCanMove(int x, int y, int speed, Direction direction) {
+        if (isDead) return false;
         return (collisionManage.canMove(x,y,speed, direction)
                 && !collisionManage.isNextPosBomb(this, direction, speed) && !isCollideEnemy())
                 || (bombControl.HasJustSetBomb() && collisionManage.canMove(x,y,speed, direction));
@@ -187,6 +197,10 @@ public class Bomber extends DestroyableEntity {
         }
         for (int i = 0; i < enemyControl.getEnemyList().size(); i++) {
             if (collisionManage.collide(enemyControl.getEnemyList().get(i), a, b))
+                return true;
+        }
+        for (int i=0;i<bombControl.getFlameList().size();i++) {
+            if (collisionManage.collide(bombControl.getFlameList().get(i),a,b))
                 return true;
         }
         return false;

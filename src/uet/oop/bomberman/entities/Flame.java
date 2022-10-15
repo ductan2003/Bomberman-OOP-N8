@@ -22,6 +22,7 @@ public class Flame extends Entity implements Obstacle{
     private boolean exploded;
     private long timeSet;
     private long limit;
+    private int time = 100;
 
     private int count = 0;
 
@@ -34,7 +35,7 @@ public class Flame extends Entity implements Obstacle{
         this.setImg(getImg());
         exploded = false;
         timeSet = Timer.now();
-        limit = 100000000;
+        limit = 70000000;
     }
 
     @Override
@@ -58,36 +59,36 @@ public class Flame extends Entity implements Obstacle{
                     case LEFT:
                     case RIGHT:
                         return movingSprite(explosion_horizontal2, explosion_horizontal1,
-                                explosion_horizontal, count, 100).getFxImage();
+                                explosion_horizontal, count, time).getFxImage();
                     case DOWN:
                     case UP:
                         return movingSprite(explosion_vertical2, explosion_vertical1,
-                                explosion_vertical, count, 100).getFxImage();
+                                explosion_vertical, count, time).getFxImage();
                     case CENTER:
                         return movingSprite(bomb_exploded2, bomb_exploded1, bomb_exploded,
-                                count, 100).getFxImage();
+                                count, time).getFxImage();
                 }
             case LAST:
                 switch (direction) {
                     case LEFT:
                         return movingSprite(explosion_horizontal_left_last2,explosion_horizontal_left_last1,
-                                explosion_horizontal_left_last,count,100).getFxImage();
+                                explosion_horizontal_left_last,count,time).getFxImage();
                     case RIGHT:
                         return movingSprite(explosion_horizontal_right_last2, explosion_horizontal_right_last1,
-                                explosion_horizontal_right_last, count, 100).getFxImage();
+                                explosion_horizontal_right_last, count, time).getFxImage();
                     case DOWN:
                         return movingSprite(explosion_vertical_down_last2,explosion_vertical_down_last1,
-                                explosion_vertical_down_last,count,100).getFxImage();
+                                explosion_vertical_down_last,count,time).getFxImage();
                     case UP:
                         return movingSprite(explosion_vertical_top_last2, explosion_vertical_top_last1,
-                                explosion_vertical_top_last, count, 100).getFxImage();
+                                explosion_vertical_top_last, count, time).getFxImage();
                     case CENTER:
                         return movingSprite(bomb_exploded2, bomb_exploded1, bomb_exploded,
-                                count, 100).getFxImage();
+                                count, time).getFxImage();
                 }
             case BRICK:
                 return movingSprite(brick_exploded,brick_exploded1,
-                        brick_exploded2,count,100).getFxImage();
+                        brick_exploded2,count,time).getFxImage();
         }
         return null;
     }

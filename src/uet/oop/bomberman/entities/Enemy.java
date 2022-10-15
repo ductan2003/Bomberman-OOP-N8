@@ -13,19 +13,20 @@ import java.util.List;
 import static uet.oop.bomberman.controlSystem.Direction.*;
 
 public class Enemy extends DestroyableEntity{
-    Collision collision;
-    BombControl bombControl;
+    protected enum Status {
+        ALIVE, DEAD,
+    }
     Direction direction;
+    protected Status status;
+
     public int count = 0;
+
+//    public Enemy(int xUnit, int yUnit, Image img) {
+//        super(xUnit, yUnit, img);
+//    }
 
     public Enemy(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-    }
-
-    public Enemy(int xUnit, int yUnit, Image img, Collision collision, BombControl bombControl) {
-        super(xUnit, yUnit, img);
-        this.collision = collision;
-        this.bombControl = bombControl;
         direction = RIGHT;
     }
 
@@ -45,26 +46,70 @@ public class Enemy extends DestroyableEntity{
     public void render() {
 
     }
-
-    public Pair<Integer, Integer> getNextPos(Direction direction, int speed) {
-        int a = x;
-        int b = y;
-        switch (direction) {
-            case UP:
-                b -= speed;
-                break;
-            case DOWN:
-                b += speed;
-                break;
-            case LEFT:
-                x -= speed;
-                break;
-            case RIGHT:
-                x += speed;
-                break;
-            default: break;
+    public boolean goLeft(Collision collision) {
+        if (collision.canMove(x, y, speed, LEFT) && !collision.isNextPosEnemy(this, LEFT, speed)) {
+            x -= speed;
+            setDirection(LEFT);
+//            System.out.println("Ballom " + getDirection());
+            return true;
         }
-        return new Pair<>(a, b);
+        return false;
+    }
+
+    public boolean goRight(Collision collision) {
+        if (collision.canMove(x, y, speed, RIGHT) && !collision.isNextPosEnemy(this, RIGHT, speed)) {
+            x += speed;
+            setDirection(RIGHT);
+//            System.out.println("Ballom " + getDirection());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean goUp(Collision collision) {
+        if (collision.canMove(x, y, speed, UP) && !collision.isNextPosEnemy(this, UP, speed)) {
+            y -= speed;
+            setDirection(UP);
+//            System.out.println("Ballom " + getDirection());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean goDown(Collision collision) {
+        if (collision.canMove(x, y, speed, DOWN) && !collision.isNextPosEnemy(this, DOWN, speed)) {
+            y += speed;
+            setDirection(DOWN);
+//            System.out.println("Ballom " + getDirection());
+            return true;
+        }
+        return false;
+    }
+
+    public void goRand(Collision collision) {
+        int rand = (int)(Math.random() * 4);
+        switch (rand) {
+            case 0:
+                if(goDown(collision)) return;
+                if(goLeft(collision)) return;
+                if(goUp(collision)) return;
+                if(goRight(collision)) return;
+            case 1:
+                if(goLeft(collision)) return;
+                if(goUp(collision)) return;
+                if(goRight(collision)) return;
+                if(goDown(collision)) return;
+            case 2:
+                if(goUp(collision)) return;
+                if(goRight(collision)) return;
+                if(goDown(collision)) return;
+                if(goLeft(collision)) return;
+            case 3:
+                if(goRight(collision)) return;
+                if(goDown(collision)) return;
+                if(goLeft(collision)) return;
+                if(goUp(collision)) return;
+        }
     }
 
 }

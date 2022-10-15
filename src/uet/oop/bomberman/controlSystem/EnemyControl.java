@@ -2,10 +2,7 @@ package uet.oop.bomberman.controlSystem;
 
 import javafx.util.Pair;
 import uet.oop.bomberman.Map;
-import uet.oop.bomberman.entities.Balloom;
-import uet.oop.bomberman.entities.Bomb;
-import uet.oop.bomberman.entities.Enemy;
-import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +23,10 @@ public class EnemyControl {
         return enemyList;
     }
 
-    public void addBalloomEnemy(Enemy enemy, List<Entity> entities) {
+    public void addEnemy(Enemy enemy, List<Entity> entities) {
         enemyList.add(enemy);
         entities.add(enemy);
-        System.out.println("Add Balloom Enemy " + enemy.getX() + " " + enemy.getY());
+//        System.out.println("Add Balloom Enemy " + enemy.getX() + " " + enemy.getY());
     }
 
 //    public boolean collideOtherEnemy() {
@@ -49,7 +46,13 @@ public class EnemyControl {
             boolean check = false;
             boolean dead = false;
             if (enemyList.get(i) instanceof Balloom) {
-                if (((Balloom) enemyList.get(i)).checkBalloomDeath()) {
+                if (((Balloom) enemyList.get(i)).checkDeath()) {
+                    dead = true;
+                }
+            }
+
+            if (enemyList.get(i) instanceof Oneal) {
+                if (((Oneal) enemyList.get(i)).checkDeath()) {
                     dead = true;
                 }
             }

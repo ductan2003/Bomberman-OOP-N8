@@ -8,12 +8,8 @@ import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Balloom extends Enemy{
-    private enum Status {
-        ALIVE, DEAD,
-    }
     private Collision collision;
     private BombControl bombControl;
-    private Status status;
     private int countTimeDeath = 0;
 
     public Balloom(int xUnit, int yUnit, Image img) {
@@ -42,55 +38,55 @@ public class Balloom extends Enemy{
         //go
         if (getDirection() == RIGHT ) {
             if (!collision.isNextPosBomb(this, RIGHT, speed)) {
-                if (goRight()) {
+                if (goRight(collision)) {
                     return;
                 }
                 else {
-                    goRand();
+                    goRand(collision);
                 }
             } else {
-                 goLeft();
+                 goLeft(collision);
             }
         }
 
         if (getDirection() == LEFT) {
             if (!collision.isNextPosBomb(this, LEFT, speed)) {
-                if (goLeft()) {
+                if (goLeft(collision)) {
                     return;
                 }
                 else {
-                    goRand();
+                    goRand(collision);
                 }
             } else {
-                goRight();
+                goRight(collision);
             }
 
         }
 
         if (getDirection() == DOWN) {
             if (!collision.isNextPosBomb(this, DOWN, speed)) {
-                if (goDown()) {
+                if (goDown(collision)) {
                     return;
                 }
                 else {
-                    goRand();
+                    goRand(collision);
                 }
             } else {
-                 goUp();
+                 goUp(collision);
             }
 
         }
 
         if (getDirection() == UP) {
             if (!collision.isNextPosBomb(this, UP, speed)) {
-                if (goUp()) {
+                if (goUp(collision)) {
                     return;
                 }
                 else {
-                    goRand();
+                    goRand(collision);
                 }
             } else {
-                goDown();
+                goDown(collision);
             }
 
         }
@@ -106,17 +102,13 @@ public class Balloom extends Enemy{
             img = getImg();
             countTimeDeath++;
         }
-//        if (status == Status.DEAD) {
-//            status = Status.AFTERDEAD;
-//        }
     }
 
-    public boolean checkBalloomDeath() {
+    public boolean checkDeath() {
         for (int j = 0; j < bombControl.getFlameList().size(); j++) {
             if (collision.collide(this, bombControl.getFlameList().get(j))) {
                 status = Status.DEAD;
                 return true;
-//                break;
             }
         }
         return false;
@@ -143,101 +135,7 @@ public class Balloom extends Enemy{
             gc.drawImage(img, x - camera.getX(), y - camera.getY());
         if (status == Status.DEAD && countTimeDeath < 35) {
             gc.drawImage(img, x - camera.getX(), y - camera.getY());
-            System.out.println("Render Death Enemy");
+//            System.out.println("Render Death Enemy");
         }
     }
-
-    public boolean goLeft() {
-        if (collision.canMove(x, y, speed, LEFT) && !collision.isNextPosEnemy(this, LEFT, speed)) {
-            x -= speed;
-            setDirection(LEFT);
-//            System.out.println("Ballom " + getDirection());
-            return true;
-        }
-        return false;
-    }
-
-    public boolean goRight() {
-        if (collision.canMove(x, y, speed, RIGHT) && !collision.isNextPosEnemy(this, RIGHT, speed)) {
-            x += speed;
-            setDirection(RIGHT);
-//            System.out.println("Ballom " + getDirection());
-            return true;
-        }
-        return false;
-    }
-
-    public boolean goUp() {
-        if (collision.canMove(x, y, speed, UP) && !collision.isNextPosEnemy(this, UP, speed)) {
-            y -= speed;
-            setDirection(UP);
-//            System.out.println("Ballom " + getDirection());
-            return true;
-        }
-        return false;
-    }
-
-    public boolean goDown() {
-        if (collision.canMove(x, y, speed, DOWN) && !collision.isNextPosEnemy(this, DOWN, speed)) {
-            y += speed;
-            setDirection(DOWN);
-//            System.out.println("Ballom " + getDirection());
-            return true;
-        }
-        return false;
-    }
-
-    public void goRand() {
-        int rand = (int)(Math.random() * 4);
-        switch (rand) {
-            case 0:
-                if(goDown()) return;
-                if(goLeft()) return;
-                if(goUp()) return;
-                if(goRight()) return;
-            case 1:
-                if(goLeft()) return;
-                if(goUp()) return;
-                if(goRight()) return;
-                if(goDown()) return;
-            case 2:
-                if(goUp()) return;
-                if(goRight()) return;
-                if(goDown()) return;
-                if(goLeft()) return;
-            case 3:
-                if(goRight()) return;
-                if(goDown()) return;
-                if(goLeft()) return;
-                if(goUp()) return;
-        }
-    }
-
-//    public boolean isMetBomb(Direction direction) {
-//        for (Bomb bomb: bombControl.getBombList()) {
-//            switch (direction) {
-//                case RIGHT:
-//                    if (collision.collide(bomb, x + speed, y)) {
-//                        System.out.println("Right Meet Bomb");
-//                        return true;
-//                    }
-//                case LEFT:
-//                    if (collision.collide(bomb, x - speed, y)) {
-//                        System.out.println("Left Meet Bomb");
-//                        return true;
-//                    }
-//                case UP:
-//                    if (collision.collide(bomb, x, y - speed)) {
-//                        System.out.println("Up Meet Bomb");
-//                        return true;
-//                    }
-//                case DOWN:
-//                    if (collision.collide(bomb, x, y + speed)) {
-//                        System.out.println("Down Meet Bomb");
-//                        return true;
-//                    }
-//            }
-//        }
-//        return false;
-//    }
 }

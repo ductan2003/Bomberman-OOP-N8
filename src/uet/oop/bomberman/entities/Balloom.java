@@ -9,7 +9,6 @@ import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Balloom extends Enemy{
     private Collision collision;
-    private BombControl bombControl;
     private int countTimeDeath = 0;
 
     public Balloom(int xUnit, int yUnit, Image img) {
@@ -17,12 +16,11 @@ public class Balloom extends Enemy{
         speed = 1;
     }
 
-    public Balloom(int xUnit, int yUnit, Image img, Collision collision, BombControl bombControl) {
+    public Balloom(int xUnit, int yUnit, Image img, Collision collision) {
         super(xUnit, yUnit, img);
         speed = 1;
         this.collision = collision;
         direction = RIGHT;
-        this.bombControl = bombControl;
         this.status = Status.ALIVE;
         countTimeDeath = 0;
     }
@@ -105,8 +103,8 @@ public class Balloom extends Enemy{
     }
 
     public boolean checkDeath() {
-        for (int j = 0; j < bombControl.getFlameList().size(); j++) {
-            if (collision.collide(this, bombControl.getFlameList().get(j))) {
+        for (int j = 0; j < collision.getBombControl().getFlameList().size(); j++) {
+            if (collision.collide(this, collision.getBombControl().getFlameList().get(j))) {
                 status = Status.DEAD;
                 return true;
             }
@@ -135,7 +133,6 @@ public class Balloom extends Enemy{
             gc.drawImage(img, x - camera.getX(), y - camera.getY());
         if (status == Status.DEAD && countTimeDeath < 35) {
             gc.drawImage(img, x - camera.getX(), y - camera.getY());
-//            System.out.println("Render Death Enemy");
         }
     }
 }

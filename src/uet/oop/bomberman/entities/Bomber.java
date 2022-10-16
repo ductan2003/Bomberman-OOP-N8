@@ -48,13 +48,13 @@ public class Bomber extends DestroyableEntity {
 
     // new Constructor with keyEvent
     public Bomber(int x, int y, Image img, KeyListener keyEvent,
-                  Collision collisionManage, BombControl bombControl, EnemyControl enemyControl) {
+                  Collision collisionManage) {
         super(x, y, img);
         this.keyEvent = keyEvent;
         speed = 3;
         this.collisionManage = collisionManage;
-        this.bombControl = bombControl;
-        this.enemyControl = enemyControl;
+        this.bombControl = collisionManage.getBombControl();
+        this.enemyControl = collisionManage.getEnemyControl();
         direction = RIGHT;
         count = 0;
     }

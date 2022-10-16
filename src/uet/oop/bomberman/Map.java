@@ -1,5 +1,6 @@
 package uet.oop.bomberman;
 
+import javafx.util.Pair;
 import uet.oop.bomberman.controlSystem.*;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
@@ -23,12 +24,14 @@ public class Map {
     protected int numberBomberDie = 0;
     protected int numberBomberLife = 3;
 
-    protected int startxPos = 6;
-    protected int startyPos = 4;
+    protected int startxPos = 1;
+    protected int startyPos = 1;
 
     protected boolean isWin = false;
     protected Camera camera;
     private List<Entity> entities;
+    private List<Pair<Integer, Integer>> balloomPos;
+    private List<Pair<Integer, Integer>> onealPos;
     private Collision collision;
     private BombControl bombControl;
     private EnemyControl enemyControl;
@@ -41,6 +44,8 @@ public class Map {
         numberBomberDie = 0;
         numberBomberLife = 3;
 
+        balloomPos = new ArrayList<>();
+        onealPos = new ArrayList<>();
         // Read a map file
 
         Path path = Paths.get("").toAbsolutePath();
@@ -58,6 +63,11 @@ public class Map {
                 List<Entity> tempList = new ArrayList<>();
                 for (int j = 0; j < width; j++) {
                     switch (tempStr.charAt(j)) {
+                        case 'p':
+                            startxPos = j;
+                            startyPos = i;
+                            tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                            break;
                         case '#':
                             tempList.add(new Wall(j, i, Sprite.wall.getFxImage()));
                             break;
@@ -69,7 +79,13 @@ public class Map {
                             codeList[i][j] = Portal.code;
                             break;
                         case '1':
+                            tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                            balloomPos.add(new Pair<>(j, i));
+                            break;
                         case '2':
+                            tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                            onealPos.add(new Pair<>(j, i));
+                            break;
                         default:
                             tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
                             break;
@@ -83,18 +99,22 @@ public class Map {
         }
 
         camera = new Camera(0, 0, width, height);
-        bombControl = new BombControl(this, startxPos, startyPos);
+        bombControl = new BombControl(this);
         enemyControl = new EnemyControl(bombControl, this);
         collision = new Collision(this, bombControl, enemyControl);
-        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision, bombControl, enemyControl);
-        entities.add(bomberman);
-        Enemy ballomEnemy = new Balloom(10, 11, Sprite.balloom_right1.getFxImage(), collision, bombControl);
-        enemyControl.addEnemy(ballomEnemy, entities);
-        Enemy ballom2 = new Balloom(7, 11, Sprite.balloom_right1.getFxImage(), collision, bombControl);
-        enemyControl.addEnemy(ballom2, entities);
-        Enemy oneal1 = new Oneal(8, 5, Sprite.oneal_right1.getFxImage(), collision, bombControl);
-        enemyControl.addEnemy(oneal1, entities);
 
+        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision);
+        entities.add(bomberman);
+
+        for (Pair<Integer, Integer> pos: balloomPos) {
+            Enemy ballom = new Balloom(pos.getKey(), pos.getValue(), Sprite.balloom_right1.getFxImage(), collision);
+            enemyControl.addEnemy(ballom, entities);
+        }
+
+        for (Pair<Integer, Integer> pos: onealPos) {
+            Enemy oneal = new Oneal(pos.getKey(), pos.getValue(), Sprite.oneal_right1.getFxImage(), collision);
+            enemyControl.addEnemy(oneal, entities);
+        }
     }
 
     public List<List<Entity>> getMap() {

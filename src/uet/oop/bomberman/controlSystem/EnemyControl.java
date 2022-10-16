@@ -20,7 +20,7 @@ public class EnemyControl {
     public EnemyControl(BombControl bombControl, Map map) {
 //        this.collision = collision;
         this.map = map;
-        this.bombControl = bombControl;
+//        this.bombControl = bombControl;
     }
 
     public void set(BombControl bombControl,Map map) {
@@ -36,7 +36,6 @@ public class EnemyControl {
     public void addEnemy(Enemy enemy, List<Entity> entities) {
         enemyList.add(enemy);
         entities.add(enemy);
-//        System.out.println("Add Balloom Enemy " + enemy.getX() + " " + enemy.getY());
     }
 
 //    public boolean collideOtherEnemy() {

@@ -12,11 +12,9 @@ import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Oneal extends Enemy{
     private Collision collision;
-    private BombControl bombControl;
     private int countTimeDeath = 0;
-    public Oneal(int xUnit, int yUnit, Image img, Collision collision, BombControl bombControl) {
+    public Oneal(int xUnit, int yUnit, Image img, Collision collision) {
         super(xUnit, yUnit, img);
-        this.bombControl = bombControl;
         this.collision = collision;
         speed = 1;
         this.direction = RIGHT;
@@ -34,6 +32,60 @@ public class Oneal extends Enemy{
         if (count % 2 == 0) return;
 
         //go
+        if (getDirection() == RIGHT ) {
+            if (!collision.isNextPosBomb(this, RIGHT, speed)) {
+                if (goRight(collision)) {
+                    return;
+                }
+                else {
+                    goRand(collision);
+                }
+            } else {
+                goLeft(collision);
+            }
+        }
+
+        if (getDirection() == LEFT) {
+            if (!collision.isNextPosBomb(this, LEFT, speed)) {
+                if (goLeft(collision)) {
+                    return;
+                }
+                else {
+                    goRand(collision);
+                }
+            } else {
+                goRight(collision);
+            }
+
+        }
+
+        if (getDirection() == DOWN) {
+            if (!collision.isNextPosBomb(this, DOWN, speed)) {
+                if (goDown(collision)) {
+                    return;
+                }
+                else {
+                    goRand(collision);
+                }
+            } else {
+                goUp(collision);
+            }
+
+        }
+
+        if (getDirection() == UP) {
+            if (!collision.isNextPosBomb(this, UP, speed)) {
+                if (goUp(collision)) {
+                    return;
+                }
+                else {
+                    goRand(collision);
+                }
+            } else {
+                goDown(collision);
+            }
+
+        }
 
     }
 
@@ -72,8 +124,8 @@ public class Oneal extends Enemy{
     }
 
     public boolean checkDeath() {
-        for (int j = 0; j < bombControl.getFlameList().size(); j++) {
-            if (collision.collide(this, bombControl.getFlameList().get(j))) {
+        for (int j = 0; j < collision.getBombControl().getFlameList().size(); j++) {
+            if (collision.collide(this, collision.getBombControl().getFlameList().get(j))) {
                 status = Status.DEAD;
                 return true;
             }

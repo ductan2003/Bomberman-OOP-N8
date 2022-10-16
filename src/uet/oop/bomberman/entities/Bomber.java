@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.controlSystem.*;
 import uet.oop.bomberman.graphics.Sprite;
@@ -71,7 +72,7 @@ public class Bomber extends DestroyableEntity {
             setDead(true);
         if (bombControl.HasJustSetBomb()) {
             boolean check = false;
-            for (int i=0; i<bombControl.getBombList().size();i++) {
+            for (int i = 0; i < bombControl.getBombList().size(); i++) {
                 if (collisionManage.collide(this, bombControl.getBombList().get(i))) {
                     bombControl.setHasJustSetBomb(true);
                     check = true;
@@ -84,7 +85,7 @@ public class Bomber extends DestroyableEntity {
 
         if (keyEvent.pressed(KeyCode.UP)) {
 //            if ((collisionManage.canMove(x, y, speed, UP) && !bombControl.isNextPosBomb(this, UP, speed)) || bombControl.HasJustSetBomb()) {
-            if (checkCanMove(x,y, speed, UP)) {
+            if (checkCanMove(x, y, speed, UP)) {
                 y -= speed;
                 setDirection(UP);
 //                getBomberInfo();
@@ -92,7 +93,7 @@ public class Bomber extends DestroyableEntity {
             }
         } else if (keyEvent.pressed(KeyCode.DOWN)) {
 //            if ((collisionManage.canMove(x, y, speed, DOWN) && !bombControl.isNextPosBomb(this, DOWN, speed))|| bombControl.HasJustSetBomb()) {
-            if (checkCanMove(x,y, speed, DOWN)) {
+            if (checkCanMove(x, y, speed, DOWN)) {
                 y += speed;
                 setDirection(DOWN);
 //                getBomberInfo();
@@ -100,7 +101,7 @@ public class Bomber extends DestroyableEntity {
             }
         } else if (keyEvent.pressed(KeyCode.LEFT)) {
 //            if ((collisionManage.canMove(x, y, speed, LEFT) && !bombControl.isNextPosBomb(this, LEFT, speed)) || bombControl.HasJustSetBomb()) {
-            if (checkCanMove(x,y, speed, LEFT)) {
+            if (checkCanMove(x, y, speed, LEFT)) {
                 x -= speed;
                 setDirection(LEFT);
 //                getBomberInfo();
@@ -108,7 +109,7 @@ public class Bomber extends DestroyableEntity {
             }
         } else if (keyEvent.pressed(KeyCode.RIGHT)) {
 //            if ((collisionManage.canMove(x, y, speed, RIGHT) && !bombControl.isNextPosBomb(this, RIGHT, speed)) || bombControl.HasJustSetBomb()) {
-            if (checkCanMove(x,y, speed, RIGHT)) {
+            if (checkCanMove(x, y, speed, RIGHT)) {
                 x += speed;
                 setDirection(RIGHT);
 //                getBomberInfo();
@@ -131,26 +132,32 @@ public class Bomber extends DestroyableEntity {
     }
 
     public void updateItems() {
-        Entity entity = collisionManage.getMap().getEntity(x+16,y+16);
+        Entity entity = collisionManage.getMap().getEntity(x + 16, y + 16);
+        if (entity instanceof Portal) {
+            int nextLevel = collisionManage.getMap().getLevel() + 1;
+            if (nextLevel <= 4) {
+                BombermanGame.map.createMap(nextLevel, keyEvent);
+            }
+        }
         if (entity instanceof Item) {
             Item item = (Item) entity;
             item.powerUp(this);
-            collisionManage.getMap().replace((x+16)/SCALED_SIZE,(y+16)/SCALED_SIZE,
-                    new Grass((x+16)/SCALED_SIZE,(y+16)/SCALED_SIZE, grass.getFxImage()));
+            collisionManage.getMap().replace((x + 16) / SCALED_SIZE, (y + 16) / SCALED_SIZE,
+                    new Grass((x + 16) / SCALED_SIZE, (y + 16) / SCALED_SIZE, grass.getFxImage()));
         }
     }
 
     public Image getImg(Direction direction) {
         if (isDead()) {
-            if (timeDead++ <100)
-                return movingSprite(player_dead1,player_dead2,player_dead3,timeDead,100).getFxImage();
+            if (timeDead++ < 100)
+                return movingSprite(player_dead1, player_dead2, player_dead3, timeDead, 100).getFxImage();
             return null;
         }
         switch (direction) {
             case UP:
                 return movingSprite(player_up, player_up_1, player_up_2, count, 9).getFxImage();
             case DOWN:
-                return movingSprite(player_down, player_down_1, player_down_2,count,9).getFxImage();
+                return movingSprite(player_down, player_down_1, player_down_2, count, 9).getFxImage();
             case RIGHT:
                 return movingSprite(player_right, player_right_1, player_right_2, count, 9).getFxImage();
             case LEFT:
@@ -171,9 +178,9 @@ public class Bomber extends DestroyableEntity {
 
     public boolean checkCanMove(int x, int y, int speed, Direction direction) {
         if (isDead) return false;
-        return (collisionManage.canMove(x,y,speed, direction)
+        return (collisionManage.canMove(x, y, speed, direction)
                 && !collisionManage.isNextPosBomb(this, direction, speed) && !isCollideEnemy())
-                || (bombControl.HasJustSetBomb() && collisionManage.canMove(x,y,speed, direction));
+                || (bombControl.HasJustSetBomb() && collisionManage.canMove(x, y, speed, direction));
     }
 
     public boolean isCollideEnemy() {
@@ -181,7 +188,7 @@ public class Bomber extends DestroyableEntity {
         int b = y;
         switch (direction) {
             case DOWN:
-                b= y + speed;
+                b = y + speed;
                 break;
             case RIGHT:
                 a = x + speed;
@@ -199,8 +206,8 @@ public class Bomber extends DestroyableEntity {
             if (collisionManage.collide(enemyControl.getEnemyList().get(i), a, b))
                 return true;
         }
-        for (int i=0;i<bombControl.getFlameList().size();i++) {
-            if (collisionManage.collide(bombControl.getFlameList().get(i),a,b))
+        for (int i = 0; i < bombControl.getFlameList().size(); i++) {
+            if (collisionManage.collide(bombControl.getFlameList().get(i), a, b))
                 return true;
         }
         return false;

@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 public class Map {
     protected List<List<Entity>> map;
+    protected int[][] codeList;
     protected int height;
     protected int width;
     protected int level;
@@ -27,13 +28,14 @@ public class Map {
 
     protected boolean isWin = false;
     protected Camera camera;
-    private List<Entity> entities = new ArrayList<>();
+    private List<Entity> entities;
     private Collision collision;
     private BombControl bombControl;
     private EnemyControl enemyControl;
 
     public void createMap(int level, KeyListener keyListener) {
         map = new ArrayList<>();
+        entities = new ArrayList<>();
         this.level = level;
 
         numberBomberDie = 0;
@@ -49,6 +51,7 @@ public class Map {
             level = scanner.nextInt();
             height = scanner.nextInt();
             width = scanner.nextInt();
+            codeList = new int[height][width];
             scanner.nextLine();
             for (int i = 0; i < height; i++) {
                 String tempStr = scanner.nextLine();
@@ -61,6 +64,12 @@ public class Map {
                         case '*':
                             tempList.add(new Brick(j, i, Sprite.brick.getFxImage()));
                             break;
+                        case 'x':
+                            tempList.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                            codeList[i][j] = Portal.code;
+                            break;
+                        case '1':
+                        case '2':
                         default:
                             tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
                             break;
@@ -83,7 +92,7 @@ public class Map {
         enemyControl.addEnemy(ballomEnemy, entities);
         Enemy ballom2 = new Balloom(7, 11, Sprite.balloom_right1.getFxImage(), collision, bombControl);
         enemyControl.addEnemy(ballom2, entities);
-        Enemy oneal1 = new Oneal(8,5, Sprite.oneal_right1.getFxImage(), collision,bombControl);
+        Enemy oneal1 = new Oneal(8, 5, Sprite.oneal_right1.getFxImage(), collision, bombControl);
         enemyControl.addEnemy(oneal1, entities);
 
     }
@@ -103,9 +112,9 @@ public class Map {
             return;
         }
         entities.forEach(Entity::update);
-        int index=0;
-        for(;index<entities.size();index++) {
-            if(entities.get(index) instanceof Bomber) {
+        int index = 0;
+        for (; index < entities.size(); index++) {
+            if (entities.get(index) instanceof Bomber) {
                 Bomber bomber = (Bomber) entities.get(index);
                 camera.update(bomber);
                 bomber.getBombControl().updateBomb();
@@ -134,6 +143,14 @@ public class Map {
     }
 
     public void replace(int x, int y, Entity entity) {
-        map.get(y).set(x,entity);
+        map.get(y).set(x, entity);
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getCode(int x, int y) {
+        return codeList[y][x];
     }
 }

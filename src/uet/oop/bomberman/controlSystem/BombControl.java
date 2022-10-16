@@ -1,5 +1,6 @@
 package uet.oop.bomberman.controlSystem;
 
+import com.sun.prism.shader.DrawEllipse_ImagePattern_Loader;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.*;
@@ -15,6 +16,7 @@ public class BombControl {
     private List<Bomb> bombList = new ArrayList<>();
     private Map map;
     private int power = 1;
+    private int numberOfBomb = 1;
     private List<Flame> flameList = new ArrayList<>();
     boolean hasJustSetBomb = false;
 
@@ -70,6 +72,7 @@ public class BombControl {
     }
 
     public boolean canSetBomb(int x, int y, Direction direction) {
+        if (bombList.size() == numberOfBomb) return false;
         if (map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE) instanceof Grass) {
             System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
             return true;
@@ -127,6 +130,10 @@ public class BombControl {
                     } else {
                         valCheck[j] = false;
                         if ((map.getMap().get(posY).get(posX) instanceof Brick)) {
+                            if (map.getCode(posX, posY) == Portal.code) {
+                                map.replace(posX, posY, new Portal(posX, posY, Sprite.portal.getFxImage()));
+                                break;
+                            }
                             int random = (int) (Math.random() * 15);
                             switch (random) {
                                 case 0:
@@ -137,6 +144,9 @@ public class BombControl {
                                     break;
                                 case 2:
                                     map.replace(posX, posY, new SpeedItem(posX, posY, Sprite.powerup_speed.getFxImage()));
+                                    break;
+                                case 3:
+                                    map.replace(posX, posY, new BombPassItem(posX, posY, Sprite.powerup_bombpass.getFxImage()));
                                     break;
                                 default:
                                     map.replace(posX, posY, new Grass(posX, posY, Sprite.grass.getFxImage()));
@@ -166,5 +176,13 @@ public class BombControl {
 
     public void setPower(int power) {
         this.power = power;
+    }
+
+    public void setNumberOfBomb(int numberOfBomb) {
+        this.numberOfBomb = numberOfBomb;
+    }
+
+    public int getNumberOfBomb() {
+        return numberOfBomb;
     }
 }

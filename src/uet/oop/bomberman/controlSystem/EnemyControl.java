@@ -13,11 +13,21 @@ public class EnemyControl {
 //    private Collision collision;
     private Map map;
 
+    public EnemyControl() {
+
+    }
+
     public EnemyControl(BombControl bombControl, Map map) {
 //        this.collision = collision;
         this.map = map;
         this.bombControl = bombControl;
     }
+
+    public void set(BombControl bombControl,Map map) {
+        this.bombControl = bombControl;
+        this.map = map;
+    }
+
 
     public List<Enemy> getEnemyList() {
         return enemyList;

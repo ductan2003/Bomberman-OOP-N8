@@ -28,7 +28,7 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     private List<Entity> stillObjects = new ArrayList<>();
     private KeyListener keyEvent;
-    public Map map = new Map();
+    public static Map map = new Map();
 
     public Screen screen;
     public Timer timer;
@@ -76,4 +76,5 @@ public class BombermanGame extends Application {
         screen.renderMap(map);
     }
 
+    //adasdaxeae
 }

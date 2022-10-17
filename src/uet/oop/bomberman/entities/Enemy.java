@@ -46,6 +46,68 @@ public class Enemy extends DestroyableEntity{
     public void render() {
 
     }
+
+    public void go(Collision collision) {
+        //slow the enemy
+        if (count % 2 == 0) return;
+
+        //go
+        if (getDirection() == RIGHT ) {
+            if (!collision.isNextPosBomb(this, RIGHT, speed)) {
+                if (goRight(collision)) {
+                    return;
+                }
+                else {
+                    goRand(collision);
+                }
+            } else {
+                goLeft(collision);
+            }
+        }
+
+        if (getDirection() == LEFT) {
+            if (!collision.isNextPosBomb(this, LEFT, speed)) {
+                if (goLeft(collision)) {
+                    return;
+                }
+                else {
+                    goRand(collision);
+                }
+            } else {
+                goRight(collision);
+            }
+
+        }
+
+        if (getDirection() == DOWN) {
+            if (!collision.isNextPosBomb(this, DOWN, speed)) {
+                if (goDown(collision)) {
+                    return;
+                }
+                else {
+                    goRand(collision);
+                }
+            } else {
+                goUp(collision);
+            }
+
+        }
+
+        if (getDirection() == UP) {
+            if (!collision.isNextPosBomb(this, UP, speed)) {
+                if (goUp(collision)) {
+                    return;
+                }
+                else {
+                    goRand(collision);
+                }
+            } else {
+                goDown(collision);
+            }
+
+        }
+
+    }
     public boolean goLeft(Collision collision) {
         if (collision.canMove(x, y, speed, LEFT) && !collision.isNextPosEnemy(this, LEFT, speed)) {
             x -= speed;
@@ -110,6 +172,11 @@ public class Enemy extends DestroyableEntity{
                 if(goLeft(collision)) return;
                 if(goUp(collision)) return;
         }
+    }
+
+    public Direction getDirectionToAnEntity(Collision collision, int x, int y) {
+        List<List<Integer>> formatMap = collision.formatMapData();
+        return UP;
     }
 
 }

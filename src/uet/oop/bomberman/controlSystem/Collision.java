@@ -158,4 +158,37 @@ public class Collision {
     public Map getMap() {
         return map;
     }
+
+//    public Pair<Integer, Integer> getBomberMapPos(Entity bomber) {
+//        return new Pair<>(bomber.getXMapCoordinate(bomber.getX()), bomber.getYMapCoordinate(bomber.getY()));
+//    }
+
+    public List<List<Integer>> formatMapData() {
+        List<List<Integer>> formatMap = new ArrayList<>();
+        int height  = map.getHeight();
+        int width = map.getWidth();
+        for (int i = 0; i < height; i++) {
+            List<Integer> row = new ArrayList<>();
+            for (int j = 0; j < width; j++) {
+                if (map.getEntityWithMapPos(i, j) instanceof Wall || map.getEntityWithMapPos(i, j) instanceof Brick) {
+                    row.add(1);
+                } else if (map.getEntityWithMapPos(i, j) instanceof Grass) {
+                    row.add(0);
+                }
+            }
+            formatMap.add(row);
+        }
+        //Todo: Format Enemy Map && BomberPos
+        for (Entity entity : map.getEntities()) {
+            formatMap.get(entity.getYMapCoordinate(entity.getY())).set(entity.getXMapCoordinate(entity.getX()), 1);
+        }
+//        for (int i = 0; i < height; i ++) {
+//            System.out.println("Line " + i + ": ");
+//            for (int j = 0; j < width; j++) {
+//                System.out.print(formatMap.get(i).get(j) + " ");
+//            }
+//            System.out.println("\n");
+//        }
+        return formatMap;
+    }
 }

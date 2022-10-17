@@ -11,6 +11,8 @@ import uet.oop.bomberman.Map;
 import uet.oop.bomberman.controlSystem.*;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.util.List;
+
 import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
@@ -125,6 +127,8 @@ public class Bomber extends DestroyableEntity {
                 bombControl.addBomb(newBomb);
                 bombControl.setHasJustSetBomb(true);
             }
+        } else if (keyEvent.pressed(KeyCode.Z)) {
+            List<List<Integer>> formatMap = collisionManage.formatMapData();
         } else count = 0;
         img = getImg(getDirection());
         updateItems();

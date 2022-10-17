@@ -6,6 +6,8 @@ import uet.oop.bomberman.controlSystem.BombControl;
 import uet.oop.bomberman.controlSystem.Camera;
 import uet.oop.bomberman.controlSystem.Collision;
 
+import java.util.List;
+
 import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.controlSystem.Direction.DOWN;
 import static uet.oop.bomberman.graphics.Sprite.*;
@@ -28,68 +30,12 @@ public class Oneal extends Enemy{
     }
 
     public void go() {
-        //slow the enemy
-        if (count % 2 == 0) return;
-
-        //go
-        if (getDirection() == RIGHT ) {
-            if (!collision.isNextPosBomb(this, RIGHT, speed)) {
-                if (goRight(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                goLeft(collision);
-            }
-        }
-
-        if (getDirection() == LEFT) {
-            if (!collision.isNextPosBomb(this, LEFT, speed)) {
-                if (goLeft(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                goRight(collision);
-            }
-
-        }
-
-        if (getDirection() == DOWN) {
-            if (!collision.isNextPosBomb(this, DOWN, speed)) {
-                if (goDown(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                goUp(collision);
-            }
-
-        }
-
-        if (getDirection() == UP) {
-            if (!collision.isNextPosBomb(this, UP, speed)) {
-                if (goUp(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                goDown(collision);
-            }
-
-        }
-
+        //Todo: Find the way to the Enemy
+        super.go(collision);
     }
 
     public void update() {
+//        List<List<Integer>> formatMap = collision.formatMapData();
         if (!isDead) {
             count++;
             go();
@@ -132,4 +78,5 @@ public class Oneal extends Enemy{
         }
         return false;
     }
+
 }

@@ -162,6 +162,10 @@ public class Map {
         return map.get(yPos).get(xPos);
     }
 
+    public Entity getEntityWithMapPos(int x, int y) {
+        return map.get(x).get(y);
+    }
+
     public void replace(int x, int y, Entity entity) {
         map.get(y).set(x, entity);
     }
@@ -172,5 +176,13 @@ public class Map {
 
     public int getCode(int x, int y) {
         return codeList[y][x];
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }

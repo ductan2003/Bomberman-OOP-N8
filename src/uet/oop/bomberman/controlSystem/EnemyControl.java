@@ -54,6 +54,7 @@ public class EnemyControl {
         while (i < enemyList.size()) {
             boolean check = false;
             boolean dead = false;
+
             if (enemyList.get(i) instanceof Balloom) {
                 if (((Balloom) enemyList.get(i)).checkDeath()) {
                     dead = true;
@@ -65,16 +66,19 @@ public class EnemyControl {
                     dead = true;
                 }
             }
+
             if (dead) {
                 enemyList.get(i).setDead(true);
                 enemyList.remove(enemyList.get(i));
-                System.out.println("Delete Enemy");
+//                System.out.println("Delete Enemy");
                 if (enemyList.size() == 0) break;
                 check = true;
             }
+
             if (!check) i++;
         }
     }
+
 
 
 }

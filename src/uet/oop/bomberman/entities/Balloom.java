@@ -30,70 +30,74 @@ public class Balloom extends Enemy{
         super.setDead(dead);
     }
 
-    public void go() {
-        //slow the enemy
-        if (count % 2 == 1) return;
-        //go
-        if (getDirection() == RIGHT ) {
-            if (!collision.isNextPosBomb(this, RIGHT, speed)) {
-                if (goRight(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                 goLeft(collision);
-            }
-        }
+//    public void go() {
+//        super.go(collision);
+//    }
 
-        if (getDirection() == LEFT) {
-            if (!collision.isNextPosBomb(this, LEFT, speed)) {
-                if (goLeft(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                goRight(collision);
-            }
-
-        }
-
-        if (getDirection() == DOWN) {
-            if (!collision.isNextPosBomb(this, DOWN, speed)) {
-                if (goDown(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                 goUp(collision);
-            }
-
-        }
-
-        if (getDirection() == UP) {
-            if (!collision.isNextPosBomb(this, UP, speed)) {
-                if (goUp(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                goDown(collision);
-            }
-
-        }
-    }
+    //    public void go() {
+//        //slow the enemy
+//        if (count % 2 == 1) return;
+//        //go
+//        if (getDirection() == RIGHT ) {
+//            if (!collision.isNextPosBomb(this, RIGHT, speed)) {
+//                if (goRight(collision)) {
+//                    return;
+//                }
+//                else {
+//                    goRand(collision);
+//                }
+//            } else {
+//                 goLeft(collision);
+//            }
+//        }
+//
+//        if (getDirection() == LEFT) {
+//            if (!collision.isNextPosBomb(this, LEFT, speed)) {
+//                if (goLeft(collision)) {
+//                    return;
+//                }
+//                else {
+//                    goRand(collision);
+//                }
+//            } else {
+//                goRight(collision);
+//            }
+//
+//        }
+//
+//        if (getDirection() == DOWN) {
+//            if (!collision.isNextPosBomb(this, DOWN, speed)) {
+//                if (goDown(collision)) {
+//                    return;
+//                }
+//                else {
+//                    goRand(collision);
+//                }
+//            } else {
+//                 goUp(collision);
+//            }
+//
+//        }
+//
+//        if (getDirection() == UP) {
+//            if (!collision.isNextPosBomb(this, UP, speed)) {
+//                if (goUp(collision)) {
+//                    return;
+//                }
+//                else {
+//                    goRand(collision);
+//                }
+//            } else {
+//                goDown(collision);
+//            }
+//
+//        }
+//    }
 
     public void update() {
         if (!isDead) {
             count++;
-            go();
+            super.go(collision);
             img = getImg();
         }
         if (status == Status.DEAD) {

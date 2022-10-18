@@ -15,7 +15,7 @@ public class Collision {
     private Map map;
     private BombControl bombControl;
     private EnemyControl enemyControl;
-    private final int FIX = 4;
+    public static final int FIX = 4;
 
     public Collision(Map map, BombControl bombControl, EnemyControl enemyControl) {
         this.bombControl = bombControl;
@@ -50,6 +50,20 @@ public class Collision {
                 || contain(entity, coordinates.get(3));
     }
 
+    public boolean checkCollide(Entity entity, Entity entity1) {
+//        System.out.println(entity.getX() + " " + entity.getY());
+//        System.out.println(entity1.getX() + " " + entity1.getY());
+        ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX, entity1.getY() + 2 * FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX, entity1.getY() + SCALED_SIZE - 2 * FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX, entity1.getY() + 2 * FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX, entity1.getY() + SCALED_SIZE - 2 * FIX));
+        return contain(entity, coordinates.get(0))
+                || contain(entity, coordinates.get(1))
+                || contain(entity, coordinates.get(2))
+                || contain(entity, coordinates.get(3));
+    }
+
     public boolean collide(Entity entity, int x, int y) {
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
         coordinates.add(new Pair<Integer, Integer>(x, y));
@@ -74,8 +88,8 @@ public class Collision {
         Entity object2;
         switch (direction) {
             case UP:
-                object1 = map.getEntity(x + FIX, y + speed );
-                object2 = map.getEntity(x + SCALED_SIZE - 2 * FIX, y + speed );
+                object1 = map.getEntity(x + FIX, y + speed);
+                object2 = map.getEntity(x + SCALED_SIZE - 2 * FIX, y + speed);
 //                entity.setY(y + speed);
                 break;
             case DOWN:
@@ -84,13 +98,13 @@ public class Collision {
 //                entity.setY(y - speed);
                 break;
             case RIGHT:
-                object1 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + 3*FIX);
-                object2 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + SCALED_SIZE -FIX);
+                object1 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + 2 * FIX);
+                object2 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + SCALED_SIZE);
 //                entity.setX(x + speed);
                 break;
             case LEFT:
-                object1 = map.getEntity(x - speed, y + 3*FIX );
-                object2 = map.getEntity(x - speed, y + SCALED_SIZE -FIX);
+                object1 = map.getEntity(x - speed, y + 2 * FIX);
+                object2 = map.getEntity(x - speed, y + SCALED_SIZE);
 //                entity.setX(x - speed);
                 break;
             default:
@@ -155,6 +169,7 @@ public class Collision {
         }
         return b;
     }
+
     public Map getMap() {
         return map;
     }
@@ -165,7 +180,7 @@ public class Collision {
 
     public List<List<Integer>> formatMapData() {
         List<List<Integer>> formatMap = new ArrayList<>();
-        int height  = map.getHeight();
+        int height = map.getHeight();
         int width = map.getWidth();
         for (int i = 0; i < height; i++) {
             List<Integer> row = new ArrayList<>();

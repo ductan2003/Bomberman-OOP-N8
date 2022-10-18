@@ -71,7 +71,7 @@ public class Oneal extends Enemy{
 
     public boolean checkDeath() {
         for (int j = 0; j < collision.getBombControl().getFlameList().size(); j++) {
-            if (collision.collide(this, collision.getBombControl().getFlameList().get(j))) {
+            if (collision.checkCollide(this, collision.getBombControl().getFlameList().get(j))) {
                 status = Status.DEAD;
                 return true;
             }

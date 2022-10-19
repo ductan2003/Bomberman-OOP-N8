@@ -36,6 +36,14 @@ public class Map {
     private BombControl bombControl;
     private EnemyControl enemyControl;
 
+    public Map(int level, KeyListener keyListener) {
+        createMap(level, keyListener);
+    }
+
+    public Map() {
+
+    }
+
     public void createMap(int level, KeyListener keyListener) {
         map = new ArrayList<>();
         entities = new ArrayList<>();

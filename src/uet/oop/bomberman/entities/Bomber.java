@@ -6,25 +6,37 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import uet.oop.bomberman.Map;
 import uet.oop.bomberman.controlSystem.BombControl;
 import uet.oop.bomberman.controlSystem.Collision;
 import uet.oop.bomberman.controlSystem.Direction;
 import uet.oop.bomberman.controlSystem.KeyListener;
+import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
-import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
-import static uet.oop.bomberman.graphics.Sprite.bomb;
+import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Bomber extends DestroyableEntity {
     private boolean isGoToNextLevel = false;
     private KeyListener keyEvent;
     private Collision collisionManage;
+    private BombControl bombControl;
+    private boolean ready = false;
+    private Boolean isCamFollow = false;
     private Direction direction;
     private static int FIX_LENGTH = 3;
-    private BombControl bombControl;
+    int count = 0;
 
     public void setGoToNextLevel(boolean goToNextLevel) {
         isGoToNextLevel = goToNextLevel;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public boolean isGoToNextLevel() {
@@ -32,52 +44,105 @@ public class Bomber extends DestroyableEntity {
     }
 
     public Bomber(int x, int y, Image img) {
-        super( x, y, img);
+        super(x, y, img);
         speed = 1;
     }
-// new Constructor with keyEvent
+
+    // new Constructor with keyEvent
     public Bomber(int x, int y, Image img, KeyListener keyEvent, Collision collisionManage, BombControl bombControl) {
-        super( x, y, img);
+        super(x, y, img);
         this.keyEvent = keyEvent;
         speed = 3;
         this.collisionManage = collisionManage;
         this.bombControl = bombControl;
+        direction = RIGHT;
+        count = 0;
+    }
+
+    public void setIsCamFollow(Boolean is) {
+        isCamFollow = is;
+    }
+
+    public void getBomberInfo() {
+        System.out.println("Bomber: " + this.getCoordinateInfo() + ". Going " + this.getDirection());
     }
 
     @Override
     public void update() {
-
+        bombControl.updateBombList();
+        if (bombControl.HasJustSetBomb()) {
+            for (int i=0; i<bombControl.getBombList().size();i++) {
+                if (!collisionManage.collide(bombControl.getBombList().get(i), this)) {
+                    bombControl.setHasJustSetBomb(false);
+                }
+            }
+        }
         if (keyEvent.pressed(KeyCode.UP)) {
-            if (collisionManage.canMove(x,y,speed,UP)) {
+            if (collisionManage.canMove(x, y, speed, UP) || bombControl.HasJustSetBomb()) {
                 y -= speed;
-                System.out.println("Up" + " " + x + " " + y);
+                setDirection(UP);
+                getBomberInfo();
+                count++;
+//                bombControl.setHasJustSetBomb(false);
             }
-        }
-        else if (keyEvent.pressed(KeyCode.DOWN)) {
-            if (collisionManage.canMove(x,y,speed,DOWN)) {
+        } else if (keyEvent.pressed(KeyCode.DOWN)) {
+            if (collisionManage.canMove(x, y, speed, DOWN) || bombControl.HasJustSetBomb()) {
                 y += speed;
-                System.out.println("DOWN" + " " + x + " " + y);
+                setDirection(DOWN);
+                getBomberInfo();
+                count++;
+//                bombControl.setHasJustSetBomb(false);
             }
-        }
-        else if (keyEvent.pressed(KeyCode.LEFT)) {
-            if (collisionManage.canMove(x,y,speed,LEFT)) {
+        } else if (keyEvent.pressed(KeyCode.LEFT)) {
+            if (collisionManage.canMove(x, y, speed, LEFT) || bombControl.HasJustSetBomb()) {
                 x -= speed;
-                System.out.println("LEFT" + " " + x + " " + y);
+                setDirection(LEFT);
+                getBomberInfo();
+                count++;
+//                bombControl.setHasJustSetBomb(false);
             }
-        }
-        else if (keyEvent.pressed(KeyCode.RIGHT)) {
-            if (collisionManage.canMove(x,y,speed,RIGHT)) {
+        } else if (keyEvent.pressed(KeyCode.RIGHT)) {
+            if (collisionManage.canMove(x, y, speed, RIGHT) || bombControl.HasJustSetBomb()) {
                 x += speed;
-                System.out.println("RIGHT" + " " + x + " " + y);
+                setDirection(RIGHT);
+                getBomberInfo();
+                count++;
+//                bombControl.setHasJustSetBomb(false);
             }
         } else if (keyEvent.pressed(KeyCode.SPACE)) {
-            if (bombControl.canSetBomb(x, y)) {
-                // to do
-                Bomb newBomb = new Bomb(x, y, bomb.getFxImage());
+            getBomberInfo();
+            int xPos = Math.round(getXMapCoordinate(x + SCALED_SIZE / 2));
+            int yPos = Math.round(getYMapCoordinate(y + SCALED_SIZE / 2));
+            if (bombControl.canSetBomb(xPos, yPos, getDirection())) {
+                System.out.println("Add Bomb");
+                Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage());
                 bombControl.addBomb(newBomb);
+                bombControl.setHasJustSetBomb(true);
             }
-        } else return;
+        } else count = 0;
+        img = getImg(getDirection());
+        bombControl.updateBombList();
     }
 
+    public Image getImg(Direction direction) {
+        switch (direction) {
+            case UP:
+                return movingSprite(player_up, player_up_1, player_up_2, count, 9).getFxImage();
+            case DOWN:
+                return movingSprite(player_down, player_down_1, player_down_2,count,9).getFxImage();
+            case RIGHT:
+                return movingSprite(player_right, player_right_1, player_right_2, count, 9).getFxImage();
+            case LEFT:
+                return movingSprite(player_left, player_left_1, player_left_2, count, 9).getFxImage();
+        }
+        return img;
+    }
+    public boolean getReady() {
+        return ready;
+    }
+
+    public void setReady(boolean ready) {
+        this.ready = ready;
+    }
 }
 

@@ -2,6 +2,8 @@ package uet.oop.bomberman.controlSystem;
 
 import javafx.util.Pair;
 import uet.oop.bomberman.Map;
+import uet.oop.bomberman.entities.Bomb;
+import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Grass;
 
@@ -17,10 +19,6 @@ public class Collision {
 
     public Collision(Map map) {
         this.map = map;
-    }
-
-    public Map getMap() {
-        return map;
     }
 
     public Entity getEntity(int xPos, int yPos) {
@@ -54,23 +52,23 @@ public class Collision {
         Entity object2;
         switch (direction) {
             case UP:
-                object1 = map.getEntity(x + FIX, y + speed + FIX);
-                object2 = map.getEntity(x + SCALED_SIZE - 3*FIX, y + speed - FIX);
+                object1 = map.getEntity(x + FIX, y + speed );
+                object2 = map.getEntity(x + SCALED_SIZE - 2 * FIX, y + speed );
 //                entity.setY(y + speed);
                 break;
             case DOWN:
                 object1 = map.getEntity(x + FIX, y + SCALED_SIZE + FIX - speed);
-                object2 = map.getEntity(x + SCALED_SIZE - 3*FIX, y + SCALED_SIZE + FIX - speed);
+                object2 = map.getEntity(x + SCALED_SIZE - 2 * FIX, y + SCALED_SIZE + FIX - speed);
 //                entity.setY(y - speed);
                 break;
             case RIGHT:
-                object1 = map.getEntity(x + speed + SCALED_SIZE - 2*FIX, y + 3*FIX);
-                object2 = map.getEntity(x + speed + SCALED_SIZE - 2*FIX, y + SCALED_SIZE-FIX);
+                object1 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + 3*FIX);
+                object2 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + SCALED_SIZE -FIX);
 //                entity.setX(x + speed);
                 break;
             case LEFT:
-                object1 = map.getEntity(x - speed + FIX, y + 3*FIX);
-                object2 = map.getEntity(x - speed + FIX, y + SCALED_SIZE -FIX);
+                object1 = map.getEntity(x - speed, y + 3*FIX );
+                object2 = map.getEntity(x - speed, y + SCALED_SIZE -FIX);
 //                entity.setX(x - speed);
                 break;
             default:
@@ -78,10 +76,15 @@ public class Collision {
                 object2 = map.getEntity(x, y);
                 break;
         }
+//        System.out.println("Bomber " + object1);
+//        System.out.println("Next bomber " + object2);
         if (object2 instanceof Grass && object1 instanceof Grass) {
             return true;
         }
         return false;
     }
 
+    public Map getMap() {
+        return map;
+    }
 }

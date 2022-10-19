@@ -11,6 +11,8 @@ import uet.oop.bomberman.Map;
 import uet.oop.bomberman.controlSystem.*;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.util.List;
+
 import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
@@ -22,7 +24,11 @@ public class Bomber extends DestroyableEntity {
     private Direction direction;
     private EnemyControl enemyControl;
     private int timeDead = 0;
-    private static int FIX_LENGTH = 3;
+    private boolean respawn;
+    private int timeRespawn;
+
+    private int lives = 3;
+    private static int[] FIX_LENGTH = {0, -4, 4};
     int count = 0;
 
     public void setGoToNextLevel(boolean goToNextLevel) {
@@ -48,15 +54,17 @@ public class Bomber extends DestroyableEntity {
 
     // new Constructor with keyEvent
     public Bomber(int x, int y, Image img, KeyListener keyEvent,
-                  Collision collisionManage, BombControl bombControl, EnemyControl enemyControl) {
+                  Collision collisionManage) {
         super(x, y, img);
         this.keyEvent = keyEvent;
         speed = 3;
         this.collisionManage = collisionManage;
-        this.bombControl = bombControl;
-        this.enemyControl = enemyControl;
+        this.bombControl = collisionManage.getBombControl();
+        this.enemyControl = collisionManage.getEnemyControl();
         direction = RIGHT;
         count = 0;
+        respawn = false;
+        timeRespawn = 0;
     }
 
     public void getBomberInfo() {
@@ -68,8 +76,14 @@ public class Bomber extends DestroyableEntity {
 //        bombControl.updateBombList();
         enemyControl.updateEnemyList();
 //        System.out.println(enemyControl.getEnemyList().size());
-        if (isCollideEnemy())
-            setDead(true);
+        if (isCollideEnemy() && !respawn) {
+            lives--;
+            if (lives == 0) {
+                setDead(true);
+            } else {
+                respawn = true;
+            }
+        }
         if (bombControl.HasJustSetBomb()) {
             boolean check = false;
             for (int i = 0; i < bombControl.getBombList().size(); i++) {
@@ -84,36 +98,54 @@ public class Bomber extends DestroyableEntity {
         }
 
         if (keyEvent.pressed(KeyCode.UP)) {
+            for (int i = 0; i < FIX_LENGTH.length; i++) {
 //            if ((collisionManage.canMove(x, y, speed, UP) && !bombControl.isNextPosBomb(this, UP, speed)) || bombControl.HasJustSetBomb()) {
-            if (checkCanMove(x, y, speed, UP)) {
-                y -= speed;
-                setDirection(UP);
+                if (checkCanMove(x + FIX_LENGTH[i], y, speed, UP)) {
+                    y -= speed;
+                    x = x + FIX_LENGTH[i];
+                    setDirection(UP);
 //                getBomberInfo();
-                count++;
+                    count++;
+                    break;
+                }
             }
         } else if (keyEvent.pressed(KeyCode.DOWN)) {
 //            if ((collisionManage.canMove(x, y, speed, DOWN) && !bombControl.isNextPosBomb(this, DOWN, speed))|| bombControl.HasJustSetBomb()) {
-            if (checkCanMove(x, y, speed, DOWN)) {
-                y += speed;
-                setDirection(DOWN);
+            for (int i = 0; i < FIX_LENGTH.length; i++) {
+                if (checkCanMove(x + FIX_LENGTH[i], y, speed, DOWN)) {
+                    y += speed;
+                    x = x + FIX_LENGTH[i];
+                    setDirection(DOWN);
 //                getBomberInfo();
-                count++;
+                    count++;
+                    break;
+                }
             }
+
         } else if (keyEvent.pressed(KeyCode.LEFT)) {
 //            if ((collisionManage.canMove(x, y, speed, LEFT) && !bombControl.isNextPosBomb(this, LEFT, speed)) || bombControl.HasJustSetBomb()) {
-            if (checkCanMove(x, y, speed, LEFT)) {
-                x -= speed;
-                setDirection(LEFT);
+            for (int i = 0; i < FIX_LENGTH.length; i++) {
+                if (checkCanMove(x, y + FIX_LENGTH[i], speed, LEFT)) {
+                    x -= speed;
+                    y = y + FIX_LENGTH[i];
+                    setDirection(LEFT);
 //                getBomberInfo();
-                count++;
+                    count++;
+                    break;
+                }
             }
         } else if (keyEvent.pressed(KeyCode.RIGHT)) {
 //            if ((collisionManage.canMove(x, y, speed, RIGHT) && !bombControl.isNextPosBomb(this, RIGHT, speed)) || bombControl.HasJustSetBomb()) {
-            if (checkCanMove(x, y, speed, RIGHT)) {
-                x += speed;
-                setDirection(RIGHT);
+
+            for (int i = 0; i < FIX_LENGTH.length; i++) {
+                if (checkCanMove(x, y + FIX_LENGTH[i], speed, RIGHT)) {
+                    x += speed;
+                    y = y + FIX_LENGTH[i];
+                    setDirection(RIGHT);
 //                getBomberInfo();
-                count++;
+                    count++;
+                    break;
+                }
             }
         } else if (keyEvent.pressed(KeyCode.SPACE)) {
             getBomberInfo();
@@ -125,6 +157,8 @@ public class Bomber extends DestroyableEntity {
                 bombControl.addBomb(newBomb);
                 bombControl.setHasJustSetBomb(true);
             }
+        } else if (keyEvent.pressed(KeyCode.Z)) {
+            List<List<Integer>> formatMap = collisionManage.formatMapData();
         } else count = 0;
         img = getImg(getDirection());
         updateItems();
@@ -148,6 +182,15 @@ public class Bomber extends DestroyableEntity {
     }
 
     public Image getImg(Direction direction) {
+        if (respawn && Timer.now() % 3 == 1) {
+            if (timeRespawn++ < 30) {
+                return null;
+            } else {
+                respawn = false;
+                timeRespawn = 0;
+            }
+
+        }
         if (isDead()) {
             if (timeDead++ < 100)
                 return movingSprite(player_dead1, player_dead2, player_dead3, timeDead, 100).getFxImage();
@@ -184,6 +227,7 @@ public class Bomber extends DestroyableEntity {
     }
 
     public boolean isCollideEnemy() {
+        if (respawn) return false;
         int a = x;
         int b = y;
         switch (direction) {

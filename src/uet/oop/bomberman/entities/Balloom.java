@@ -9,7 +9,6 @@ import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Balloom extends Enemy{
     private Collision collision;
-    private BombControl bombControl;
     private int countTimeDeath = 0;
 
     public Balloom(int xUnit, int yUnit, Image img) {
@@ -17,12 +16,11 @@ public class Balloom extends Enemy{
         speed = 1;
     }
 
-    public Balloom(int xUnit, int yUnit, Image img, Collision collision, BombControl bombControl) {
+    public Balloom(int xUnit, int yUnit, Image img, Collision collision) {
         super(xUnit, yUnit, img);
         speed = 1;
         this.collision = collision;
         direction = RIGHT;
-        this.bombControl = bombControl;
         this.status = Status.ALIVE;
         countTimeDeath = 0;
     }
@@ -32,70 +30,74 @@ public class Balloom extends Enemy{
         super.setDead(dead);
     }
 
-    public void go() {
-        //slow the enemy
-        if (count % 2 == 1) return;
-        //go
-        if (getDirection() == RIGHT ) {
-            if (!collision.isNextPosBomb(this, RIGHT, speed)) {
-                if (goRight(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                 goLeft(collision);
-            }
-        }
+//    public void go() {
+//        super.go(collision);
+//    }
 
-        if (getDirection() == LEFT) {
-            if (!collision.isNextPosBomb(this, LEFT, speed)) {
-                if (goLeft(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                goRight(collision);
-            }
-
-        }
-
-        if (getDirection() == DOWN) {
-            if (!collision.isNextPosBomb(this, DOWN, speed)) {
-                if (goDown(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                 goUp(collision);
-            }
-
-        }
-
-        if (getDirection() == UP) {
-            if (!collision.isNextPosBomb(this, UP, speed)) {
-                if (goUp(collision)) {
-                    return;
-                }
-                else {
-                    goRand(collision);
-                }
-            } else {
-                goDown(collision);
-            }
-
-        }
-    }
+    //    public void go() {
+//        //slow the enemy
+//        if (count % 2 == 1) return;
+//        //go
+//        if (getDirection() == RIGHT ) {
+//            if (!collision.isNextPosBomb(this, RIGHT, speed)) {
+//                if (goRight(collision)) {
+//                    return;
+//                }
+//                else {
+//                    goRand(collision);
+//                }
+//            } else {
+//                 goLeft(collision);
+//            }
+//        }
+//
+//        if (getDirection() == LEFT) {
+//            if (!collision.isNextPosBomb(this, LEFT, speed)) {
+//                if (goLeft(collision)) {
+//                    return;
+//                }
+//                else {
+//                    goRand(collision);
+//                }
+//            } else {
+//                goRight(collision);
+//            }
+//
+//        }
+//
+//        if (getDirection() == DOWN) {
+//            if (!collision.isNextPosBomb(this, DOWN, speed)) {
+//                if (goDown(collision)) {
+//                    return;
+//                }
+//                else {
+//                    goRand(collision);
+//                }
+//            } else {
+//                 goUp(collision);
+//            }
+//
+//        }
+//
+//        if (getDirection() == UP) {
+//            if (!collision.isNextPosBomb(this, UP, speed)) {
+//                if (goUp(collision)) {
+//                    return;
+//                }
+//                else {
+//                    goRand(collision);
+//                }
+//            } else {
+//                goDown(collision);
+//            }
+//
+//        }
+//    }
 
     public void update() {
         if (!isDead) {
             count++;
-            go();
+            super.go(collision);
             img = getImg();
         }
         if (status == Status.DEAD) {
@@ -105,8 +107,8 @@ public class Balloom extends Enemy{
     }
 
     public boolean checkDeath() {
-        for (int j = 0; j < bombControl.getFlameList().size(); j++) {
-            if (collision.collide(this, bombControl.getFlameList().get(j))) {
+        for (int j = 0; j < collision.getBombControl().getFlameList().size(); j++) {
+            if (collision.checkCollide(this, collision.getBombControl().getFlameList().get(j))) {
                 status = Status.DEAD;
                 return true;
             }
@@ -135,7 +137,6 @@ public class Balloom extends Enemy{
             gc.drawImage(img, x - camera.getX(), y - camera.getY());
         if (status == Status.DEAD && countTimeDeath < 35) {
             gc.drawImage(img, x - camera.getX(), y - camera.getY());
-//            System.out.println("Render Death Enemy");
         }
     }
 }

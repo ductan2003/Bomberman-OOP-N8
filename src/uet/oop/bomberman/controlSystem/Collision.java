@@ -89,17 +89,17 @@ public class Collision {
         switch (direction) {
             case UP:
                 object1 = map.getEntity(x + FIX, y + speed);
-                object2 = map.getEntity(x + SCALED_SIZE - FIX, y + speed);
+                object2 = map.getEntity(x + SCALED_SIZE - 2 * FIX, y + speed);
 //                entity.setY(y + speed);
                 break;
             case DOWN:
                 object1 = map.getEntity(x + FIX, y + SCALED_SIZE + FIX - speed);
-                object2 = map.getEntity(x + SCALED_SIZE - FIX, y + SCALED_SIZE + FIX - speed);
+                object2 = map.getEntity(x + SCALED_SIZE - 2 * FIX, y + SCALED_SIZE + FIX - speed);
 //                entity.setY(y - speed);
                 break;
             case RIGHT:
-                object1 = map.getEntity(x + speed + SCALED_SIZE - FIX, y + 2 * FIX);
-                object2 = map.getEntity(x + speed + SCALED_SIZE - FIX, y + SCALED_SIZE);
+                object1 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + 2 * FIX);
+                object2 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + SCALED_SIZE);
 //                entity.setX(x + speed);
                 break;
             case LEFT:

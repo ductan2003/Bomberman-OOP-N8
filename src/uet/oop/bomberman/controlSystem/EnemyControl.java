@@ -20,7 +20,7 @@ public class EnemyControl {
     public EnemyControl(BombControl bombControl, Map map) {
 //        this.collision = collision;
         this.map = map;
-        this.bombControl = bombControl;
+//        this.bombControl = bombControl;
     }
 
     public void set(BombControl bombControl,Map map) {
@@ -36,7 +36,6 @@ public class EnemyControl {
     public void addEnemy(Enemy enemy, List<Entity> entities) {
         enemyList.add(enemy);
         entities.add(enemy);
-//        System.out.println("Add Balloom Enemy " + enemy.getX() + " " + enemy.getY());
     }
 
 //    public boolean collideOtherEnemy() {
@@ -55,6 +54,7 @@ public class EnemyControl {
         while (i < enemyList.size()) {
             boolean check = false;
             boolean dead = false;
+
             if (enemyList.get(i) instanceof Balloom) {
                 if (((Balloom) enemyList.get(i)).checkDeath()) {
                     dead = true;
@@ -66,16 +66,19 @@ public class EnemyControl {
                     dead = true;
                 }
             }
+
             if (dead) {
                 enemyList.get(i).setDead(true);
                 enemyList.remove(enemyList.get(i));
-                System.out.println("Delete Enemy");
+//                System.out.println("Delete Enemy");
                 if (enemyList.size() == 0) break;
                 check = true;
             }
+
             if (!check) i++;
         }
     }
+
 
 
 }

@@ -6,17 +6,17 @@ import uet.oop.bomberman.controlSystem.BombControl;
 import uet.oop.bomberman.controlSystem.Camera;
 import uet.oop.bomberman.controlSystem.Collision;
 
+import java.util.List;
+
 import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.controlSystem.Direction.DOWN;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Oneal extends Enemy{
     private Collision collision;
-    private BombControl bombControl;
     private int countTimeDeath = 0;
-    public Oneal(int xUnit, int yUnit, Image img, Collision collision, BombControl bombControl) {
+    public Oneal(int xUnit, int yUnit, Image img, Collision collision) {
         super(xUnit, yUnit, img);
-        this.bombControl = bombControl;
         this.collision = collision;
         speed = 1;
         this.direction = RIGHT;
@@ -30,14 +30,12 @@ public class Oneal extends Enemy{
     }
 
     public void go() {
-        //slow the enemy
-        if (count % 2 == 0) return;
-
-        //go
-
+        //Todo: Find the way to the Enemy
+        super.go(collision);
     }
 
     public void update() {
+//        List<List<Integer>> formatMap = collision.formatMapData();
         if (!isDead) {
             count++;
             go();
@@ -72,12 +70,13 @@ public class Oneal extends Enemy{
     }
 
     public boolean checkDeath() {
-        for (int j = 0; j < bombControl.getFlameList().size(); j++) {
-            if (collision.collide(this, bombControl.getFlameList().get(j))) {
+        for (int j = 0; j < collision.getBombControl().getFlameList().size(); j++) {
+            if (collision.checkCollide(this, collision.getBombControl().getFlameList().get(j))) {
                 status = Status.DEAD;
                 return true;
             }
         }
         return false;
     }
+
 }

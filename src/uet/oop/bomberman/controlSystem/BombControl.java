@@ -19,11 +19,14 @@ public class BombControl {
     private int numberOfBomb = 1;
     private List<Flame> flameList = new ArrayList<>();
     boolean hasJustSetBomb = false;
+//
+//    public BombControl(Map map, int x, int y) {
+//        this.map = map;
+//    }
 
-    public BombControl(Map map, int x, int y) {
+    public BombControl(Map map) {
         this.map = map;
     }
-
     public void setHasJustSetBomb(boolean hasJustSetBomb) {
         this.hasJustSetBomb = hasJustSetBomb;
     }

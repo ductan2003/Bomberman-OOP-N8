@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.controlSystem.Sound;
 
 public class DestroyableEntity extends MoveableEntity implements Obstacle{
     protected boolean isDead = false;

@@ -71,6 +71,7 @@ public class BombControl {
             if (bomb.getX() == bomb1.getX() && bomb.getY() == bomb1.getY()) return;
         }
         bombList.add(bomb);
+        Sound.putBomb.play();
         System.out.println("Bomb: " + bomb.getCoordinateInfo());
     }
 
@@ -162,6 +163,7 @@ public class BombControl {
             }
         }
         bombList.remove(bomb);
+        Sound.bombExplose.play();
     }
 
     public void renderBombs(GraphicsContext gc, Camera camera) {

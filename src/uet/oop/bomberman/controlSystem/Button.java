@@ -15,13 +15,13 @@ public class Button {
     /**
      * Constructor 1.
      */
-    public Button(int x, int y, String buttonName, Color color, Font font) {
-        this.x = x;
-        this.y = y;
-        this.buttonName = new Text(buttonName);
-        this.buttonName.setFont(font);
-        this.buttonName.setFill(color);
-    }
+//    public Button(int x, int y, String buttonName, Color color, Font font) {
+//        this.x = x;
+//        this.y = y;
+//        this.buttonName = new Text(buttonName);
+//        this.buttonName.setFont(font);
+//        this.buttonName.setFill(color);
+//    }
 
     /**
      * Constructor 1.

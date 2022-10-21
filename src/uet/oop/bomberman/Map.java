@@ -28,6 +28,12 @@ public class Map {
     protected int startyPos = 1;
 
     protected boolean isWin = false;
+    public void setIsWin(boolean is){
+        isWin = is;
+    }
+    public boolean getIsWin(){
+        return isWin;
+    }
     protected Camera camera;
     private List<Entity> entities;
     private List<Pair<Integer, Integer>> balloomPos;

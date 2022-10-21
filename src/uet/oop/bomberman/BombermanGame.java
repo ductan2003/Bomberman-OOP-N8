@@ -18,6 +18,7 @@ import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class BombermanGame extends Application {
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * Screen.WIDTH, Sprite.SCALED_SIZE * Screen.HEIGHT);
         screen = new Screen(canvas);
+        Sound.backgroundGame.loop();
 
         // Tao root container
         Group root = new Group();

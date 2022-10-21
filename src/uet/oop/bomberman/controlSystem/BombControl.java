@@ -138,7 +138,7 @@ public class BombControl {
                                 map.replace(posX, posY, new Portal(posX, posY, Sprite.portal.getFxImage()));
                                 break;
                             }
-                            int random = (int) (Math.random() * 15);
+                            int random = (int) (Math.random() * 20);
                             switch (random) {
                                 case 0:
                                     map.replace(posX, posY, new FlameItem(posX, posY, Sprite.powerup_flames.getFxImage()));

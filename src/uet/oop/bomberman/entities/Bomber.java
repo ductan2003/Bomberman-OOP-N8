@@ -167,7 +167,7 @@ public class Bomber extends DestroyableEntity {
 
     public void updateItems() {
         Entity entity = collisionManage.getMap().getEntity(x + 16, y + 16);
-        if (entity instanceof Portal) {
+        if (entity instanceof Portal && enemyControl.getEnemyList().size() == 0) {
             int nextLevel = collisionManage.getMap().getLevel() + 1;
             if (nextLevel <= 4) {
                 BombermanGame.map.createMap(nextLevel, keyEvent);

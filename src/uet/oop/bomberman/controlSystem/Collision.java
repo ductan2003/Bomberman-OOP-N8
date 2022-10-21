@@ -54,10 +54,10 @@ public class Collision {
 //        System.out.println(entity.getX() + " " + entity.getY());
 //        System.out.println(entity1.getX() + " " + entity1.getY());
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX, entity1.getY() + 2 * FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX, entity1.getY() + SCALED_SIZE - 2 * FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX, entity1.getY() + 2 * FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX, entity1.getY() + SCALED_SIZE - 2 * FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2*FIX, entity1.getY() + 2*FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2*FIX, entity1.getY() + SCALED_SIZE - 2*FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2*FIX, entity1.getY() + 2*FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2*FIX, entity1.getY() + SCALED_SIZE - 2*FIX));
         return contain(entity, coordinates.get(0))
                 || contain(entity, coordinates.get(1))
                 || contain(entity, coordinates.get(2))
@@ -89,22 +89,22 @@ public class Collision {
         switch (direction) {
             case UP:
                 object1 = map.getEntity(x + FIX, y + speed);
-                object2 = map.getEntity(x + SCALED_SIZE - 2 * FIX, y + speed);
+                object2 = map.getEntity(x + SCALED_SIZE - FIX, y + speed);
 //                entity.setY(y + speed);
                 break;
             case DOWN:
                 object1 = map.getEntity(x + FIX, y + SCALED_SIZE + FIX - speed);
-                object2 = map.getEntity(x + SCALED_SIZE - 2 * FIX, y + SCALED_SIZE + FIX - speed);
+                object2 = map.getEntity(x + SCALED_SIZE - FIX, y + SCALED_SIZE + FIX - speed);
 //                entity.setY(y - speed);
                 break;
             case RIGHT:
-                object1 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + 2 * FIX);
-                object2 = map.getEntity(x + speed + SCALED_SIZE - 2 * FIX, y + SCALED_SIZE);
+                object1 = map.getEntity(x + speed + SCALED_SIZE - FIX, y + FIX);
+                object2 = map.getEntity(x + speed + SCALED_SIZE - FIX, y + SCALED_SIZE);
 //                entity.setX(x + speed);
                 break;
             case LEFT:
-                object1 = map.getEntity(x - speed, y + 2 * FIX);
-                object2 = map.getEntity(x - speed, y + SCALED_SIZE - 2 * FIX);
+                object1 = map.getEntity(x - speed, y + FIX);
+                object2 = map.getEntity(x - speed, y + SCALED_SIZE);
 //                entity.setX(x - speed);
                 break;
             default:

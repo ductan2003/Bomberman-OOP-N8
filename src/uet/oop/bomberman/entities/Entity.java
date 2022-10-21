@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import uet.oop.bomberman.controlSystem.Camera;
 import uet.oop.bomberman.graphics.Sprite;
 
+import static uet.oop.bomberman.graphics.Sprite.DEFAULT_SIZE;
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
 public abstract class Entity {
@@ -60,11 +61,11 @@ public abstract class Entity {
     }
 
     public int getXMapCoordinate(int x) {
-        return Math.round(x / SCALED_SIZE);
+        return Math.round((x) / SCALED_SIZE);
     }
 
     public int getYMapCoordinate(int y) {
-        return Math.round(y / SCALED_SIZE);
+        return Math.round((y) / SCALED_SIZE);
     }
 
     public String getCoordinateInfo() {

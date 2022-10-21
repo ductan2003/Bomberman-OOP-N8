@@ -104,7 +104,7 @@ public class Collision {
                 break;
             case LEFT:
                 object1 = map.getEntity(x - speed, y + 2 * FIX);
-                object2 = map.getEntity(x - speed, y + SCALED_SIZE);
+                object2 = map.getEntity(x - speed, y + SCALED_SIZE - 2 * FIX);
 //                entity.setX(x - speed);
                 break;
             default:
@@ -174,10 +174,6 @@ public class Collision {
         return map;
     }
 
-//    public Pair<Integer, Integer> getBomberMapPos(Entity bomber) {
-//        return new Pair<>(bomber.getXMapCoordinate(bomber.getX()), bomber.getYMapCoordinate(bomber.getY()));
-//    }
-
     public List<List<Integer>> formatMapData() {
         List<List<Integer>> formatMap = new ArrayList<>();
         int height = map.getHeight();
@@ -185,11 +181,14 @@ public class Collision {
         for (int i = 0; i < height; i++) {
             List<Integer> row = new ArrayList<>();
             for (int j = 0; j < width; j++) {
-                if (map.getEntityWithMapPos(i, j) instanceof Wall || map.getEntityWithMapPos(i, j) instanceof Brick) {
-                    row.add(1);
-                } else if (map.getEntityWithMapPos(i, j) instanceof Grass) {
+//                if (map.getEntityWithMapPos(i, j) instanceof Wall || map.getEntityWithMapPos(i, j) instanceof Brick) {
+//                    row.add(1);
+//                } else if (map.getEntityWithMapPos(i, j) instanceof Grass) {
+//                    row.add(0);
+//                }
+                if (map.getEntityWithMapPos(i, j) instanceof Grass) {
                     row.add(0);
-                }
+                } else row.add(1);
             }
             formatMap.add(row);
         }
@@ -197,6 +196,11 @@ public class Collision {
         for (Entity entity : map.getEntities()) {
             formatMap.get(entity.getYMapCoordinate(entity.getY())).set(entity.getXMapCoordinate(entity.getX()), 1);
         }
+
+        for (Bomb bomb : bombControl.getBombList()) {
+            formatMap.get(bomb.getYMapCoordinate(bomb.getY())).set(bomb.getXMapCoordinate(bomb.getX()), 1);
+        }
+
 //        for (int i = 0; i < height; i ++) {
 //            System.out.println("Line " + i + ": ");
 //            for (int j = 0; j < width; j++) {
@@ -205,5 +209,9 @@ public class Collision {
 //            System.out.println("\n");
 //        }
         return formatMap;
+    }
+
+    public boolean isCoordinateValid(int x, int y) {
+        return x >= 0 && x < map.getHeight() && y >= 0 && y < map.getWidth();
     }
 }

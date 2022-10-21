@@ -8,9 +8,13 @@ import uet.oop.bomberman.controlSystem.Collision;
 import uet.oop.bomberman.controlSystem.Direction;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
+import static uet.oop.bomberman.graphics.Sprite.DEFAULT_SIZE;
+import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
 public class Enemy extends DestroyableEntity{
     protected enum Status {
@@ -76,7 +80,6 @@ public class Enemy extends DestroyableEntity{
             } else {
                 goRight(collision);
             }
-
         }
 
         if (getDirection() == DOWN) {
@@ -112,7 +115,7 @@ public class Enemy extends DestroyableEntity{
         if (collision.canMove(x, y, speed, LEFT) && !collision.isNextPosEnemy(this, LEFT, speed)) {
             x -= speed;
             setDirection(LEFT);
-//            System.out.println("Ballom " + getDirection());
+//            System.out.println("Enemy " + getDirection());
             return true;
         }
         return false;
@@ -122,7 +125,7 @@ public class Enemy extends DestroyableEntity{
         if (collision.canMove(x, y, speed, RIGHT) && !collision.isNextPosEnemy(this, RIGHT, speed)) {
             x += speed;
             setDirection(RIGHT);
-//            System.out.println("Ballom " + getDirection());
+//            System.out.println("Enemy " + getDirection());
             return true;
         }
         return false;
@@ -132,7 +135,7 @@ public class Enemy extends DestroyableEntity{
         if (collision.canMove(x, y, speed, UP) && !collision.isNextPosEnemy(this, UP, speed)) {
             y -= speed;
             setDirection(UP);
-//            System.out.println("Ballom " + getDirection());
+//            System.out.println("Enemy " + getDirection());
             return true;
         }
         return false;
@@ -142,7 +145,7 @@ public class Enemy extends DestroyableEntity{
         if (collision.canMove(x, y, speed, DOWN) && !collision.isNextPosEnemy(this, DOWN, speed)) {
             y += speed;
             setDirection(DOWN);
-//            System.out.println("Ballom " + getDirection());
+//            System.out.println("Enemy " + getDirection());
             return true;
         }
         return false;
@@ -174,9 +177,133 @@ public class Enemy extends DestroyableEntity{
         }
     }
 
-    public Direction getDirectionToAnEntity(Collision collision, int x, int y) {
+    public List<Pair<Integer, Integer>> getCoordinateDirection(Collision collision, int endX, int endY) {
         List<List<Integer>> formatMap = collision.formatMapData();
-        return UP;
+//        int startX = getXMapCoordinate(y);
+//        int startY = getYMapCoordinate(x);
+
+        int startX = Math.round((y + DEFAULT_SIZE) / SCALED_SIZE);
+        int startY = Math.round((x + DEFAULT_SIZE) / SCALED_SIZE);
+
+        if (startX == endX && startY == endY) return null;
+        formatMap.get(endX).set(endY, 0);
+        formatMap.get(startX).set(startY, 0);
+
+////        System.out.println(startX + " " + startY);
+//        if (count % 50 == 0) {
+            System.out.println("Bomber " + endX + " " + endY);
+            System.out.println("Oneal " + startX + " " + startY);
+//        }
+
+        int height = collision.getMap().getHeight();
+        int width = collision.getMap().getWidth();
+
+        Queue<Pair<Integer, Integer>> q = new LinkedList<>();
+        q.add(new Pair<>(startX, startY));
+
+        int[][] distance = new int[height][width];
+
+        boolean[][] visited = new boolean[height][width];
+        visited[startX][startY] = true;
+
+        Pair<Integer, Integer>[][] last = new Pair[height][width];
+        last[startX][startY] = new Pair<>(-1, -1);
+
+        int[] dx = {1, -1, 0, 0};
+        int[] dy = {0, 0, 1, -1};
+
+        while (!q.isEmpty()) {
+            Pair<Integer, Integer> tmp = q.poll();
+
+            for (int i = 0; i < 4; i++) {
+                int newX = tmp.getKey() + dx[i];
+                int newY = tmp.getValue() + dy[i];
+
+//                if (collision.isCoordinateValid(newX, newY) && !visited[newX][newY] && formatMap.get(newX).get(newY) == 0) {
+                if (collision.isCoordinateValid(newX, newY) && formatMap.get(newX).get(newY) == 0) {
+                    if (!visited[newX][newY]) {
+                        q.add(new Pair<>(newX, newY));
+                        distance[newX][newY] = distance[tmp.getKey()][tmp.getValue()] + 1;
+                        last[newX][newY] = new Pair<>(tmp.getKey(), tmp.getValue());
+                        visited[newX][newY] = true;
+                    } else {
+                        if (distance[newX][newY] > distance[tmp.getKey()][tmp.getValue()] + 1) {
+                            distance[newX][newY] = distance[tmp.getKey()][tmp.getValue()] + 1;
+                            last[newX][newY] = new Pair(tmp.getKey(), tmp.getValue());
+//                            q.add(new Pair<>(newX, newY));
+                        }
+                    }
+
+                }
+            }
+        }
+
+        if (distance[endX][endY] == 0) return null;
+
+        List<Pair<Integer, Integer>> pathCoordinate = new ArrayList<>();
+        int X = last[endX][endY].getKey();
+        int Y = last[endX][endY].getValue();
+        pathCoordinate.add(0, new Pair<>(endX, endY));
+
+        while (true) {
+            if (last[X][Y].getKey() == -1 && last[X][Y].getValue() == -1) {
+                pathCoordinate.add(0, new Pair<>(X, Y));
+                break;
+            }
+
+            pathCoordinate.add(0, new Pair<>(X, Y));
+            int tmpX = X;
+            int tmpY = Y;
+            X = last[tmpX][tmpY].getKey();
+            Y = last[tmpX][tmpY].getValue();
+        }
+
+        return pathCoordinate;
     }
 
+    public List<Direction> getDirection(List<Pair<Integer, Integer>> list) {
+        List<Direction> path = new ArrayList<>();
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i).getKey() - list.get(i - 1).getKey() == 0 && list.get(i).getValue() - list.get(i - 1).getValue() == 1) {
+                path.add(RIGHT);
+            }
+            if (list.get(i).getKey() - list.get(i - 1).getKey() == 0 && list.get(i).getValue() - list.get(i - 1).getValue() == -1) {
+                path.add(LEFT);
+            }
+            if (list.get(i).getKey() - list.get(i - 1).getKey() == 1 && list.get(i).getValue() - list.get(i - 1).getValue() == 0) {
+                path.add(DOWN);
+            }
+            if (list.get(i).getKey() - list.get(i - 1).getKey() == -1 && list.get(i).getValue() - list.get(i - 1).getValue() == 0) {
+                path.add(UP);
+            }
+        }
+        return path;
+    }
+
+    public boolean canGoByDirection(Collision collision, Direction direction) {
+        return (collision.canMove(x, y, speed, direction) && !collision.isNextPosEnemy(this, direction, speed)
+                && !collision.isNextPosBomb(this, direction, speed));
+    }
+
+    public void goByDirection(Collision collision, Direction direction) {
+        switch (direction) {
+            case DOWN:
+                y += speed;
+                setDirection(DOWN);
+                break;
+            case UP:
+                y -= speed;
+//                x = x + FIX_LENGTH[i];
+                setDirection(UP);
+                break;
+            case RIGHT:
+                x += speed;
+                setDirection(RIGHT);
+                break;
+            case LEFT:
+                x -= speed;
+                setDirection(LEFT);
+                break;
+        }
+    }
 }

@@ -57,7 +57,7 @@ public class Bomber extends DestroyableEntity {
                   Collision collisionManage) {
         super(x, y, img);
         this.keyEvent = keyEvent;
-        speed = 3;
+        speed = 2;
         this.collisionManage = collisionManage;
         this.bombControl = collisionManage.getBombControl();
         this.enemyControl = collisionManage.getEnemyControl();
@@ -148,7 +148,7 @@ public class Bomber extends DestroyableEntity {
                 }
             }
         } else if (keyEvent.pressed(KeyCode.SPACE)) {
-            getBomberInfo();
+//            getBomberInfo();
             int xPos = Math.round(getXMapCoordinate(x + SCALED_SIZE / 2));
             int yPos = Math.round(getYMapCoordinate(y + SCALED_SIZE / 2));
             if (bombControl.canSetBomb(xPos, yPos, getDirection()) && !isDead) {
@@ -198,13 +198,13 @@ public class Bomber extends DestroyableEntity {
         }
         switch (direction) {
             case UP:
-                return movingSprite(player_up, player_up_1, player_up_2, count, 9).getFxImage();
+                return movingSprite(player_up, player_up_1, player_up_2, count, 15).getFxImage();
             case DOWN:
-                return movingSprite(player_down, player_down_1, player_down_2, count, 9).getFxImage();
+                return movingSprite(player_down, player_down_1, player_down_2, count, 15).getFxImage();
             case RIGHT:
-                return movingSprite(player_right, player_right_1, player_right_2, count, 9).getFxImage();
+                return movingSprite(player_right, player_right_1, player_right_2, count, 15).getFxImage();
             case LEFT:
-                return movingSprite(player_left, player_left_1, player_left_2, count, 9).getFxImage();
+                return movingSprite(player_left, player_left_1, player_left_2, count, 15).getFxImage();
         }
         return img;
     }

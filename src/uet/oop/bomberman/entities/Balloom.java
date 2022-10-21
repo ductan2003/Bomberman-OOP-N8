@@ -30,70 +30,6 @@ public class Balloom extends Enemy{
         super.setDead(dead);
     }
 
-//    public void go() {
-//        super.go(collision);
-//    }
-
-    //    public void go() {
-//        //slow the enemy
-//        if (count % 2 == 1) return;
-//        //go
-//        if (getDirection() == RIGHT ) {
-//            if (!collision.isNextPosBomb(this, RIGHT, speed)) {
-//                if (goRight(collision)) {
-//                    return;
-//                }
-//                else {
-//                    goRand(collision);
-//                }
-//            } else {
-//                 goLeft(collision);
-//            }
-//        }
-//
-//        if (getDirection() == LEFT) {
-//            if (!collision.isNextPosBomb(this, LEFT, speed)) {
-//                if (goLeft(collision)) {
-//                    return;
-//                }
-//                else {
-//                    goRand(collision);
-//                }
-//            } else {
-//                goRight(collision);
-//            }
-//
-//        }
-//
-//        if (getDirection() == DOWN) {
-//            if (!collision.isNextPosBomb(this, DOWN, speed)) {
-//                if (goDown(collision)) {
-//                    return;
-//                }
-//                else {
-//                    goRand(collision);
-//                }
-//            } else {
-//                 goUp(collision);
-//            }
-//
-//        }
-//
-//        if (getDirection() == UP) {
-//            if (!collision.isNextPosBomb(this, UP, speed)) {
-//                if (goUp(collision)) {
-//                    return;
-//                }
-//                else {
-//                    goRand(collision);
-//                }
-//            } else {
-//                goDown(collision);
-//            }
-//
-//        }
-//    }
-
     public void update() {
         if (!isDead) {
             count++;
@@ -120,15 +56,14 @@ public class Balloom extends Enemy{
         switch (status) {
             case ALIVE:
                 if (super.getDirection() == LEFT || super.getDirection() == UP)
-                    return movingSprite(balloom_left1, balloom_left2, balloom_left3, count, 9).getFxImage();
+                    return movingSprite(balloom_left1, balloom_left2, balloom_left3, count, 20).getFxImage();
                 if (super.getDirection() == RIGHT || super.getDirection() == DOWN) {
-                    return movingSprite(balloom_right1, balloom_right2, balloom_right3, count, 9).getFxImage();
+                    return movingSprite(balloom_right1, balloom_right2, balloom_right3, count, 20).getFxImage();
                 }
                 break;
             case DEAD:
                 return balloom_dead.getFxImage();
         }
-
         return img;
     }
 

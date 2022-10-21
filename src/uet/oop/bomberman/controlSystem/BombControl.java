@@ -71,13 +71,14 @@ public class BombControl {
             if (bomb.getX() == bomb1.getX() && bomb.getY() == bomb1.getY()) return;
         }
         bombList.add(bomb);
-        System.out.println("Bomb: " + bomb.getCoordinateInfo());
+//        System.out.println("Bomb: " + bomb.getCoordinateInfo());
+//        System.out.println("Bomb Size: " + bombList.size());
     }
 
     public boolean canSetBomb(int x, int y, Direction direction) {
         if (bombList.size() == numberOfBomb) return false;
         if (map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE) instanceof Grass) {
-            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
+//            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
             return true;
         }
 

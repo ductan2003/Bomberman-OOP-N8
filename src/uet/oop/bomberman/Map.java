@@ -28,6 +28,12 @@ public class Map {
     protected int startyPos = 1;
 
     protected boolean isWin = false;
+    public void setIsWin(boolean is){
+        isWin = is;
+    }
+    public boolean getIsWin(){
+        return isWin;
+    }
     protected Camera camera;
     private List<Entity> entities;
     private List<Pair<Integer, Integer>> balloomPos;
@@ -35,6 +41,14 @@ public class Map {
     private Collision collision;
     private BombControl bombControl;
     private EnemyControl enemyControl;
+
+    public Map(int level, KeyListener keyListener) {
+        createMap(level, keyListener);
+    }
+
+    public Map() {
+
+    }
 
     public void createMap(int level, KeyListener keyListener) {
         map = new ArrayList<>();

@@ -6,6 +6,7 @@ import javafx.util.Pair;
 import uet.oop.bomberman.controlSystem.BombControl;
 import uet.oop.bomberman.controlSystem.Collision;
 import uet.oop.bomberman.controlSystem.Direction;
+import uet.oop.bomberman.controlSystem.Sound;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -45,6 +46,7 @@ public class Enemy extends DestroyableEntity{
     @Override
     public void setDead(boolean dead) {
         super.setDead(dead);
+        Sound.enemyDie.play();
     }
 
     public void render() {

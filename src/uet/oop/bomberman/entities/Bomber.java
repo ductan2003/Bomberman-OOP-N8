@@ -80,6 +80,7 @@ public class Bomber extends DestroyableEntity {
             lives--;
             if (lives == 0) {
                 setDead(true);
+
             } else {
                 respawn = true;
             }
@@ -159,7 +160,13 @@ public class Bomber extends DestroyableEntity {
             }
         } else if (keyEvent.pressed(KeyCode.Z)) {
             List<List<Integer>> formatMap = collisionManage.formatMapData();
-        } else count = 0;
+        }  else if(keyEvent.pressed(KeyCode.P)){
+            if(GameMenu.gameState == GameMenu.GAME_STATE.IN_PLAY) GameMenu.gameState = GameMenu.GAME_STATE.IN_PAUSE;
+        }
+        else if(keyEvent.pressed(KeyCode.E)){
+            if(GameMenu.gameState != GameMenu.GAME_STATE.END) GameMenu.gameState = GameMenu.GAME_STATE.END;
+        }
+        else count = 0;
         img = getImg(getDirection());
         updateItems();
         bombControl.updateBomb();
@@ -169,8 +176,12 @@ public class Bomber extends DestroyableEntity {
         Entity entity = collisionManage.getMap().getEntity(x + 16, y + 16);
         if (entity instanceof Portal && enemyControl.getEnemyList().size() == 0) {
             int nextLevel = collisionManage.getMap().getLevel() + 1;
-            if (nextLevel <= 4) {
+            if (nextLevel <= 2) {
                 BombermanGame.map.createMap(nextLevel, keyEvent);
+            }
+            else {
+                BombermanGame.map.setIsWin(true);
+                GameMenu.gameState = GameMenu.GAME_STATE.IN_END_STATE;
             }
         }
         if (entity instanceof Item) {
@@ -194,6 +205,9 @@ public class Bomber extends DestroyableEntity {
         if (isDead()) {
             if (timeDead++ < 100)
                 return movingSprite(player_dead1, player_dead2, player_dead3, timeDead, 100).getFxImage();
+            Sound.bomberDie.play();
+            BombermanGame.map.setIsWin(false);
+            GameMenu.gameState = GameMenu.GAME_STATE.IN_END_STATE;
             return null;
         }
         switch (direction) {

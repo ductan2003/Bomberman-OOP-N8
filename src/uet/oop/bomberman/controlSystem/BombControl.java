@@ -71,8 +71,8 @@ public class BombControl {
             if (bomb.getX() == bomb1.getX() && bomb.getY() == bomb1.getY()) return;
         }
         bombList.add(bomb);
-//        System.out.println("Bomb: " + bomb.getCoordinateInfo());
-//        System.out.println("Bomb Size: " + bombList.size());
+        Sound.putBomb.play();
+        System.out.println("Bomb: " + bomb.getCoordinateInfo());
     }
 
     public boolean canSetBomb(int x, int y, Direction direction) {
@@ -163,6 +163,7 @@ public class BombControl {
             }
         }
         bombList.remove(bomb);
+        Sound.bombExplose.play();
     }
 
     public void renderBombs(GraphicsContext gc, Camera camera) {

@@ -185,6 +185,8 @@ public class Sprite {
     public static Sprite powerup_bombpass = new Sprite(DEFAULT_SIZE, 5, 10, SpriteSheet.tiles, 16, 16);
     public static Sprite powerup_flamepass = new Sprite(DEFAULT_SIZE, 6, 10, SpriteSheet.tiles, 16, 16);
 
+    public static Sprite heart = new Sprite(DEFAULT_SIZE, 8, 10, SpriteSheet.tiles, 8, 8);
+
     /**
      * bombpos.
      */

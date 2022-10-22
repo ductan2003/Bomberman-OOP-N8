@@ -112,7 +112,9 @@ public class Enemy extends DestroyableEntity{
 
     }
     public boolean goLeft(Collision collision) {
-        if (collision.canMove(x, y, speed, LEFT) && !collision.isNextPosEnemy(this, LEFT, speed)) {
+        if (collision.canMove(x, y, speed, LEFT)
+                && !collision.isNextPosEnemy(this, LEFT, speed)
+                && !collision.isNextPosItem(this, LEFT, speed)) {
             x -= speed;
             setDirection(LEFT);
 //            System.out.println("Enemy " + getDirection());
@@ -122,7 +124,8 @@ public class Enemy extends DestroyableEntity{
     }
 
     public boolean goRight(Collision collision) {
-        if (collision.canMove(x, y, speed, RIGHT) && !collision.isNextPosEnemy(this, RIGHT, speed)) {
+        if (collision.canMove(x, y, speed, RIGHT) && !collision.isNextPosEnemy(this, RIGHT, speed)
+                && !collision.isNextPosItem(this, RIGHT, speed)) {
             x += speed;
             setDirection(RIGHT);
 //            System.out.println("Enemy " + getDirection());
@@ -132,7 +135,9 @@ public class Enemy extends DestroyableEntity{
     }
 
     public boolean goUp(Collision collision) {
-        if (collision.canMove(x, y, speed, UP) && !collision.isNextPosEnemy(this, UP, speed)) {
+        if (collision.canMove(x, y, speed, UP)
+                && !collision.isNextPosEnemy(this, UP, speed)
+                && !collision.isNextPosItem(this, UP, speed)) {
             y -= speed;
             setDirection(UP);
 //            System.out.println("Enemy " + getDirection());
@@ -142,7 +147,9 @@ public class Enemy extends DestroyableEntity{
     }
 
     public boolean goDown(Collision collision) {
-        if (collision.canMove(x, y, speed, DOWN) && !collision.isNextPosEnemy(this, DOWN, speed)) {
+        if (collision.canMove(x, y, speed, DOWN)
+                && !collision.isNextPosEnemy(this, DOWN, speed)
+                && !collision.isNextPosItem(this, DOWN, speed)) {
             y += speed;
             setDirection(DOWN);
 //            System.out.println("Enemy " + getDirection());
@@ -189,10 +196,13 @@ public class Enemy extends DestroyableEntity{
         formatMap.get(endX).set(endY, 0);
         formatMap.get(startX).set(startY, 0);
 
+        int dist = (int) Math.round(Math.sqrt((startX - endX) * (startX - endX) + (startY - endY) * (startY - endY)));
+        if (dist > 8) return null;
+
 ////        System.out.println(startX + " " + startY);
 //        if (count % 50 == 0) {
-            System.out.println("Bomber " + endX + " " + endY);
-            System.out.println("Oneal " + startX + " " + startY);
+//            System.out.println("Bomber " + endX + " " + endY);
+//            System.out.println("Oneal " + startX + " " + startY);
 //        }
 
         int height = collision.getMap().getHeight();
@@ -257,7 +267,9 @@ public class Enemy extends DestroyableEntity{
             X = last[tmpX][tmpY].getKey();
             Y = last[tmpX][tmpY].getValue();
         }
-
+        if (count % 30 == 0) {
+            System.out.println("Weight " + distance[endX][endY]);
+        }
         return pathCoordinate;
     }
 
@@ -282,7 +294,7 @@ public class Enemy extends DestroyableEntity{
 
     public boolean canGoByDirection(Collision collision, Direction direction) {
         return (collision.canMove(x, y, speed, direction) && !collision.isNextPosEnemy(this, direction, speed)
-                && !collision.isNextPosBomb(this, direction, speed));
+                && !collision.isNextPosBomb(this, direction, speed) && !collision.isNextPosItem(this, direction, speed));
     }
 
     public void goByDirection(Collision collision, Direction direction) {
@@ -293,7 +305,6 @@ public class Enemy extends DestroyableEntity{
                 break;
             case UP:
                 y -= speed;
-//                x = x + FIX_LENGTH[i];
                 setDirection(UP);
                 break;
             case RIGHT:

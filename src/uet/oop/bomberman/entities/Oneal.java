@@ -17,7 +17,6 @@ import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Oneal extends Enemy{
     private Collision collision;
-
     private List<Pair<Integer, Integer>> path;
     private List<Direction> pathDirection;
 
@@ -48,6 +47,7 @@ public class Oneal extends Enemy{
 //            if (pathDirection.size() < 4) {
 //                speed = 2;
 //            }
+            speed = 2;
             System.out.println("Found");
             if (pathDirection.size() == 1) {
                 Direction tmp = pathDirection.get(0);
@@ -64,6 +64,9 @@ public class Oneal extends Enemy{
             }
         } else {
             System.out.println("Go rand");
+//            if (pathDirection.size() == 8 || pathDirection.size() == 9) {
+//                speed = 2;
+//            } else speed = 1;
             speed = 1;
             super.go(collision);
         }

@@ -140,6 +140,16 @@ public class Collision {
         return false;
     }
 
+    public boolean isNextPosItem(Entity entity, Direction direction, int speed) {
+        int a = getNextXPos(entity, direction, speed);
+        int b = getNextYPos(entity, direction, speed);
+        if (map.getEntity(a, b) instanceof Item) {
+            System.out.println("True Item");
+            return true;
+        }
+        return false;
+    }
+
     public int getNextXPos(Entity entity, Direction direction, int speed) {
         int a = entity.getX();
         switch (direction) {

@@ -131,6 +131,16 @@ public class GameMenu {
 
 
             case IN_END_STATE:
+                now = Timer.now();
+                if (now - delayInput > 10000000) {
+                    delayInput = now;
+                    if (keyListener.pressed(KeyCode.ENTER)) {
+                        Sound.win.stop();
+                        Sound.lose.stop();
+                        Sound.backgroundGame.loop();
+                        gameState = GAME_STATE.IN_MENU;
+                    }
+                }
                 break;
 
             case END:
@@ -187,6 +197,7 @@ public class GameMenu {
                             gc.drawImage(Screen.loser, 0, 0,
                                     Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE);
                         }
+
                         break;
         }
     }

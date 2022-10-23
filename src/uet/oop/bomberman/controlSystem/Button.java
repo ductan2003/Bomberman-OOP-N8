@@ -15,21 +15,23 @@ public class Button {
     /**
      * Constructor 1.
      */
-//    public Button(int x, int y, String buttonName, Color color, Font font) {
-//        this.x = x;
-//        this.y = y;
-//        this.buttonName = new Text(buttonName);
-//        this.buttonName.setFont(font);
-//        this.buttonName.setFill(color);
-//    }
-
-    /**
-     * Constructor 1.
-     */
     public Button(int x, int y, Text text) {
         this.x = x;
         this.y = y;
         this.buttonName = text;
+    }
+
+    public void render(GraphicsContext gc) {
+        gc.setFont(buttonName.getFont());
+        gc.setFill(buttonName.getFill());
+        gc.fillText(buttonName.getText(), x, y);
+    }
+
+    public void renderChoosen(GraphicsContext gc) {
+        gc.strokeText(buttonName.getText(), x, y);
+        gc.setFont(Screen.FUTUREFONT);
+        gc.setFill(Color.CHOCOLATE);
+        gc.fillText(buttonName.getText(), x, y);
     }
 
     /**
@@ -50,18 +52,4 @@ public class Button {
     public int getY() {
         return y;
     }
-
-    public void render(GraphicsContext gc) {
-        gc.setFont(buttonName.getFont());
-        gc.setFill(buttonName.getFill());
-        gc.fillText(buttonName.getText(), x, y);
-    }
-
-    public void renderChoosen(GraphicsContext gc) {
-        gc.strokeText(buttonName.getText(), x, y);
-        gc.setFont(Screen.FUTUREFONT);
-        gc.setFill(Color.CHOCOLATE);
-        gc.fillText(buttonName.getText(), x, y);
-    }
-
 }

@@ -74,6 +74,7 @@ public class Bomber extends DestroyableEntity {
     @Override
     public void update() {
         enemyControl.updateEnemyList();
+
         if (isCollideEnemy() && !respawn) {
             lives--;
             if (lives == 0) {
@@ -83,6 +84,7 @@ public class Bomber extends DestroyableEntity {
                 respawn = true;
             }
         }
+
         if (bombControl.HasJustSetBomb()) {
             boolean check = false;
             for (int i = 0; i < bombControl.getBombList().size(); i++) {

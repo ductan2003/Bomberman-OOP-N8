@@ -13,12 +13,6 @@ public class Balloom extends Enemy{
     private boolean bornByDoll;
     private int skipBombNewBorn;
 
-//    public Balloom(int xUnit, int yUnit, Image img) {
-//        super(xUnit, yUnit, img);
-//        speed = 1;
-//        bornByDoll = false;
-//    }
-
     public Balloom(int xUnit, int yUnit, Image img, Collision collision, boolean bornByDoll) {
         super(xUnit, yUnit, img);
         speed = 1;
@@ -42,6 +36,9 @@ public class Balloom extends Enemy{
         return countTimeDeath;
     }
 
+    /**
+     * update Balloom.
+     */
     public void update() {
         if (countTimeDeath > 35) {
             return;
@@ -50,6 +47,7 @@ public class Balloom extends Enemy{
         if (bornByDoll) {
             skipBombNewBorn++;
         }
+
         if (!isDead) {
             count++;
             super.go(collision);
@@ -63,6 +61,9 @@ public class Balloom extends Enemy{
 
     }
 
+    /**
+     * Check Death.
+     */
     public boolean checkDeath() {
         if (!bornByDoll || skipBombNewBorn > 30) {
             for (int j = 0; j < collision.getBombControl().getFlameList().size(); j++) {

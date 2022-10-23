@@ -27,6 +27,8 @@ public class Collision {
      * Check if 2 entities which are not in map collide.
      */
     public boolean collide(Entity entity, Entity entity1) {
+//        System.out.println(entity.getX() + " " + entity.getY());
+//        System.out.println(entity1.getX() + " " + entity1.getY());
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
         coordinates.add(new Pair<Integer, Integer>(entity1.getX(), entity1.getY()));
         coordinates.add(new Pair<Integer, Integer>(entity1.getX(), entity1.getY() + SCALED_SIZE));
@@ -42,6 +44,8 @@ public class Collision {
      * Check if 2 entities which are not in map collide.
      */
     public boolean checkCollide(Entity entity, Entity entity1) {
+//        System.out.println(entity.getX() + " " + entity.getY());
+//        System.out.println(entity1.getX() + " " + entity1.getY());
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
         coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX, entity1.getY() + 2 * FIX));
         coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX,
@@ -91,18 +95,22 @@ public class Collision {
             case UP:
                 object1 = map.getEntity(x + FIX, y + speed);
                 object2 = map.getEntity(x + SCALED_SIZE - FIX, y + speed);
+//                entity.setY(y + speed);
                 break;
             case DOWN:
                 object1 = map.getEntity(x + FIX, y + SCALED_SIZE + FIX - speed);
                 object2 = map.getEntity(x + SCALED_SIZE - FIX, y + SCALED_SIZE + FIX - speed);
+//                entity.setY(y - speed);
                 break;
             case RIGHT:
                 object1 = map.getEntity(x + speed + SCALED_SIZE - FIX, y + FIX);
                 object2 = map.getEntity(x + speed + SCALED_SIZE - FIX, y + SCALED_SIZE);
+//                entity.setX(x + speed);
                 break;
             case LEFT:
                 object1 = map.getEntity(x - speed, y + FIX);
                 object2 = map.getEntity(x - speed, y + SCALED_SIZE);
+//                entity.setX(x - speed);
                 break;
             default:
                 object1 = map.getEntity(x, y);
@@ -198,8 +206,7 @@ public class Collision {
             }
             formatMap.add(row);
         }
-
-        //Bomber, enemy.
+        //Todo: Format Enemy Map && BomberPos
         for (Entity entity : map.getEntities()) {
             formatMap.get(entity.getYMapCoordinate(entity.getY())).set(entity.getXMapCoordinate(entity.getX()), 1);
         }

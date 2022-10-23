@@ -12,6 +12,7 @@ import java.util.List;
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
 public class BombControl {
+    // Todo: setup bomb
     private List<Bomb> bombList = new ArrayList<>();
     private Map map;
     private int power = 1;
@@ -38,7 +39,7 @@ public class BombControl {
         }
     }
 
-//    public void getBombInfo() {
+    //    public void getBombInfo() {
 //        System.out.println("Bomb: " + this.);
 //    }
 
@@ -51,19 +52,19 @@ public class BombControl {
         }
         bombList.add(bomb);
         Sound.putBomb.play();
-//        System.out.println("Bomb: " + bomb.getCoordinateInfo());
+        System.out.println("Bomb: " + bomb.getCoordinateInfo());
     }
 
     /**
      * Check to see if a position can set bomb.
      */
     public boolean canSetBomb(int x, int y, Direction direction) {
-        if (bombList.size() == numberOfBomb) {
-            return false;
-        }
+        if (bombList.size() == numberOfBomb) return false;
         if (map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE) instanceof Grass) {
+//            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
             return true;
         }
+
         return false;
     }
 
@@ -92,6 +93,14 @@ public class BombControl {
                 if (i == power) type = Flame.TYPE.LAST;
 
                 if (valCheck[j]) {
+                    for (int k = 0; k<bombList.size();k++) {
+                        if (bombList.get(k).getX()/SCALED_SIZE == posX && bombList.get(k).getY()/SCALED_SIZE == posY) {
+                            bombList.get(k).setExploded(true);
+                            valCheck[j] = false;
+                            break;
+                        }
+                    }
+
                     if (!(map.getMap().get(posY).get(posX) instanceof Obstacle)) {
                         flameList.add(new Flame(posX, posY, valD[j], type, map));
                     } else {

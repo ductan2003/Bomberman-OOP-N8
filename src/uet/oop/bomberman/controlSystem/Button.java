@@ -44,6 +44,9 @@ public class Button {
     public Text getText() {
         return buttonName;
     }
+    public void setText(Text text){
+        this.buttonName = text;
+    }
 
     public int getX() {
         return x;

@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -28,6 +29,7 @@ public class Map {
 
     protected int startxPos = 1;
     protected int startyPos = 1;
+    protected long time_begin;
 
     protected boolean isWin = false;
     public void setIsWin(boolean is){
@@ -57,6 +59,7 @@ public class Map {
         map = new ArrayList<>();
         entities = new ArrayList<>();
         this.level = level;
+        time_begin = Timer.now();
 
         numberBomberDie = 0;
         numberBomberLife = 3;
@@ -144,13 +147,26 @@ public class Map {
         }
     }
 
+    public List<List<Entity>> getMap() {
+        return map;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
     public void update() {
         Bomber bomber1 = (Bomber) entities.get(0);
         if (bomber1.isDead()) {
             bomber1.update();
             return;
         }
-        entities.forEach(Entity::update);
+        try {
+            entities.forEach(Entity::update);
+        } catch (ConcurrentModificationException e) {
+            System.out.println("doll's bug");
+        }
+
         int index = 0;
         for (; index < entities.size(); index++) {
             if (entities.get(index) instanceof Bomber) {
@@ -158,7 +174,6 @@ public class Map {
                 camera.update(bomber);
                 bomber.getBombControl().updateBomb();
             }
-            //delete Balloom
             if (entities.get(index) instanceof Balloom) {
                 Balloom balloom = (Balloom) entities.get(index);
                 if (balloom.getCountTimeDeath() > 35) {
@@ -167,7 +182,6 @@ public class Map {
                 }
             }
 
-            //delete Oneal
             if (entities.get(index) instanceof Oneal) {
                 Oneal oneal = (Oneal) entities.get(index);
                 if (oneal.getCountTimeDeath() > 35) {
@@ -176,7 +190,6 @@ public class Map {
                 }
             }
 
-            //delete Doll
             if (entities.get(index) instanceof Doll) {
                 Doll doll = (Doll) entities.get(index);
                 if (doll.getCountTimeDeath()== 35) {
@@ -237,12 +250,12 @@ public class Map {
         return width;
     }
 
-    public List<List<Entity>> getMap() {
-        return map;
+    public long getTime_begin() {
+        return time_begin;
     }
 
-    public Camera getCamera() {
-        return camera;
-    }
+    public void clear()
+    {
 
+    }
 }

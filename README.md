@@ -16,9 +16,10 @@
 * ![Brick](https://user-images.githubusercontent.com/100295385/197355940-e9adcc30-27c4-4915-93ea-40f829a5ac1b.png) *Brick* là đối tượng nằm trên các ô Grass, Pikachu không thể đặt Bomb ở đây nhưng có thể bị phá hủy với Bomb khi được kích hoạt gần nó.
 * ![Portal](https://user-images.githubusercontent.com/100295385/197356014-5607d2c1-8197-482e-9877-26459853e833.png) *Portal* là đối tượng được đặt dưới ô Brick và lộ diện sau khi ô Brick đó bị phá hủy. Nếu tất cả enemy đều bị tiêu diệt thì người chơi có thể dùng Portal để đi đến màn chơi khác.
 * *Item* là những đối tượng được đặt dưới ô Brick và lộ diện sau khi ô Brick đó bị phá hủy. Một số loại Item sử dụng trong trò chơi như sau:
-   * AItem
-   * BItem
-   * CItem
+   * Speed Item
+   * Flame Item
+   * Bomb Item
+   * BombPass Item
 * *Enemy* là đối tượng mà Pikachu phải tiêu diệt hết để có thể qua màn chơi mới. Tùy loại enemy mà có chức năng khác nhau. Các Enemy được sử dụng trong trò chơi như sau:
    * ![Balloom](https://user-images.githubusercontent.com/100295385/197356275-0f04c45b-2c04-4962-86b3-7b59a88c18ca.png) *Balloom* là Enemy đơn giản nhất, di chuyển ngẫu nhiên với tốc độ cố định.
    * ![Oneal](https://user-images.githubusercontent.com/100295385/197356374-69d59524-e8fc-4c27-9901-df55ea1fa632.png) *Oneal* là Enemy có thể tìm được đường đi đến Pikachu trong một bán kính nhất định (Sử dụng thuật toán BFS), Oneal sẽ tăng tốc nếu tìm được Pikachu.
@@ -30,7 +31,7 @@
 * Game sử dụng bàn phím để điều khiển trò chơi.
 * Trong menu, sử dụng các phím `↑`, `↓` để di chuyển, `Enter` để chọn.
 * Người chơi điều khiển Pikachu bằng các phím `↑`, `↓`, `←`, `→` để di chuyển theo hướng muốn đi, `Space` để đặt Bomb.
-* Để dừng trò chơi, nhấn phím `.......`
+* Để dừng trò chơi, nhấn phím `p`
 
 ### Cơ chế game
 

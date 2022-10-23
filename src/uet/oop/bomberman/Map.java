@@ -144,14 +144,6 @@ public class Map {
         }
     }
 
-    public List<List<Entity>> getMap() {
-        return map;
-    }
-
-    public Camera getCamera() {
-        return camera;
-    }
-
     public void update() {
         Bomber bomber1 = (Bomber) entities.get(0);
         if (bomber1.isDead()) {
@@ -166,6 +158,7 @@ public class Map {
                 camera.update(bomber);
                 bomber.getBombControl().updateBomb();
             }
+            //delete Balloom
             if (entities.get(index) instanceof Balloom) {
                 Balloom balloom = (Balloom) entities.get(index);
                 if (balloom.getCountTimeDeath() > 35) {
@@ -174,6 +167,7 @@ public class Map {
                 }
             }
 
+            //delete Oneal
             if (entities.get(index) instanceof Oneal) {
                 Oneal oneal = (Oneal) entities.get(index);
                 if (oneal.getCountTimeDeath() > 35) {
@@ -182,6 +176,7 @@ public class Map {
                 }
             }
 
+            //delete Doll
             if (entities.get(index) instanceof Doll) {
                 Doll doll = (Doll) entities.get(index);
                 if (doll.getCountTimeDeath()== 35) {
@@ -240,6 +235,14 @@ public class Map {
 
     public int getWidth() {
         return width;
+    }
+
+    public List<List<Entity>> getMap() {
+        return map;
+    }
+
+    public Camera getCamera() {
+        return camera;
     }
 
 }

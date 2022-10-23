@@ -107,7 +107,6 @@ public class Enemy extends DestroyableEntity {
             } else {
                 goDown(collision);
             }
-
         }
 
     }
@@ -174,6 +173,9 @@ public class Enemy extends DestroyableEntity {
         }
     }
 
+    /**
+     * Find path.
+     */
     public List<Pair<Integer, Integer>> getCoordinateDirection(Collision collision, int endX, int endY) {
         List<List<Integer>> formatMap = collision.formatMapData();
         int height = collision.getMap().getHeight();
@@ -209,20 +211,10 @@ public class Enemy extends DestroyableEntity {
                 int newY = tmp.getValue() + dy[i];
 
                 if (collision.isCoordinateValid(newX, newY) && formatMap.get(newX).get(newY) == 0 && !visited[newX][newY]) {
-                    if (!visited[newX][newY]) {
-                        q.add(new Pair<>(newX, newY));
-                        distance[newX][newY] = distance[tmp.getKey()][tmp.getValue()] + 1;
-                        last[newX][newY] = new Pair<>(tmp.getKey(), tmp.getValue());
-                        visited[newX][newY] = true;
-                    }
-//                    } else {
-//                        if (distance[newX][newY] > distance[tmp.getKey()][tmp.getValue()] + 1) {
-//                            distance[newX][newY] = distance[tmp.getKey()][tmp.getValue()] + 1;
-//                            last[newX][newY] = new Pair(tmp.getKey(), tmp.getValue());
-////                            q.add(new Pair<>(newX, newY));
-//                        }
-//                    }
-
+                    q.add(new Pair<>(newX, newY));
+                    distance[newX][newY] = distance[tmp.getKey()][tmp.getValue()] + 1;
+                    last[newX][newY] = new Pair<>(tmp.getKey(), tmp.getValue());
+                    visited[newX][newY] = true;
                 }
             }
         }
@@ -249,6 +241,9 @@ public class Enemy extends DestroyableEntity {
         return pathCoordinate;
     }
 
+    /**
+     * Direction Path.
+     */
     public List<Direction> getDirection(List<Pair<Integer, Integer>> list) {
         List<Direction> path = new ArrayList<>();
         for (int i = 1; i < list.size(); i++) {
@@ -270,7 +265,6 @@ public class Enemy extends DestroyableEntity {
 
     public boolean canGoByDirection(Collision collision, Direction direction) {
         return (collision.canMove(x, y, speed, direction) && !collision.isNextPosEnemy(this, direction, speed));
-//                && !collision.isNextPosBomb(this, direction, speed));
     }
 
     public boolean checkCanMove(int x, int y, int speed, Direction direction, Collision collision) {

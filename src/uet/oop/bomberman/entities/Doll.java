@@ -46,8 +46,8 @@ public class Doll extends Enemy{
     public void update() {
         if (countTimeDeath > 70) {
             return;
-//            collision.getMap().getEntities().remove(this);
         }
+
         if (!isDead) {
             count++;
             go(collision);

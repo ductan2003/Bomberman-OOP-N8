@@ -49,17 +49,17 @@ public class Oneal extends Enemy{
     }
 
     public void go() {
-        //Todo: Find the way to the Enemy
+        //slow the Enemy
         if (count % 2 == 0) return;
 
+        //Change Oneal's speed if Bomber is in the Oneal's area
         if (dist < 7) speed = 2;
         else speed = 1;
 
         if (pathDirection != null && pathDirection.size() < 8) {
-            System.out.println("Found");
+//            System.out.println("Found");
             if (pathDirection.size() == 1) {
                 Direction tmp = pathDirection.get(0);
-//                pathDirection.remove(0);
                 goByDirection(collision, tmp);
             } else {
                 Direction tmp = pathDirection.get(0);
@@ -78,7 +78,6 @@ public class Oneal extends Enemy{
     public void update() {
         if (countTimeDeath > 35) {
             return;
-//            collision.getMap().getEntities().remove(this);
         }
 
         updateDist();
@@ -86,28 +85,20 @@ public class Oneal extends Enemy{
             Sound.attackingWarning.play();
         }
 
+        //find path.
         if (!isDead && dist < 8 && count % 15 == 0) {
+
+            //get Bomber position, change map coordinate into array coordinate
             Entity bomber = collision.getMap().getEntities().get(0);
             int endX = Math.round((bomber.getX() + DEFAULT_SIZE) / SCALED_SIZE);
             int endY = Math.round((bomber.getY() + DEFAULT_SIZE) / SCALED_SIZE);
             path = getCoordinateDirection(collision, endY, endX);
+
             if (path != null) {
                 pathDirection = getDirection(path);
             } else {
                 pathDirection = null;
             }
-            if (path != null && count % 15 == 0) {
-                for (Pair<Integer, Integer> pair:path){
-                    System.out.println(pair.getKey() + " " + pair.getValue());
-                }
-                System.out.println("Weight: " + path.size());
-            }
-//            if (pathDirection != null) {
-//                System.out.println("Change into Direction");
-//                System.out.println("Direction size " + pathDirection.size());
-//                for (Direction direction1 : pathDirection)
-//                    System.out.println(direction1);
-//            }
         }
 
         if (!isDead) {

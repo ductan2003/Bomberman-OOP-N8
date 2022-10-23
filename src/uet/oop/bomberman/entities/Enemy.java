@@ -208,19 +208,20 @@ public class Enemy extends DestroyableEntity {
                 int newX = tmp.getKey() + dx[i];
                 int newY = tmp.getValue() + dy[i];
 
-                if (collision.isCoordinateValid(newX, newY) && formatMap.get(newX).get(newY) == 0) {
+                if (collision.isCoordinateValid(newX, newY) && formatMap.get(newX).get(newY) == 0 && !visited[newX][newY]) {
                     if (!visited[newX][newY]) {
                         q.add(new Pair<>(newX, newY));
                         distance[newX][newY] = distance[tmp.getKey()][tmp.getValue()] + 1;
                         last[newX][newY] = new Pair<>(tmp.getKey(), tmp.getValue());
                         visited[newX][newY] = true;
-                    } else {
-                        if (distance[newX][newY] > distance[tmp.getKey()][tmp.getValue()] + 1) {
-                            distance[newX][newY] = distance[tmp.getKey()][tmp.getValue()] + 1;
-                            last[newX][newY] = new Pair(tmp.getKey(), tmp.getValue());
-//                            q.add(new Pair<>(newX, newY));
-                        }
                     }
+//                    } else {
+//                        if (distance[newX][newY] > distance[tmp.getKey()][tmp.getValue()] + 1) {
+//                            distance[newX][newY] = distance[tmp.getKey()][tmp.getValue()] + 1;
+//                            last[newX][newY] = new Pair(tmp.getKey(), tmp.getValue());
+////                            q.add(new Pair<>(newX, newY));
+//                        }
+//                    }
 
                 }
             }

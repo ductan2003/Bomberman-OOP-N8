@@ -96,12 +96,12 @@ public class Oneal extends Enemy{
             } else {
                 pathDirection = null;
             }
-//            if (path != null) {
-//                for (Pair<Integer, Integer> pair:path){
-//                    System.out.println(pair.getKey() + " " + pair.getValue());
-//                }
-//                System.out.println();
-//            }
+            if (path != null && count % 15 == 0) {
+                for (Pair<Integer, Integer> pair:path){
+                    System.out.println(pair.getKey() + " " + pair.getValue());
+                }
+                System.out.println("Weight: " + path.size());
+            }
 //            if (pathDirection != null) {
 //                System.out.println("Change into Direction");
 //                System.out.println("Direction size " + pathDirection.size());

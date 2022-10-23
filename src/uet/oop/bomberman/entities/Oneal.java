@@ -52,11 +52,11 @@ public class Oneal extends Enemy{
         //Todo: Find the way to the Enemy
         if (count % 2 == 0) return;
 
-        if (dist < 5) speed = 2;
+        if (dist < 7) speed = 2;
         else speed = 1;
 
         if (pathDirection != null && pathDirection.size() < 8) {
-//            System.out.println("Found");
+            System.out.println("Found");
             if (pathDirection.size() == 1) {
                 Direction tmp = pathDirection.get(0);
 //                pathDirection.remove(0);
@@ -86,7 +86,7 @@ public class Oneal extends Enemy{
             Sound.attackingWarning.play();
         }
 
-        if (!isDead && dist < 8 && count % 50 == 0) {
+        if (!isDead && dist < 8 && count % 15 == 0) {
             Entity bomber = collision.getMap().getEntities().get(0);
             int endX = Math.round((bomber.getX() + DEFAULT_SIZE) / SCALED_SIZE);
             int endY = Math.round((bomber.getY() + DEFAULT_SIZE) / SCALED_SIZE);

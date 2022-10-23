@@ -57,12 +57,6 @@ public class Doll extends Enemy{
             img = getImg();
             countTimeDeath++;
         }
-
-        if (countTimeDeath == 35) {
-            Balloom b1 = new Balloom(Math.round((x + DEFAULT_SIZE) / SCALED_SIZE), Math.round((y + DEFAULT_SIZE) / SCALED_SIZE),
-                    balloom_right1.getFxImage(), collision, true);
-            collision.getEnemyControl().addEnemy(b1, collision.getMap().getEntities());
-        }
     }
 
     public boolean checkDeath() {

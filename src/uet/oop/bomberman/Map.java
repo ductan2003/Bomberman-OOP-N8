@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static uet.oop.bomberman.graphics.Sprite.*;
+
 public class Map {
     protected List<List<Entity>> map;
     protected int[][] codeList;
@@ -182,6 +184,12 @@ public class Map {
 
             if (entities.get(index) instanceof Doll) {
                 Doll doll = (Doll) entities.get(index);
+                if (doll.getCountTimeDeath()== 35) {
+                    Balloom b1 = new Balloom(Math.round((doll.getX() + DEFAULT_SIZE) / SCALED_SIZE),
+                            Math.round((doll.getY() + DEFAULT_SIZE) / SCALED_SIZE),
+                            balloom_right1.getFxImage(), collision, true);
+                    collision.getEnemyControl().addEnemy(b1, collision.getMap().getEntities());
+                }
                 if (doll.getCountTimeDeath() > 35) {
                     entities.remove(entities.get(index));
                     index--;

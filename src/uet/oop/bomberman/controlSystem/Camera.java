@@ -24,6 +24,9 @@ public class Camera {
         this.width = width;
     }
 
+    /**
+     * Camera follow the bomber.
+     */
     public void update(Entity bomber) {
         //to make bomber at the center of screen
         x = bomber.getX() - Screen.WIDTH * Sprite.DEFAULT_SIZE;
@@ -33,6 +36,7 @@ public class Camera {
         if (x + Screen.WIDTH * Sprite.SCALED_SIZE > width * Sprite.SCALED_SIZE) {
             x = width * Sprite.SCALED_SIZE - Screen.WIDTH * Sprite.SCALED_SIZE;
         }
+
         y = bomber.getY() - Screen.HEIGHT * Sprite.DEFAULT_SIZE;
         if (y < 0) {
             y = 0;

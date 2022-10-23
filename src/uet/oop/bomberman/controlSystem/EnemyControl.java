@@ -10,7 +10,6 @@ import java.util.List;
 public class EnemyControl {
     private List<Enemy> enemyList = new ArrayList<>();
     private BombControl bombControl;
-//    private Collision collision;
     private Map map;
 
     public EnemyControl() {
@@ -18,36 +17,25 @@ public class EnemyControl {
     }
 
     public EnemyControl(BombControl bombControl, Map map) {
-//        this.collision = collision;
         this.map = map;
-//        this.bombControl = bombControl;
-    }
-
-    public void set(BombControl bombControl,Map map) {
         this.bombControl = bombControl;
-        this.map = map;
     }
-
 
     public List<Enemy> getEnemyList() {
         return enemyList;
     }
 
+    /**
+     * add Enemies to the enemyList and entities.
+     */
     public void addEnemy(Enemy enemy, List<Entity> entities) {
         enemyList.add(enemy);
         entities.add(enemy);
     }
 
-//    public boolean collideOtherEnemy() {
-//        for (int i = 0; i < getEnemyList().size(); i++) {
-//            for (int j = i + 1; j < enemyList.size(); j++) {
-//                if (collision.collide(enemyList.get(i), enemyList.get(j)))
-//                    return true;
-//            }
-//        }
-//        return false;
-//    }
-
+    /**
+     * Update Enemy, check Death.
+     */
     public void updateEnemyList() {
         int i = 0;
 
@@ -83,7 +71,5 @@ public class EnemyControl {
             if (!check) i++;
         }
     }
-
-
 
 }

@@ -23,19 +23,9 @@ public class Collision {
         this.map = map;
     }
 
-    public BombControl getBombControl() {
-        return bombControl;
-    }
-
-    public EnemyControl getEnemyControl() {
-        return enemyControl;
-    }
-
-    public Entity getEntity(int xPos, int yPos) {
-        return map.getEntity(xPos, yPos);
-    }
-
-    // add direction to the entity to compare to entity1
+    /**
+     * Check if 2 entities which are not in map collide.
+     */
     public boolean collide(Entity entity, Entity entity1) {
 //        System.out.println(entity.getX() + " " + entity.getY());
 //        System.out.println(entity1.getX() + " " + entity1.getY());
@@ -50,32 +40,44 @@ public class Collision {
                 || contain(entity, coordinates.get(3));
     }
 
+    /**
+     * Check if 2 entities which are not in map collide.
+     */
     public boolean checkCollide(Entity entity, Entity entity1) {
 //        System.out.println(entity.getX() + " " + entity.getY());
 //        System.out.println(entity1.getX() + " " + entity1.getY());
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
         coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX, entity1.getY() + 2 * FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX, entity1.getY() + SCALED_SIZE - 2 * FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX, entity1.getY() + 2 * FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX, entity1.getY() + SCALED_SIZE - 2 * FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX,
+                                                        entity1.getY() + SCALED_SIZE - 2 * FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX,
+                                                        entity1.getY() + 2 * FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX,
+                                                        entity1.getY() + SCALED_SIZE - 2 * FIX));
         return contain(entity, coordinates.get(0))
                 || contain(entity, coordinates.get(1))
                 || contain(entity, coordinates.get(2))
                 || contain(entity, coordinates.get(3));
     }
 
+    /**
+     * Check if 2 entities collide with the coordinate.
+     */
     public boolean collide(Entity entity, int x, int y) {
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
-        coordinates.add(new Pair<Integer, Integer>(x + FIX, y +FIX));
-        coordinates.add(new Pair<Integer, Integer>(x + FIX, y + SCALED_SIZE -FIX));
-        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE -FIX, y +FIX));
-        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE -FIX, y + SCALED_SIZE -FIX));
+        coordinates.add(new Pair<Integer, Integer>(x, y));
+        coordinates.add(new Pair<Integer, Integer>(x, y + SCALED_SIZE));
+        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE, y));
+        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE, y + SCALED_SIZE));
         return contain(entity, coordinates.get(0))
                 || contain(entity, coordinates.get(1))
                 || contain(entity, coordinates.get(2))
                 || contain(entity, coordinates.get(3));
     }
 
+    /**
+     * Check if 2 entities share a position.
+     */
     public boolean contain(Entity entity, Pair<Integer, Integer> point) {
         return (entity.getX() <= point.getKey() &&
                 point.getKey() <= entity.getX() + SCALED_SIZE &&
@@ -83,6 +85,9 @@ public class Collision {
                 entity.getY() + SCALED_SIZE >= point.getValue());
     }
 
+    /**
+     * Check 2 entities which are in map collide.
+     */
     public boolean canMove(int x, int y, int speed, Direction direction) {
         Entity object1;
         Entity object2;
@@ -118,6 +123,9 @@ public class Collision {
         return false;
     }
 
+    /**
+     * Check to see if the next position a Bomb.
+     */
     public boolean isNextPosBomb(Entity entity, Direction direction, int speed) {
         if (bombControl.getBombList().size() == 0) return false;
         int a = getNextXPos(entity, direction, speed);
@@ -128,6 +136,9 @@ public class Collision {
         return false;
     }
 
+    /**
+     * Check to see if the next position an Enemy.
+     */
     public boolean isNextPosEnemy(Entity entity, Direction direction, int speed) {
         int countDuplicate = 0;
         if (enemyControl.getEnemyList().size() == 0) return false;
@@ -140,6 +151,9 @@ public class Collision {
         return false;
     }
 
+    /**
+     * Get next xPos.
+     */
     public int getNextXPos(Entity entity, Direction direction, int speed) {
         int a = entity.getX();
         switch (direction) {
@@ -155,6 +169,9 @@ public class Collision {
         return a;
     }
 
+    /**
+     * Get next YPos.
+     */
     public int getNextYPos(Entity entity, Direction direction, int speed) {
         int b = entity.getY();
         switch (direction) {
@@ -170,14 +187,16 @@ public class Collision {
         return b;
     }
 
-    public Map getMap() {
-        return map;
-    }
-
+    /**
+     * To get a map with 1 is obstacle, 0 is grass.
+     */
     public List<List<Integer>> formatMapData() {
         List<List<Integer>> formatMap = new ArrayList<>();
+
         int height = map.getHeight();
         int width = map.getWidth();
+
+        //Format the entities in map
         for (int i = 0; i < height; i++) {
             List<Integer> row = new ArrayList<>();
             for (int j = 0; j < width; j++) {
@@ -192,6 +211,7 @@ public class Collision {
             formatMap.get(entity.getYMapCoordinate(entity.getY())).set(entity.getXMapCoordinate(entity.getX()), 1);
         }
 
+        //Bomb.
         for (Bomb bomb : bombControl.getBombList()) {
             formatMap.get(bomb.getYMapCoordinate(bomb.getY())).set(bomb.getXMapCoordinate(bomb.getX()), 1);
         }
@@ -199,7 +219,26 @@ public class Collision {
         return formatMap;
     }
 
+    /**
+     * Check if the coordinate valid.
+     */
     public boolean isCoordinateValid(int x, int y) {
         return x >= 0 && x < map.getHeight() && y >= 0 && y < map.getWidth();
+    }
+
+    public BombControl getBombControl() {
+        return bombControl;
+    }
+
+    public EnemyControl getEnemyControl() {
+        return enemyControl;
+    }
+
+    public Entity getEntity(int xPos, int yPos) {
+        return map.getEntity(xPos, yPos);
+    }
+
+    public Map getMap() {
+        return map;
     }
 }

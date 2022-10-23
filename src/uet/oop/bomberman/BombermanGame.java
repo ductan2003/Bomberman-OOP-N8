@@ -43,7 +43,7 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) {
         // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * Screen.WIDTH, Sprite.SCALED_SIZE * Screen.HEIGHT);
+        canvas = new Canvas(Sprite.SCALED_SIZE * Screen.WIDTH, Sprite.SCALED_SIZE * Screen.HEIGHT+20);
         screen = new Screen(canvas);
         Sound.backgroundGame.loop();
 

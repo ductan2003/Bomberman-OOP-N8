@@ -6,11 +6,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.controlSystem.*;
+import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
@@ -24,6 +29,7 @@ public class Bomber extends DestroyableEntity {
     private Direction direction;
     private EnemyControl enemyControl;
     private int timeDead = 0;
+    private long timeRemain;
     private boolean respawn;
     private int timeRespawn;
 
@@ -65,6 +71,7 @@ public class Bomber extends DestroyableEntity {
         count = 0;
         respawn = false;
         timeRespawn = 0;
+        timeRemain = 150;
     }
 
     public void getBomberInfo() {
@@ -143,16 +150,15 @@ public class Bomber extends DestroyableEntity {
                 bombControl.addBomb(newBomb);
                 bombControl.setHasJustSetBomb(true);
             }
-        } else if(keyEvent.pressed(KeyCode.P)){
-            if(GameMenu.gameState == GameMenu.GAME_STATE.IN_PLAY) GameMenu.gameState = GameMenu.GAME_STATE.IN_PAUSE;
-        }
-        else if(keyEvent.pressed(KeyCode.E)){
-            if(GameMenu.gameState != GameMenu.GAME_STATE.END) GameMenu.gameState = GameMenu.GAME_STATE.END;
-        }
-        else count = 0;
+        } else if (keyEvent.pressed(KeyCode.P)) {
+            if (GameMenu.gameState == GameMenu.GAME_STATE.IN_PLAY) GameMenu.gameState = GameMenu.GAME_STATE.IN_PAUSE;
+        } else if (keyEvent.pressed(KeyCode.E)) {
+            if (GameMenu.gameState != GameMenu.GAME_STATE.END) GameMenu.gameState = GameMenu.GAME_STATE.END;
+        } else count = 0;
         img = getImg(getDirection());
         updateItems();
         bombControl.updateBomb();
+        timeRemain = 150 - (Timer.now() - collisionManage.getMap().getTime_begin()) / 100000000;
     }
 
     public void updateItems() {
@@ -161,8 +167,7 @@ public class Bomber extends DestroyableEntity {
             int nextLevel = collisionManage.getMap().getLevel() + 1;
             if (nextLevel <= 2) {
                 BombermanGame.map.createMap(nextLevel, keyEvent);
-            }
-            else {
+            } else {
                 BombermanGame.map.setIsWin(true);
                 GameMenu.gameState = GameMenu.GAME_STATE.IN_END_STATE;
             }
@@ -214,6 +219,17 @@ public class Bomber extends DestroyableEntity {
     public void render(GraphicsContext gc, Camera camera) {
         bombControl.renderBombs(gc, camera);
         super.render(gc, camera);
+        for (int i = 0; i < lives; i++) {
+            gc.drawImage(heart.getFxImage(), (Screen.WIDTH - 7) * SCALED_SIZE + i * 20, Screen.HEIGHT * SCALED_SIZE);
+        }
+
+        try {
+            gc.setFont(Font.loadFont(Files.newInputStream(Paths.get("res/font/Future Techno Italic 400.ttf")), 20));
+            gc.fillText("Time: " + timeRemain, 4 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     public boolean checkCanMove(int x, int y, int speed, Direction direction) {

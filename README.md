@@ -19,7 +19,7 @@
    * ![SpeedItem](https://user-images.githubusercontent.com/100295385/197391868-5c0a8d80-b31c-4981-9a77-255b670719a4.png) *Speed Item* tăng tốc Pikachu.
    * ![FlameItem](https://user-images.githubusercontent.com/100295385/197392001-c11e0a0b-e693-44f9-af0f-a42a790f027f.png) *Flame Item* tăng độ dài của Flame.
    * ![BombItem](https://user-images.githubusercontent.com/100295385/197392139-fd5c3661-0308-448e-8202-e5c965880a61.png) *Bomb Item* được đặt Bomb liên tục.
-   * ![BombPassItem](https://user-images.githubusercontent.com/100295385/197392216-e24d859f-5381-414c-ae0c-3866a7be056a.png) *BombPass Item*
+   * ![BombPassItem](https://user-images.githubusercontent.com/100295385/197392216-e24d859f-5381-414c-ae0c-3866a7be056a.png) *BombPass Item* để Pikachu có thể đi qua Bomb.
 * *Enemy* là đối tượng mà Pikachu phải tiêu diệt hết để có thể qua màn chơi mới. Tùy loại enemy mà có chức năng khác nhau. Các Enemy được sử dụng trong trò chơi như sau:
    * ![Balloom](https://user-images.githubusercontent.com/100295385/197356275-0f04c45b-2c04-4962-86b3-7b59a88c18ca.png) *Balloom* là Enemy đơn giản nhất, di chuyển ngẫu nhiên với tốc độ cố định.
    * ![Oneal](https://user-images.githubusercontent.com/100295385/197356374-69d59524-e8fc-4c27-9901-df55ea1fa632.png) *Oneal* là Enemy có thể tìm được đường đi đến Pikachu trong một bán kính nhất định (Sử dụng thuật toán BFS), Oneal sẽ tăng tốc nếu tìm được Pikachu.

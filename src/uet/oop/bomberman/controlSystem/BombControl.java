@@ -85,32 +85,6 @@ public class BombControl {
         return false;
     }
 
-//    public boolean isNextPosBomb(Entity entity, Direction direction, int speed) {
-//        if (bombList.size() == 0) return false;
-//        int a = entity.getX();
-//        int b = entity.getY();
-//        switch (direction) {
-//            case LEFT:
-//                a -= speed;
-//                break;
-//            case RIGHT:
-//                a += speed;
-//                break;
-//            case DOWN:
-//                b += speed;
-//                break;
-//            case UP:
-//                b -= speed;
-//                break;
-//            default:
-//                break;
-//        }
-//        for (int i = 0; i < bombList.size(); i++) {
-//            if (collisionManage.collide(bombList.get(i), a, b)) return true;
-//        }
-//        return false;
-//    }
-
     public void bombExplode(int index) {
         Bomb bomb = bombList.get(index);
         int[] valX = {-1, 1, 0, 0};
@@ -128,6 +102,13 @@ public class BombControl {
                 Flame.TYPE type = Flame.TYPE.BODY;
                 if (i == power) type = Flame.TYPE.LAST;
                 if (valCheck[j]) {
+                    for (int k = 0; k<bombList.size();k++) {
+                        if (bombList.get(k).getX()/SCALED_SIZE == posX && bombList.get(k).getY()/SCALED_SIZE == posY) {
+                            bombList.get(k).setExploded(true);
+                            valCheck[j] = false;
+                            break;
+                        }
+                    }
 
                     if (!(map.getMap().get(posY).get(posX) instanceof Obstacle)) {
                         flameList.add(new Flame(posX, posY, valD[j], type, map));

@@ -28,6 +28,7 @@ public class Map {
 
     protected int startxPos = 1;
     protected int startyPos = 1;
+    protected long time_begin;
 
     protected boolean isWin = false;
     public void setIsWin(boolean is){
@@ -57,6 +58,7 @@ public class Map {
         map = new ArrayList<>();
         entities = new ArrayList<>();
         this.level = level;
+        time_begin = Timer.now();
 
         numberBomberDie = 0;
         numberBomberLife = 3;
@@ -242,4 +244,7 @@ public class Map {
         return width;
     }
 
+    public long getTime_begin() {
+        return time_begin;
+    }
 }

@@ -45,7 +45,7 @@ public abstract class Entity {
     protected Image img;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
-    public Entity( int xUnit, int yUnit, Image img) {
+    public Entity(int xUnit, int yUnit, Image img) {
         this.x = xUnit * SCALED_SIZE;
         this.y = yUnit * SCALED_SIZE;
         this.img = img;
@@ -75,6 +75,10 @@ public abstract class Entity {
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }
-    public void render(GraphicsContext gc, Camera camera) {gc.drawImage(img,x- camera.getX(),y-camera.getY());}
+
+    public void render(GraphicsContext gc, Camera camera) {
+        gc.drawImage(img, x - camera.getX(), y - camera.getY());
+    }
+
     public abstract void update();
 }

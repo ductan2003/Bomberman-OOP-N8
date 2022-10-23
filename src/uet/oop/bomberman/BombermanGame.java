@@ -98,6 +98,7 @@ public class BombermanGame extends Application {
     }
 
     public void render() {
+        screen.clearScreen(canvas);
         switch (menu.getGameState()) {
 
             case IN_MENU:
@@ -107,7 +108,6 @@ public class BombermanGame extends Application {
                 break;
 
             case IN_PLAY:
-                screen.clearScreen(canvas);
                 screen.renderMap(map);
                 break;
 

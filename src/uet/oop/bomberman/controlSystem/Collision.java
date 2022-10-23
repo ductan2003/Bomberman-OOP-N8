@@ -54,10 +54,10 @@ public class Collision {
 //        System.out.println(entity.getX() + " " + entity.getY());
 //        System.out.println(entity1.getX() + " " + entity1.getY());
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2*FIX, entity1.getY() + 2*FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2*FIX, entity1.getY() + SCALED_SIZE - 2*FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2*FIX, entity1.getY() + 2*FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2*FIX, entity1.getY() + SCALED_SIZE - 2*FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX, entity1.getY() + 2 * FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX, entity1.getY() + SCALED_SIZE - 2 * FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX, entity1.getY() + 2 * FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX, entity1.getY() + SCALED_SIZE - 2 * FIX));
         return contain(entity, coordinates.get(0))
                 || contain(entity, coordinates.get(1))
                 || contain(entity, coordinates.get(2))
@@ -66,10 +66,10 @@ public class Collision {
 
     public boolean collide(Entity entity, int x, int y) {
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
-        coordinates.add(new Pair<Integer, Integer>(x, y));
-        coordinates.add(new Pair<Integer, Integer>(x, y + SCALED_SIZE));
-        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE, y));
-        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE, y + SCALED_SIZE));
+        coordinates.add(new Pair<Integer, Integer>(x + FIX, y +FIX));
+        coordinates.add(new Pair<Integer, Integer>(x + FIX, y + SCALED_SIZE -FIX));
+        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE -FIX, y +FIX));
+        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE -FIX, y + SCALED_SIZE -FIX));
         return contain(entity, coordinates.get(0))
                 || contain(entity, coordinates.get(1))
                 || contain(entity, coordinates.get(2))

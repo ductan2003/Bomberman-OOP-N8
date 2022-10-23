@@ -1,11 +1,13 @@
 package uet.oop.bomberman.graphics;
 
+import com.sun.webkit.dom.TextImpl;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.controlSystem.GameMenu;
+import uet.oop.bomberman.controlSystem.Timer;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,14 +38,15 @@ public class Screen {
 
 
     public void renderMenu(GameMenu menu) {
-            gc.drawImage(backGroundMenu, 0, 0, WIDTH * Sprite.SCALED_SIZE, HEIGHT * Sprite.SCALED_SIZE);
-            menu.render(gc);
-        }
+        gc.drawImage(backGroundMenu, 0, 0, WIDTH * Sprite.SCALED_SIZE, HEIGHT * Sprite.SCALED_SIZE);
+        menu.render(gc);
+    }
     public void renderMap(Map map) {
         for (int i = 0; i < map.getMap().size(); i++) {
             map.getMap().get(i).forEach(g -> g.render(gc, map.getCamera()));
         }
         map.getEntities().forEach(g -> g.render(gc,map.getCamera()));
+        long time = Timer.now() - map.getTime_begin();
 
     }
 

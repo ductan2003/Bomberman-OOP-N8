@@ -164,6 +164,29 @@ public class Map {
                 camera.update(bomber);
                 bomber.getBombControl().updateBomb();
             }
+            if (entities.get(index) instanceof Balloom) {
+                Balloom balloom = (Balloom) entities.get(index);
+                if (balloom.getCountTimeDeath() > 35) {
+                    entities.remove(entities.get(index));
+                    index--;
+                }
+            }
+
+            if (entities.get(index) instanceof Oneal) {
+                Oneal oneal = (Oneal) entities.get(index);
+                if (oneal.getCountTimeDeath() > 35) {
+                    entities.remove(entities.get(index));
+                    index--;
+                }
+            }
+
+            if (entities.get(index) instanceof Doll) {
+                Doll doll = (Doll) entities.get(index);
+                if (doll.getCountTimeDeath() > 35) {
+                    entities.remove(entities.get(index));
+                    index--;
+                }
+            }
         }
 
     }

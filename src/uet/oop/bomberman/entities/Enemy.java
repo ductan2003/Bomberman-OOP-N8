@@ -28,10 +28,6 @@ public class Enemy extends DestroyableEntity {
     protected int dist;
     protected static int[] FIX_LENGTH = {0, -4, 4};
 
-//    public Enemy(int xUnit, int yUnit, Image img) {
-//        super(xUnit, yUnit, img);
-//    }
-
     public Enemy(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         direction = RIGHT;
@@ -212,7 +208,6 @@ public class Enemy extends DestroyableEntity {
                 int newX = tmp.getKey() + dx[i];
                 int newY = tmp.getValue() + dy[i];
 
-//                if (collision.isCoordinateValid(newX, newY) && !visited[newX][newY] && formatMap.get(newX).get(newY) == 0) {
                 if (collision.isCoordinateValid(newX, newY) && formatMap.get(newX).get(newY) == 0) {
                     if (!visited[newX][newY]) {
                         q.add(new Pair<>(newX, newY));
@@ -250,9 +245,6 @@ public class Enemy extends DestroyableEntity {
             X = last[tmpX][tmpY].getKey();
             Y = last[tmpX][tmpY].getValue();
         }
-//        if (count % 30 == 0) {
-//            System.out.println("Weight " + distance[endX][endY]);
-//        }
         return pathCoordinate;
     }
 
@@ -297,8 +289,6 @@ public class Enemy extends DestroyableEntity {
                         break;
                     }
                 }
-//                y += speed;
-//                setDirection(DOWN);
                 break;
             case UP:
                 for (int i = 0; i < FIX_LENGTH.length; i++) {
@@ -309,8 +299,6 @@ public class Enemy extends DestroyableEntity {
                         break;
                     }
                 }
-//                y -= speed;
-//                setDirection(UP);
                 break;
             case RIGHT:
                 for (int i = 0; i < FIX_LENGTH.length; i++) {
@@ -321,8 +309,6 @@ public class Enemy extends DestroyableEntity {
                         break;
                     }
                 }
-//                x += speed;
-//                setDirection(RIGHT);
                 break;
             case LEFT:
                 for (int i = 0; i < FIX_LENGTH.length; i++) {
@@ -333,8 +319,6 @@ public class Enemy extends DestroyableEntity {
                         break;
                     }
                 }
-//                x -= speed;
-//                setDirection(LEFT);
                 break;
         }
     }

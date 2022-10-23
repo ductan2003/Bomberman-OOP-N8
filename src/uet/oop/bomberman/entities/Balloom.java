@@ -38,7 +38,15 @@ public class Balloom extends Enemy{
         super.setDead(dead);
     }
 
+    public int getCountTimeDeath() {
+        return countTimeDeath;
+    }
+
     public void update() {
+        if (countTimeDeath > 35) {
+            return;
+        }
+
         if (bornByDoll) {
             skipBombNewBorn++;
         }

@@ -3,10 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
-import uet.oop.bomberman.controlSystem.BombControl;
-import uet.oop.bomberman.controlSystem.Camera;
-import uet.oop.bomberman.controlSystem.Collision;
-import uet.oop.bomberman.controlSystem.Direction;
+import uet.oop.bomberman.controlSystem.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -47,26 +44,22 @@ public class Oneal extends Enemy{
         dist = (int) Math.round(Math.sqrt((startX - endX) * (startX - endX) + (startY - endY) * (startY - endY)));
     }
 
+    public int getCountTimeDeath() {
+        return countTimeDeath;
+    }
+
     public void go() {
         //Todo: Find the way to the Enemy
         if (count % 2 == 0) return;
 
-        if (dist < 8) speed = 2;
+        if (dist < 5) speed = 2;
         else speed = 1;
 
         if (pathDirection != null && pathDirection.size() < 8) {
-//            for (Pair<Integer, Integer> pair:path){
-//                System.out.println(pair.getKey() + " " + pair.getValue());
-//            }
-//            System.out.println();
-//            if (pathDirection.size() < 4) {
-//                speed = 2;
-//            }
-//            speed = 2;
-            System.out.println("Found");
+//            System.out.println("Found");
             if (pathDirection.size() == 1) {
                 Direction tmp = pathDirection.get(0);
-                pathDirection.remove(0);
+//                pathDirection.remove(0);
                 goByDirection(collision, tmp);
             } else {
                 Direction tmp = pathDirection.get(0);
@@ -83,8 +76,17 @@ public class Oneal extends Enemy{
     }
 
     public void update() {
+        if (countTimeDeath > 35) {
+            return;
+//            collision.getMap().getEntities().remove(this);
+        }
+
         updateDist();
-        if (!isDead && dist < 8 && count % 10 == 0) {
+        if (dist < 8) {
+            Sound.attackingWarning.play();
+        }
+
+        if (!isDead && dist < 8 && count % 50 == 0) {
             Entity bomber = collision.getMap().getEntities().get(0);
             int endX = Math.round((bomber.getX() + DEFAULT_SIZE) / SCALED_SIZE);
             int endY = Math.round((bomber.getY() + DEFAULT_SIZE) / SCALED_SIZE);
@@ -137,7 +139,6 @@ public class Oneal extends Enemy{
             gc.drawImage(img, x - camera.getX(), y - camera.getY());
         if (status == Status.DEAD && countTimeDeath < 35) {
             gc.drawImage(img, x - camera.getX(), y - camera.getY());
-//            System.out.println("Render Death Enemy");
         }
     }
 

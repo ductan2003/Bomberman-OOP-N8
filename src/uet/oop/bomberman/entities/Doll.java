@@ -32,6 +32,10 @@ public class Doll extends Enemy{
         super.setDead(dead);
     }
 
+    public int getCountTimeDeath() {
+        return countTimeDeath;
+    }
+
     @Override
     public void go(Collision collision) {
         if (count % 4 == 1) {
@@ -40,6 +44,10 @@ public class Doll extends Enemy{
     }
 
     public void update() {
+        if (countTimeDeath > 70) {
+            return;
+//            collision.getMap().getEntities().remove(this);
+        }
         if (!isDead) {
             count++;
             go(collision);
@@ -50,12 +58,11 @@ public class Doll extends Enemy{
             countTimeDeath++;
         }
 
-        if (countTimeDeath == 35 || countTimeDeath == 70) {
+        if (countTimeDeath == 35) {
             Balloom b1 = new Balloom(Math.round((x + DEFAULT_SIZE) / SCALED_SIZE), Math.round((y + DEFAULT_SIZE) / SCALED_SIZE),
                     balloom_right1.getFxImage(), collision, true);
             collision.getEnemyControl().addEnemy(b1, collision.getMap().getEntities());
         }
-
     }
 
     public boolean checkDeath() {
@@ -90,5 +97,4 @@ public class Doll extends Enemy{
             gc.drawImage(img, x - camera.getX(), y - camera.getY());
         }
     }
-
 }

@@ -16,5 +16,7 @@ public class Sound {
     public static SoundPlay menuMove = new SoundPlay("res\\sound\\menuMove.wav");
     public static SoundPlay menuSelect = new SoundPlay("res\\sound\\menuSelect.wav");
 
+    public static SoundPlay attackingWarning = new SoundPlay("res\\sound\\attackwarning.wav");
+
 
 }

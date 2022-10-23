@@ -73,9 +73,7 @@ public class Bomber extends DestroyableEntity {
 
     @Override
     public void update() {
-//        bombControl.updateBombList();
         enemyControl.updateEnemyList();
-//        System.out.println(enemyControl.getEnemyList().size());
         if (isCollideEnemy() && !respawn) {
             lives--;
             if (lives == 0) {
@@ -91,69 +89,56 @@ public class Bomber extends DestroyableEntity {
                 if (collisionManage.collide(this, bombControl.getBombList().get(i))) {
                     bombControl.setHasJustSetBomb(true);
                     check = true;
-//                    System.out.println("Through Bomb false");
                 }
             }
             if (!check) bombControl.setHasJustSetBomb(false);
-//            System.out.println("Bombs num: " + bombControl.getBombList().size());
         }
 
         if (keyEvent.pressed(KeyCode.UP)) {
             for (int i = 0; i < FIX_LENGTH.length; i++) {
-//            if ((collisionManage.canMove(x, y, speed, UP) && !bombControl.isNextPosBomb(this, UP, speed)) || bombControl.HasJustSetBomb()) {
                 if (checkCanMove(x + FIX_LENGTH[i], y, speed, UP)) {
                     y -= speed;
                     x = x + FIX_LENGTH[i];
                     setDirection(UP);
-//                getBomberInfo();
                     count++;
                     break;
                 }
             }
         } else if (keyEvent.pressed(KeyCode.DOWN)) {
-//            if ((collisionManage.canMove(x, y, speed, DOWN) && !bombControl.isNextPosBomb(this, DOWN, speed))|| bombControl.HasJustSetBomb()) {
             for (int i = 0; i < FIX_LENGTH.length; i++) {
                 if (checkCanMove(x + FIX_LENGTH[i], y, speed, DOWN)) {
                     y += speed;
                     x = x + FIX_LENGTH[i];
                     setDirection(DOWN);
-//                getBomberInfo();
                     count++;
                     break;
                 }
             }
 
         } else if (keyEvent.pressed(KeyCode.LEFT)) {
-//            if ((collisionManage.canMove(x, y, speed, LEFT) && !bombControl.isNextPosBomb(this, LEFT, speed)) || bombControl.HasJustSetBomb()) {
             for (int i = 0; i < FIX_LENGTH.length; i++) {
                 if (checkCanMove(x, y + FIX_LENGTH[i], speed, LEFT)) {
                     x -= speed;
                     y = y + FIX_LENGTH[i];
                     setDirection(LEFT);
-//                getBomberInfo();
                     count++;
                     break;
                 }
             }
         } else if (keyEvent.pressed(KeyCode.RIGHT)) {
-//            if ((collisionManage.canMove(x, y, speed, RIGHT) && !bombControl.isNextPosBomb(this, RIGHT, speed)) || bombControl.HasJustSetBomb()) {
-
             for (int i = 0; i < FIX_LENGTH.length; i++) {
                 if (checkCanMove(x, y + FIX_LENGTH[i], speed, RIGHT)) {
                     x += speed;
                     y = y + FIX_LENGTH[i];
                     setDirection(RIGHT);
-//                getBomberInfo();
                     count++;
                     break;
                 }
             }
         } else if (keyEvent.pressed(KeyCode.SPACE)) {
-//            getBomberInfo();
             int xPos = Math.round(getXMapCoordinate(x + SCALED_SIZE / 2));
             int yPos = Math.round(getYMapCoordinate(y + SCALED_SIZE / 2));
             if (bombControl.canSetBomb(xPos, yPos, getDirection()) && !isDead) {
-                System.out.println("Add Bomb");
                 Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage());
                 bombControl.addBomb(newBomb);
                 bombControl.setHasJustSetBomb(true);

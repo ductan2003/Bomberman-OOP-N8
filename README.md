@@ -37,9 +37,8 @@
 
 * Pikachu sẽ có 3 mạng để chơi trong toàn bộ trò chơi. Pikachu sẽ bị mất mạng mỗi khi va chạm với Enemy hoặc bị dính với các tia lửa phát ra khi Bomb nổ. Khi hết 3 mạng, trò chơi sẽ kết thúc.
 * Khi Bomb nổ, tại vị trí đặt Bomb có một Flame trung tâm ![FlameCenter](https://user-images.githubusercontent.com/100295385/197356986-714a8727-e7db-480e-a618-4ac4c09c5675.png), và 4 Flame khác tại 4 vị trí ô đơn vị xung quang Flame trung tâm theo 4 hướng. Độ dài của 4 Flame này mặc định là 1, Pikachu có thể tăng độ dài 4 Flame này bằng cách ăn và sử dụng các Item.
-* **Insert cơ chế đặt Bomb zô đây, Delay BombTime ra shao**
-* Khi Flame gặp các vật chắn như Brick/ Wall xuất hiện thì những đối tượng bên cạnh tiếp theo không bị ảnh hưởng. **Insert nếu ăn được BombItem đặt Bomb liên tục, nếu Flame dính vô Bomb gần í thì sao**
-* **Pikachu có max speed kh**
+* Chỉ đặt được một số lượng bomb nhất định một lúc, có thể tăng số lượng này bằng cách ăn BombItem.
+* Khi Flame gặp các vật chắn như Brick/ Wall xuất hiện thì những đối tượng bên cạnh tiếp theo không bị ảnh hưởng. 
 * Các Items được ăn chỉ được sử dụng trong một màn chơi và được reset lại khi sang mang chơi sau.
 
 ## 4. Tóm tắt các tính năng được cài đặt

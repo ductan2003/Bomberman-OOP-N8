@@ -23,7 +23,7 @@
 * *Enemy* là đối tượng mà Pikachu phải tiêu diệt hết để có thể qua màn chơi mới. Tùy loại enemy mà có chức năng khác nhau. Các Enemy được sử dụng trong trò chơi như sau:
    * ![Balloom](https://user-images.githubusercontent.com/100295385/197356275-0f04c45b-2c04-4962-86b3-7b59a88c18ca.png) *Balloom* là Enemy đơn giản nhất, di chuyển ngẫu nhiên với tốc độ cố định.
    * ![Oneal](https://user-images.githubusercontent.com/100295385/197356374-69d59524-e8fc-4c27-9901-df55ea1fa632.png) *Oneal* là Enemy có thể tìm được đường đi đến Pikachu trong một bán kính nhất định (Sử dụng thuật toán BFS), Oneal sẽ tăng tốc nếu tìm được Pikachu.
-   * ![Doll](https://user-images.githubusercontent.com/100295385/197376461-8b5d6e5c-713f-4113-b1fb-d1abdc4f1f96.png) *Doll* là Enemy di chuyển ngẫu nhiên và châm nhất. Sau khi chết, Doll lần lượt sẽ sinh ra 2 Balloom mới với tốc độ nhanh hơn Balloom bình thường.
+   * ![Doll](https://user-images.githubusercontent.com/100295385/197376461-8b5d6e5c-713f-4113-b1fb-d1abdc4f1f96.png) *Doll* là Enemy di chuyển ngẫu nhiên và châm nhất. Sau khi chết, Doll lần lượt sẽ sinh ra 1 Balloom mới với tốc độ nhanh hơn Balloom bình thường.
 
    
 ## 3. Mô tả game play
@@ -54,7 +54,7 @@
    * Xử lý Bomb nổ.
    * Xử lý khi Bomber(Pikachu) sử dụng Item và đi vào Portal.
 * Tùy chọn
-   * Tìm thuật toán tìm đường cho Enemy.
+   * Tìm thuật toán tìm đường cho Enemy, cài đặt thêm 1 Enemy Doll.
    * Thêm hiệu ứng âm thanh.
    
 ## 5. Hình ảnh demo

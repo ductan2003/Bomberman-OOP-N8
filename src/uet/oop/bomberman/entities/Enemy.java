@@ -17,14 +17,16 @@ import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.graphics.Sprite.DEFAULT_SIZE;
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
-public class Enemy extends DestroyableEntity{
+public class Enemy extends DestroyableEntity {
     protected enum Status {
         ALIVE, DEAD,
     }
+
     Direction direction;
     protected Status status;
-
     public int count = 0;
+    protected int dist;
+    protected static int[] FIX_LENGTH = {0, -4, 4};
 
 //    public Enemy(int xUnit, int yUnit, Image img) {
 //        super(xUnit, yUnit, img);
@@ -49,6 +51,10 @@ public class Enemy extends DestroyableEntity{
         Sound.enemyDie.play();
     }
 
+    public void updateDist() {
+        return;
+    }
+
     public void render() {
 
     }
@@ -58,12 +64,11 @@ public class Enemy extends DestroyableEntity{
         if (count % 2 == 0) return;
 
         //go
-        if (getDirection() == RIGHT ) {
+        if (getDirection() == RIGHT) {
             if (!collision.isNextPosBomb(this, RIGHT, speed)) {
                 if (goRight(collision)) {
                     return;
-                }
-                else {
+                } else {
                     goRand(collision);
                 }
             } else {
@@ -75,8 +80,7 @@ public class Enemy extends DestroyableEntity{
             if (!collision.isNextPosBomb(this, LEFT, speed)) {
                 if (goLeft(collision)) {
                     return;
-                }
-                else {
+                } else {
                     goRand(collision);
                 }
             } else {
@@ -88,8 +92,7 @@ public class Enemy extends DestroyableEntity{
             if (!collision.isNextPosBomb(this, DOWN, speed)) {
                 if (goDown(collision)) {
                     return;
-                }
-                else {
+                } else {
                     goRand(collision);
                 }
             } else {
@@ -102,8 +105,7 @@ public class Enemy extends DestroyableEntity{
             if (!collision.isNextPosBomb(this, UP, speed)) {
                 if (goUp(collision)) {
                     return;
-                }
-                else {
+                } else {
                     goRand(collision);
                 }
             } else {
@@ -113,102 +115,81 @@ public class Enemy extends DestroyableEntity{
         }
 
     }
+
     public boolean goLeft(Collision collision) {
-        if (collision.canMove(x, y, speed, LEFT)
-                && !collision.isNextPosEnemy(this, LEFT, speed)
-                && !collision.isNextPosItem(this, LEFT, speed)) {
+        if (canGoByDirection(collision, LEFT)) {
             x -= speed;
             setDirection(LEFT);
-//            System.out.println("Enemy " + getDirection());
             return true;
         }
         return false;
     }
 
     public boolean goRight(Collision collision) {
-        if (collision.canMove(x, y, speed, RIGHT) && !collision.isNextPosEnemy(this, RIGHT, speed)
-                && !collision.isNextPosItem(this, RIGHT, speed)) {
+        if (canGoByDirection(collision, RIGHT)) {
             x += speed;
             setDirection(RIGHT);
-//            System.out.println("Enemy " + getDirection());
             return true;
         }
         return false;
     }
 
     public boolean goUp(Collision collision) {
-        if (collision.canMove(x, y, speed, UP)
-                && !collision.isNextPosEnemy(this, UP, speed)
-                && !collision.isNextPosItem(this, UP, speed)) {
+        if (canGoByDirection(collision, UP)) {
             y -= speed;
             setDirection(UP);
-//            System.out.println("Enemy " + getDirection());
             return true;
         }
         return false;
     }
 
     public boolean goDown(Collision collision) {
-        if (collision.canMove(x, y, speed, DOWN)
-                && !collision.isNextPosEnemy(this, DOWN, speed)
-                && !collision.isNextPosItem(this, DOWN, speed)) {
+        if (canGoByDirection(collision, DOWN)) {
             y += speed;
             setDirection(DOWN);
-//            System.out.println("Enemy " + getDirection());
             return true;
         }
         return false;
     }
 
     public void goRand(Collision collision) {
-        int rand = (int)(Math.random() * 4);
+        int rand = (int) (Math.random() * 4);
         switch (rand) {
             case 0:
-                if(goDown(collision)) return;
-                if(goLeft(collision)) return;
-                if(goUp(collision)) return;
-                if(goRight(collision)) return;
+                if (goDown(collision)) return;
+                if (goLeft(collision)) return;
+                if (goUp(collision)) return;
+                if (goRight(collision)) return;
             case 1:
-                if(goLeft(collision)) return;
-                if(goUp(collision)) return;
-                if(goRight(collision)) return;
-                if(goDown(collision)) return;
+                if (goLeft(collision)) return;
+                if (goUp(collision)) return;
+                if (goRight(collision)) return;
+                if (goDown(collision)) return;
             case 2:
-                if(goUp(collision)) return;
-                if(goRight(collision)) return;
-                if(goDown(collision)) return;
-                if(goLeft(collision)) return;
+                if (goUp(collision)) return;
+                if (goRight(collision)) return;
+                if (goDown(collision)) return;
+                if (goLeft(collision)) return;
             case 3:
-                if(goRight(collision)) return;
-                if(goDown(collision)) return;
-                if(goLeft(collision)) return;
-                if(goUp(collision)) return;
+                if (goRight(collision)) return;
+                if (goDown(collision)) return;
+                if (goLeft(collision)) return;
+                if (goUp(collision)) return;
         }
     }
 
     public List<Pair<Integer, Integer>> getCoordinateDirection(Collision collision, int endX, int endY) {
         List<List<Integer>> formatMap = collision.formatMapData();
-//        int startX = getXMapCoordinate(y);
-//        int startY = getYMapCoordinate(x);
+        int height = collision.getMap().getHeight();
+        int width = collision.getMap().getWidth();
 
         int startX = Math.round((y + DEFAULT_SIZE) / SCALED_SIZE);
         int startY = Math.round((x + DEFAULT_SIZE) / SCALED_SIZE);
 
         if (startX == endX && startY == endY) return null;
+
         formatMap.get(endX).set(endY, 0);
         formatMap.get(startX).set(startY, 0);
-
-        int dist = (int) Math.round(Math.sqrt((startX - endX) * (startX - endX) + (startY - endY) * (startY - endY)));
-        if (dist > 8) return null;
-
-////        System.out.println(startX + " " + startY);
-//        if (count % 50 == 0) {
-//            System.out.println("Bomber " + endX + " " + endY);
-//            System.out.println("Oneal " + startX + " " + startY);
-//        }
-
-        int height = collision.getMap().getHeight();
-        int width = collision.getMap().getWidth();
 
         Queue<Pair<Integer, Integer>> q = new LinkedList<>();
         q.add(new Pair<>(startX, startY));
@@ -269,9 +250,9 @@ public class Enemy extends DestroyableEntity{
             X = last[tmpX][tmpY].getKey();
             Y = last[tmpX][tmpY].getValue();
         }
-        if (count % 30 == 0) {
-            System.out.println("Weight " + distance[endX][endY]);
-        }
+//        if (count % 30 == 0) {
+//            System.out.println("Weight " + distance[endX][endY]);
+//        }
         return pathCoordinate;
     }
 
@@ -295,27 +276,65 @@ public class Enemy extends DestroyableEntity{
     }
 
     public boolean canGoByDirection(Collision collision, Direction direction) {
-        return (collision.canMove(x, y, speed, direction) && !collision.isNextPosEnemy(this, direction, speed)
-                && !collision.isNextPosBomb(this, direction, speed) && !collision.isNextPosItem(this, direction, speed));
+        return (collision.canMove(x, y, speed, direction) && !collision.isNextPosEnemy(this, direction, speed));
+//                && !collision.isNextPosBomb(this, direction, speed));
     }
+
+    public boolean checkCanMove(int x, int y, int speed, Direction direction, Collision collision) {
+        return (collision.canMove(x, y, speed, direction) && !collision.isNextPosEnemy(this, direction, speed)
+                && !collision.isNextPosBomb(this, direction, speed));
+    }
+
 
     public void goByDirection(Collision collision, Direction direction) {
         switch (direction) {
             case DOWN:
-                y += speed;
-                setDirection(DOWN);
+                for (int i = 0; i < FIX_LENGTH.length; i++) {
+                    if (checkCanMove(x + FIX_LENGTH[i], y, speed, DOWN, collision)) {
+                        y += speed;
+                        x = x + FIX_LENGTH[i];
+                        setDirection(DOWN);
+                        break;
+                    }
+                }
+//                y += speed;
+//                setDirection(DOWN);
                 break;
             case UP:
-                y -= speed;
-                setDirection(UP);
+                for (int i = 0; i < FIX_LENGTH.length; i++) {
+                    if (checkCanMove(x + FIX_LENGTH[i], y, speed, UP, collision)) {
+                        y -= speed;
+                        x = x + FIX_LENGTH[i];
+                        setDirection(UP);
+                        break;
+                    }
+                }
+//                y -= speed;
+//                setDirection(UP);
                 break;
             case RIGHT:
-                x += speed;
-                setDirection(RIGHT);
+                for (int i = 0; i < FIX_LENGTH.length; i++) {
+                    if (checkCanMove(x, y + FIX_LENGTH[i], speed, RIGHT, collision)) {
+                        x += speed;
+                        y = y + FIX_LENGTH[i];
+                        setDirection(RIGHT);
+                        break;
+                    }
+                }
+//                x += speed;
+//                setDirection(RIGHT);
                 break;
             case LEFT:
-                x -= speed;
-                setDirection(LEFT);
+                for (int i = 0; i < FIX_LENGTH.length; i++) {
+                    if (checkCanMove(x, y + FIX_LENGTH[i], speed, LEFT, collision)) {
+                        x -= speed;
+                        y = y + FIX_LENGTH[i];
+                        setDirection(LEFT);
+                        break;
+                    }
+                }
+//                x -= speed;
+//                setDirection(LEFT);
                 break;
         }
     }

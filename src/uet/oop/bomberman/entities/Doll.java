@@ -2,35 +2,29 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.controlSystem.*;
+import uet.oop.bomberman.controlSystem.Camera;
+import uet.oop.bomberman.controlSystem.Collision;
+import uet.oop.bomberman.controlSystem.Direction;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
+import static uet.oop.bomberman.controlSystem.Direction.DOWN;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
-public class Balloom extends Enemy{
+public class Doll extends Enemy{
     private Collision collision;
     private int countTimeDeath = 0;
-    private boolean bornByDoll;
-    private int skipBombNewBorn;
 
-//    public Balloom(int xUnit, int yUnit, Image img) {
-//        super(xUnit, yUnit, img);
-//        speed = 1;
-//        bornByDoll = false;
-//    }
+    public Doll(int xUnit, int yUnit, Image img) {
+        super(xUnit, yUnit, img);
+    }
 
-    public Balloom(int xUnit, int yUnit, Image img, Collision collision, boolean bornByDoll) {
+    public Doll(int xUnit, int yUnit, Image img, Collision collision) {
         super(xUnit, yUnit, img);
         speed = 1;
         this.collision = collision;
-        direction = RIGHT;
+        direction = LEFT;
         this.status = Status.ALIVE;
         countTimeDeath = 0;
-        this.bornByDoll = bornByDoll;
-        if (bornByDoll) {
-            skipBombNewBorn = 0;
-            speed = 2;
-        }
     }
 
     @Override
@@ -38,30 +32,37 @@ public class Balloom extends Enemy{
         super.setDead(dead);
     }
 
-    public void update() {
-        if (bornByDoll) {
-            skipBombNewBorn++;
+    @Override
+    public void go(Collision collision) {
+        if (count % 4 == 1) {
+            super.go(collision);
         }
+    }
+
+    public void update() {
         if (!isDead) {
             count++;
-            super.go(collision);
+            go(collision);
             img = getImg();
         }
-
         if (status == Status.DEAD) {
             img = getImg();
             countTimeDeath++;
         }
 
+        if (countTimeDeath == 35 || countTimeDeath == 70) {
+            Balloom b1 = new Balloom(Math.round((x + DEFAULT_SIZE) / SCALED_SIZE), Math.round((y + DEFAULT_SIZE) / SCALED_SIZE),
+                    balloom_right1.getFxImage(), collision, true);
+            collision.getEnemyControl().addEnemy(b1, collision.getMap().getEntities());
+        }
+
     }
 
     public boolean checkDeath() {
-        if (!bornByDoll || skipBombNewBorn > 30) {
-            for (int j = 0; j < collision.getBombControl().getFlameList().size(); j++) {
-                if (collision.checkCollide(this, collision.getBombControl().getFlameList().get(j))) {
-                    status = Status.DEAD;
-                    return true;
-                }
+        for (int j = 0; j < collision.getBombControl().getFlameList().size(); j++) {
+            if (collision.checkCollide(this, collision.getBombControl().getFlameList().get(j))) {
+                status = Status.DEAD;
+                return true;
             }
         }
         return false;
@@ -71,13 +72,13 @@ public class Balloom extends Enemy{
         switch (status) {
             case ALIVE:
                 if (super.getDirection() == LEFT || super.getDirection() == UP)
-                    return movingSprite(balloom_left1, balloom_left2, balloom_left3, count, 20).getFxImage();
+                    return movingSprite(doll_left1, doll_left2, doll_left3, count, 20).getFxImage();
                 if (super.getDirection() == RIGHT || super.getDirection() == DOWN) {
-                    return movingSprite(balloom_right1, balloom_right2, balloom_right3, count, 20).getFxImage();
+                    return movingSprite(doll_right1, doll_right2, doll_right3, count, 20).getFxImage();
                 }
                 break;
             case DEAD:
-                return balloom_dead.getFxImage();
+                return doll_dead.getFxImage();
         }
         return img;
     }
@@ -89,4 +90,5 @@ public class Balloom extends Enemy{
             gc.drawImage(img, x - camera.getX(), y - camera.getY());
         }
     }
+
 }

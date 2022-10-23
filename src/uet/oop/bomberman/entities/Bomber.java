@@ -49,7 +49,7 @@ public class Bomber extends DestroyableEntity {
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
-        speed = 3;
+        speed = 2;
     }
 
     // new Constructor with keyEvent
@@ -158,9 +158,7 @@ public class Bomber extends DestroyableEntity {
                 bombControl.addBomb(newBomb);
                 bombControl.setHasJustSetBomb(true);
             }
-        } else if (keyEvent.pressed(KeyCode.Z)) {
-            List<List<Integer>> formatMap = collisionManage.formatMapData();
-        }  else if(keyEvent.pressed(KeyCode.P)){
+        } else if(keyEvent.pressed(KeyCode.P)){
             if(GameMenu.gameState == GameMenu.GAME_STATE.IN_PLAY) GameMenu.gameState = GameMenu.GAME_STATE.IN_PAUSE;
         }
         else if(keyEvent.pressed(KeyCode.E)){

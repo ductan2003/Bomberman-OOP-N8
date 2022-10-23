@@ -35,9 +35,24 @@ public class Oneal extends Enemy{
         super.setDead(dead);
     }
 
+    @Override
+    public void updateDist() {
+        Entity bomber = collision.getMap().getEntities().get(0);
+        int endY = Math.round((bomber.getX() + DEFAULT_SIZE) / SCALED_SIZE);
+        int endX = Math.round((bomber.getY() + DEFAULT_SIZE) / SCALED_SIZE);
+
+        int startX = Math.round((y + DEFAULT_SIZE) / SCALED_SIZE);
+        int startY = Math.round((x + DEFAULT_SIZE) / SCALED_SIZE);
+
+        dist = (int) Math.round(Math.sqrt((startX - endX) * (startX - endX) + (startY - endY) * (startY - endY)));
+    }
+
     public void go() {
         //Todo: Find the way to the Enemy
         if (count % 2 == 0) return;
+
+        if (dist < 8) speed = 2;
+        else speed = 1;
 
         if (pathDirection != null && pathDirection.size() < 8) {
 //            for (Pair<Integer, Integer> pair:path){
@@ -47,7 +62,7 @@ public class Oneal extends Enemy{
 //            if (pathDirection.size() < 4) {
 //                speed = 2;
 //            }
-            speed = 2;
+//            speed = 2;
             System.out.println("Found");
             if (pathDirection.size() == 1) {
                 Direction tmp = pathDirection.get(0);
@@ -56,24 +71,20 @@ public class Oneal extends Enemy{
             } else {
                 Direction tmp = pathDirection.get(0);
                 Direction next = pathDirection.get(1);
-                if (canGoByDirection(collision, next)) {
+                if (canGoByDirection(collision, next) && !collision.isNextPosBomb(this, next, speed)) {
                     goByDirection(collision, next);
-                } else if (canGoByDirection(collision, tmp)){
+                } else if (canGoByDirection(collision, tmp) && !collision.isNextPosBomb(this, tmp, speed)){
                     goByDirection(collision, tmp);
                 } else super.go(collision);
             }
         } else {
-            System.out.println("Go rand");
-//            if (pathDirection.size() == 8 || pathDirection.size() == 9) {
-//                speed = 2;
-//            } else speed = 1;
-            speed = 1;
             super.go(collision);
         }
     }
 
     public void update() {
-        if (count % 5 == 0 && !isDead) {
+        updateDist();
+        if (!isDead && dist < 8 && count % 10 == 0) {
             Entity bomber = collision.getMap().getEntities().get(0);
             int endX = Math.round((bomber.getX() + DEFAULT_SIZE) / SCALED_SIZE);
             int endY = Math.round((bomber.getY() + DEFAULT_SIZE) / SCALED_SIZE);

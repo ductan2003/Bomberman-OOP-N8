@@ -38,6 +38,7 @@ public class Map {
     private List<Entity> entities;
     private List<Pair<Integer, Integer>> balloomPos;
     private List<Pair<Integer, Integer>> onealPos;
+    private List<Pair<Integer, Integer>> dollPos;
     private Collision collision;
     private BombControl bombControl;
     private EnemyControl enemyControl;
@@ -60,6 +61,7 @@ public class Map {
 
         balloomPos = new ArrayList<>();
         onealPos = new ArrayList<>();
+        dollPos = new ArrayList<>();
         // Read a map file
 
         Path path = Paths.get("").toAbsolutePath();
@@ -100,6 +102,10 @@ public class Map {
                             tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
                             onealPos.add(new Pair<>(j, i));
                             break;
+                        case '3':
+                            tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                            dollPos.add(new Pair<>(j, i));
+                            break;
                         default:
                             tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
                             break;
@@ -121,13 +127,18 @@ public class Map {
         entities.add(bomberman);
 
         for (Pair<Integer, Integer> pos: balloomPos) {
-            Enemy ballom = new Balloom(pos.getKey(), pos.getValue(), Sprite.balloom_right1.getFxImage(), collision);
+            Enemy ballom = new Balloom(pos.getKey(), pos.getValue(), Sprite.balloom_right1.getFxImage(), collision, false);
             enemyControl.addEnemy(ballom, entities);
         }
 
         for (Pair<Integer, Integer> pos: onealPos) {
             Enemy oneal = new Oneal(pos.getKey(), pos.getValue(), Sprite.oneal_right1.getFxImage(), collision);
             enemyControl.addEnemy(oneal, entities);
+        }
+
+        for (Pair<Integer, Integer> pos: dollPos) {
+            Enemy doll = new Doll(pos.getKey(), pos.getValue(), Sprite.oneal_right1.getFxImage(), collision);
+            enemyControl.addEnemy(doll, entities);
         }
     }
 

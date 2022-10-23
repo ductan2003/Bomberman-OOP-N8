@@ -67,10 +67,15 @@ public class EnemyControl {
                 }
             }
 
+            if (enemyList.get(i) instanceof Doll) {
+                if (((Doll) enemyList.get(i)).checkDeath()) {
+                    dead = true;
+                }
+            }
+
             if (dead) {
                 enemyList.get(i).setDead(true);
                 enemyList.remove(enemyList.get(i));
-//                System.out.println("Delete Enemy");
                 if (enemyList.size() == 0) break;
                 check = true;
             }

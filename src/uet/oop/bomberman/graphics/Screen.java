@@ -27,8 +27,8 @@ public class Screen {
         try {
             FUTUREFONT = Font.loadFont(Files.newInputStream(Paths.get("res/font/Future Techno Italic 400.ttf")), 40);
             winner = new Image(Files.newInputStream(Paths.get("res/Menu/winner.png")));
-            loser = new Image(Files.newInputStream(Paths.get("res/Menu/loser.gif")));
-            backGroundMenu = new Image(Files.newInputStream(Paths.get("res/Menu/BG.gif")));
+            loser = new Image(Files.newInputStream(Paths.get("res/Menu/loser.png")));
+            backGroundMenu = new Image(Files.newInputStream(Paths.get("res/Menu/BG.png")));
         } catch (IOException e) {
             System.out.println("[IOException] Wrong filepaths.");
         }

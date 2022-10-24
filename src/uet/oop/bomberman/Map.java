@@ -46,15 +46,15 @@ public class Map {
     private BombControl bombControl;
     private EnemyControl enemyControl;
 
-    public Map(int level, KeyListener keyListener) {
-        createMap(level, keyListener);
+    public Map(int level, KeyListener keyListener, boolean isContinue) {
+        createMap(level, keyListener, isContinue);
     }
 
     public Map() {
 
     }
 
-    public void createMap(int level, KeyListener keyListener) {
+    public void createMap(int level, KeyListener keyListener, boolean isContinue) {
         map = new ArrayList<>();
         entities = new ArrayList<>();
         this.level = level;
@@ -66,25 +66,31 @@ public class Map {
         balloomPos = new ArrayList<>();
         onealPos = new ArrayList<>();
         dollPos = new ArrayList<>();
-        // Read a map file
 
+        // Read a map file
         Path path = Paths.get("").toAbsolutePath();
         File file = new File(path.normalize().toString() + "/res/levels/Level" + level + ".txt");
-        boolean contin = false;
-        try {
-            file = new File("Savetest.txt");
-            contin = true;
-        } catch (Exception e) {
-            System.out.println("Error");
+
+        // Check if press Continue Old Game
+        if (isContinue) {
+            try {
+                file = new File("SaveData.txt");
+            } catch (Exception e) {
+                System.out.println("Read File Error");
+            }
         }
 
+        // Read file to create map
         try {
             Scanner scanner = new Scanner(file);
+
             level = scanner.nextInt();
             height = scanner.nextInt();
             width = scanner.nextInt();
+
             codeList = new int[height][width];
             scanner.nextLine();
+
             for (int i = 0; i < height; i++) {
                 String tempStr = scanner.nextLine();
                 List<Entity> tempList = new ArrayList<>();
@@ -145,22 +151,27 @@ public class Map {
             System.out.println(exception.getMessage());
         }
 
+        // generate camera, bombControl, enemyControl
         camera = new Camera(0, 0, width, height);
         bombControl = new BombControl(this);
         enemyControl = new EnemyControl(bombControl, this);
 
-        //Render Bomb and read Bomber
+        // generate other entities if press continue game.
         int bomberSpeed = 2;
         int bomberNumberOfBombs = 1;
         int bomberHasJustSetBomb = 0;
         int bomberPower = 1;
-        if (contin) {
+        int bomberLives = 3;
+        long bomberTimeRemain = 150;
+
+        if (isContinue) {
             try {
+
                 Scanner scanner = new Scanner(file);
                 level = scanner.nextInt();
                 height = scanner.nextInt();
                 width = scanner.nextInt();
-                codeList = new int[height][width];
+
                 scanner.nextLine();
                 for (int i = 0; i < height; i++) {
                     String tempStr = scanner.nextLine();
@@ -175,10 +186,15 @@ public class Map {
                         }
                     }
                 }
+
+                //get bomber information back.
                 bomberSpeed = scanner.nextInt();
                 bomberNumberOfBombs = scanner.nextInt();
                 bomberHasJustSetBomb = scanner.nextInt();
                 bomberPower = scanner.nextInt();
+                bomberLives = scanner.nextInt();
+                bomberTimeRemain = scanner.nextLong();
+
                 scanner.close();
             } catch (FileNotFoundException exception) {
                 System.out.println(exception.getMessage());
@@ -193,7 +209,8 @@ public class Map {
 
         collision = new Collision(this, bombControl, enemyControl);
 
-        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision, bomberSpeed);
+        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(),
+                keyListener, collision, bomberSpeed, bomberLives, bomberTimeRemain);
         entities.add(bomberman);
 
         for (Pair<Integer, Integer> pos: balloomPos) {

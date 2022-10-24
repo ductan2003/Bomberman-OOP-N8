@@ -280,12 +280,12 @@ public class Collision {
             System.out.println();
         }
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                System.out.print(formatMap.get(i).get(j));
-            }
-            System.out.println();
-        }
+//        for (int i = 0; i < height; i++) {
+//            for (int j = 0; j < width; j++) {
+//                System.out.print(formatMap.get(i).get(j));
+//            }
+//            System.out.println();
+//        }
         return formatMap;
     }
 
@@ -318,10 +318,13 @@ public class Collision {
             res.append('\n');
             res.append(bomber.getBombControl().getPower());
             res.append('\n');
+            res.append(bomber.getLives());
+            res.append('\n');
+            res.append(bomber.getTimeRemain());
         }
 
         try {
-            String text = "Savetest" + ".txt";
+            String text = "SaveData" + ".txt";
             Formatter f = new Formatter(text);
             f.format(res.toString());
             f.close();

@@ -58,10 +58,24 @@ public class Bomber extends DestroyableEntity {
         this.speed = speed;
     }
 
-
-
     public boolean isGoToNextLevel() {
         return isGoToNextLevel;
+    }
+
+    public int getLives() {
+        return  lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public long getTimeRemain() {
+        return timeRemain;
+    }
+
+    public void setTimeRemain(long timeRemain) {
+        this.timeRemain = timeRemain;
     }
 
     public Bomber(int x, int y, Image img) {
@@ -71,7 +85,7 @@ public class Bomber extends DestroyableEntity {
 
     // new Constructor with keyEvent
     public Bomber(int x, int y, Image img, KeyListener keyEvent,
-                  Collision collisionManage, int speed) {
+                  Collision collisionManage, int speed, int lives, long timeRemain) {
         super(x, y, img);
         this.keyEvent = keyEvent;
         this.speed = speed;
@@ -82,7 +96,8 @@ public class Bomber extends DestroyableEntity {
         count = 0;
         respawn = false;
         timeRespawn = 0;
-        timeRemain = 150;
+        this.timeRemain = timeRemain;
+        this.lives = lives;
         pauseTime = 0;
     }
 
@@ -170,9 +185,8 @@ public class Bomber extends DestroyableEntity {
                 Timer.pause();
             }
         } else if (keyEvent.pressed(KeyCode.E)) {
-            if (GameMenu.gameState != GameMenu.GAME_STATE.END) GameMenu.gameState = GameMenu.GAME_STATE.END;
-        } else if (keyEvent.pressed(KeyCode.Z)) {
             collisionManage.saveData();
+            if (GameMenu.gameState != GameMenu.GAME_STATE.END) GameMenu.gameState = GameMenu.GAME_STATE.END;
         } else count = 0;
         img = getImg(getDirection());
         updateItems();
@@ -185,7 +199,7 @@ public class Bomber extends DestroyableEntity {
         if (entity instanceof Portal && enemyControl.getEnemyList().size() == 0) {
             int nextLevel = collisionManage.getMap().getLevel() + 1;
             if (nextLevel <= 2) {
-                BombermanGame.map.createMap(nextLevel, keyEvent);
+                BombermanGame.map.createMap(nextLevel, keyEvent, false);
             } else {
                 BombermanGame.map.setIsWin(true);
                 GameMenu.gameState = GameMenu.GAME_STATE.IN_END_STATE;

@@ -83,8 +83,11 @@ public class GameMenu {
                                 Sound.menu.loop();
                                 System.out.println("[ENTER PLAY]");
                                 gameState = GAME_STATE.IN_PLAY;
-                                BombermanGame.map = new Map(1, keyListener);
+                                BombermanGame.map = new Map(1, keyListener, false);
                                 break;
+//                            case CONTINUE_GAME:
+//                                BombermanGame.map = new Map(1, keyListener, true);
+//                                break;
                             case EXIT:
                                 System.out.println("[ENTER END STATE]");
                                 gameState = GAME_STATE.END;

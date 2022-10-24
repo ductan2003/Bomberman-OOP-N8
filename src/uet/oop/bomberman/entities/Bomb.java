@@ -5,13 +5,13 @@ import uet.oop.bomberman.controlSystem.Timer;
 
 import static uet.oop.bomberman.graphics.Sprite.*;
 
-public class Bomb extends Entity{
+public class Bomb extends Entity {
     private long timeRemain;
     private int count = 0;
-    private long timeSet;
+//    private long timeSet;
     private boolean isExploded;
     private int flame;
-    private final long EXPLODE = 222222222;
+    private final long EXPLODE = 300;
 
     public boolean isExploded() {
         return isExploded;
@@ -24,15 +24,15 @@ public class Bomb extends Entity{
     public Bomb(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         count = 0;
-        timeSet = Timer.now();
+//        timeSet = Timer.now();
         isExploded = false;
     }
 
     @Override
     public void update() {
-        count ++;
-        if(!isExploded) {
-            if ((Timer.now() - timeSet) > EXPLODE) isExploded = true;
+        count++;
+        if (!isExploded) {
+            if ((count) > EXPLODE) isExploded = true;
         }
         img = getImg();
     }

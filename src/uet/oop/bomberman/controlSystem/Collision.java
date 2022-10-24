@@ -306,6 +306,20 @@ public class Collision {
             res.append('\n');
         }
 
+        if (map.getEntities().get(0) instanceof Bomber) {
+            Bomber bomber = (Bomber) map.getEntities().get(0);
+            res.append(bomber.getSpeed());
+            res.append('\n');
+            res.append(bomber.getBombControl().getNumberOfBomb());
+            res.append('\n');
+            if (bomber.getBombControl().hasJustSetBomb) {
+                res.append(1);
+            } else res.append(0);
+            res.append('\n');
+            res.append(bomber.getBombControl().getPower());
+            res.append('\n');
+        }
+
         try {
             String text = "Savetest" + ".txt";
             Formatter f = new Formatter(text);

@@ -2,6 +2,7 @@ package uet.oop.bomberman;
 
 import javafx.util.Pair;
 import uet.oop.bomberman.controlSystem.*;
+import uet.oop.bomberman.controlSystem.Timer;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -10,10 +11,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 import static uet.oop.bomberman.graphics.Sprite.*;
 
@@ -69,8 +68,15 @@ public class Map {
         dollPos = new ArrayList<>();
         // Read a map file
 
+        boolean con = false;
         Path path = Paths.get("").toAbsolutePath();
         File file = new File(path.normalize().toString() + "/res/levels/Level" + level + ".txt");
+        try {
+            file = new File("Savetest.txt");
+            con = true;
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
 
         try {
             Scanner scanner = new Scanner(file);
@@ -97,6 +103,10 @@ public class Map {
                             break;
                         case 'x':
                             tempList.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                            codeList[i][j] = Portal.code;
+                            break;
+                        case 'y':
+                            tempList.add(new Portal(j, i, portal.getFxImage()));
                             codeList[i][j] = Portal.code;
                             break;
                         case '1':
@@ -126,6 +136,33 @@ public class Map {
         camera = new Camera(0, 0, width, height);
         bombControl = new BombControl(this);
         enemyControl = new EnemyControl(bombControl, this);
+
+        //Render Bomb
+        try {
+            Scanner scanner = new Scanner(file);
+            level = scanner.nextInt();
+            height = scanner.nextInt();
+            width = scanner.nextInt();
+            codeList = new int[height][width];
+            scanner.nextLine();
+            for (int i = 0; i < height; i++) {
+                String tempStr = scanner.nextLine();
+                for (int j = 0; j < width; j++) {
+                    switch (tempStr.charAt(j)) {
+                        case '!':
+                            Bomb bomb = new Bomb(j, i, Sprite.bomb.getFxImage());
+                            bombControl.addBomb(bomb);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException exception) {
+            System.out.println(exception.getMessage());
+        }
+
         collision = new Collision(this, bombControl, enemyControl);
 
         Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision);
@@ -236,6 +273,10 @@ public class Map {
 
     public int getLevel() {
         return level;
+    }
+
+    public int[][] getCodeList() {
+        return codeList;
     }
 
     public int getCode(int x, int y) {

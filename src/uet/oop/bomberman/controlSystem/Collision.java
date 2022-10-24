@@ -1,14 +1,16 @@
 package uet.oop.bomberman.controlSystem;
 
 import javafx.util.Pair;
+//import sun.text.resources.ext.FormatData_sr_Latn_ME;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.*;
 
 
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 
-import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
+import static uet.oop.bomberman.graphics.Sprite.*;
 
 
 public class Collision {
@@ -217,6 +219,101 @@ public class Collision {
         }
 
         return formatMap;
+    }
+
+    public List<List<Character>> formatMapDetailData() {
+        List<List<Character>> formatMap = new ArrayList<>();
+
+        int height = map.getHeight();
+        int width = map.getWidth();
+
+        //Format the entities in map
+        for (int i = 0; i < height; i++) {
+            List<Character> row = new ArrayList<>();
+            for (int j = 0; j < width; j++) {
+                if (map.getEntityWithMapPos(i, j) instanceof Grass) {
+                    row.add(' ');
+                } else if (map.getEntityWithMapPos(i, j) instanceof Wall) {
+                    row.add('#');
+                } else if (map.getEntityWithMapPos(i, j) instanceof FlameItem) {
+                    row.add('f');
+                } else if (map.getEntityWithMapPos(i, j) instanceof BombItem) {
+                    row.add('b');
+                } else if (map.getEntityWithMapPos(i, j) instanceof SpeedItem) {
+                    row.add('s');
+                } else if (map.getEntityWithMapPos(i, j) instanceof BombPassItem) {
+                    row.add('m');
+                } else if (map.getEntityWithMapPos(i, j) instanceof Brick) {
+                    row.add('*');
+                } else row.add(' ');
+            }
+            formatMap.add(row);
+        }
+        //Bomber, enemy
+        for (Entity entity : map.getEntities()) {
+            int x = Math.round((entity.getX() + DEFAULT_SIZE) / SCALED_SIZE);
+            int y = Math.round((entity.getY() + DEFAULT_SIZE) / SCALED_SIZE);
+            if (entity instanceof Bomber) {
+                formatMap.get(y).set(x, 'p');
+            } else if (entity instanceof Balloom) {
+                formatMap.get(y).set(x, '1');
+            } else if (entity instanceof Oneal) {
+                formatMap.get(y).set(x, '2');
+            } else if (entity instanceof Doll) {
+                formatMap.get(y).set(x, '3');
+            }
+        }
+
+        //Bomb.
+        for (Bomb bomb : bombControl.getBombList()) {
+            formatMap.get(bomb.getYMapCoordinate(bomb.getY())).set(bomb.getXMapCoordinate(bomb.getX()), '!');
+        }
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (map.getCode(j, i) == Portal.code && map.getEntityWithMapPos(i, j) instanceof Brick) {
+                    formatMap.get(i).set(j, 'x');
+                } else if (map.getCode(j, i) == Portal.code) {
+                    formatMap.get(i).set(j, 'y');
+                }
+            }
+            System.out.println();
+        }
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                System.out.print(formatMap.get(i).get(j));
+            }
+            System.out.println();
+        }
+        return formatMap;
+    }
+
+    public void saveData() {
+        List<List<Character>> formatMap = formatMapDetailData();
+        StringBuilder res = new StringBuilder();
+        res.append(1);
+        res.append(' ');
+        res.append(map.getHeight());
+        res.append(' ');
+        res.append(map.getWidth());
+        res.append('\n');
+
+        for (int i = 0; i < map.getHeight(); i++) {
+            for (int j = 0; j < map.getWidth(); j++) {
+                res.append(formatMap.get(i).get(j));
+            }
+            res.append('\n');
+        }
+
+        try {
+            String text = "Savetest" + ".txt";
+            Formatter f = new Formatter(text);
+            f.format(res.toString());
+            f.close();
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
     }
 
     /**

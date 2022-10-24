@@ -195,8 +195,8 @@ public class GameMenu {
                         } else {
                             Sound.menu.stop();
                             Sound.lose.loop();
-//                            gc.drawImage(Screen.loser, 0, 0,
-//                                    Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE);
+                            gc.drawImage(Screen.loser, 0, 0,
+                                    Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE);
                         }
 
                         break;

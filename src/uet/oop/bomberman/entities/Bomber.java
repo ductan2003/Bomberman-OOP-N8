@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import uet.oop.bomberman.BombermanGame;
@@ -156,6 +157,8 @@ public class Bomber extends DestroyableEntity {
             if (GameMenu.gameState == GameMenu.GAME_STATE.IN_PLAY) GameMenu.gameState = GameMenu.GAME_STATE.IN_PAUSE;
         } else if (keyEvent.pressed(KeyCode.E)) {
             if (GameMenu.gameState != GameMenu.GAME_STATE.END) GameMenu.gameState = GameMenu.GAME_STATE.END;
+        } else if (keyEvent.pressed(KeyCode.Z)) {
+            collisionManage.saveData();
         } else count = 0;
         img = getImg(getDirection());
         updateItems();

@@ -11,16 +11,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import uet.oop.bomberman.controlSystem.*;
-import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Grass;
-import uet.oop.bomberman.entities.Wall;
+
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BombermanGame extends Application {
     private GraphicsContext gc;
@@ -39,7 +33,7 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) {
         // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * Screen.WIDTH, Sprite.SCALED_SIZE * Screen.HEIGHT+20);
+        canvas = new Canvas(Sprite.SCALED_SIZE * Screen.WIDTH, Sprite.SCALED_SIZE * Screen.HEIGHT + 20);
         screen = new Screen(canvas);
         Sound.backgroundGame.loop();
 
@@ -78,8 +72,11 @@ public class BombermanGame extends Application {
         switch (menu.getGameState()) {
             case IN_MENU:
             case IN_PAUSE:
+                menu.update();
+                break;
             case IN_END_STATE:
                 menu.update();
+                map.clear();
                 break;
 
             case IN_PLAY:

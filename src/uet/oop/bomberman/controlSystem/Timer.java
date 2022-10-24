@@ -21,10 +21,11 @@ public class Timer {
     }
 
     public static long now() {
-        return System.nanoTime()/10;
+        return System.nanoTime() / 10;
     }
+
     public static long getTime() {
-        return System.nanoTime()/1000000000;
+        return System.nanoTime() / 1000000000;
     }
 
     public static void pause() {

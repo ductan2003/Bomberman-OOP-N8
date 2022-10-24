@@ -1,6 +1,5 @@
 package uet.oop.bomberman.controlSystem;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,21 +98,21 @@ public class GameMenu {
                     } else if (keyListener.pressed(KeyCode.DOWN)) {
                         Sound.menuMove.play();
                         choosenButton = EXIT;
-                   }
-              }
+                    }
+                }
                 break;
 
-                case IN_PAUSE:
-                    //Sound.menu.stop();
-                    now = Timer.now();
-                   if (now - delayInput > 10000000) {
+            case IN_PAUSE:
+                //Sound.menu.stop();
+                now = Timer.now();
+                if (now - delayInput > 10000000) {
                     delayInput = now;
                     if (keyListener.pressed(KeyCode.ENTER)) {
                         Sound.menuSelect.play();
                         switch (choosenButton1) {
                             case CONTINUE_PLAY:
-                                  Sound.backgroundGame.stop();
-                                  Sound.menu.loop();
+                                Sound.backgroundGame.stop();
+                                Sound.menu.loop();
                                 System.out.println("[ENTER CONTINUE_PLAY]");
                                 gameState = GAME_STATE.IN_PLAY;
                                 Bomber.pauseTime += Timer.unpause();
@@ -133,8 +132,8 @@ public class GameMenu {
                         Sound.menuMove.play();
                         choosenButton1 = GO_TO_MENU;
                     }
-               }
-                    break;
+                }
+                break;
 
 
             case IN_END_STATE:
@@ -192,20 +191,20 @@ public class GameMenu {
             }
 
             case IN_END_STATE:
-                        if (BombermanGame.map.getIsWin()) {
-                            Sound.menu.stop();
-                            Sound.win.loop();
-                            gc.drawImage(Screen.winner, 0, 0,
-                                    Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE);
+                if (BombermanGame.map.getIsWin()) {
+                    Sound.menu.stop();
+                    Sound.win.loop();
+                    gc.drawImage(Screen.winner, 0, 0,
+                            Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE);
 
-                        } else {
-                            Sound.menu.stop();
-                            Sound.lose.loop();
-                            gc.drawImage(Screen.loser, 0, 0,
-                                    Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE);
-                        }
+                } else {
+                    Sound.menu.stop();
+                    Sound.lose.loop();
+                    gc.drawImage(Screen.loser, 0, 0,
+                            Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE);
+                }
 
-                        break;
+                break;
         }
     }
 }

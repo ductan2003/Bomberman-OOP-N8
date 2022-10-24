@@ -1,9 +1,7 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
-//import jdk.internal.net.http.common.Pair;
 import javafx.util.Pair;
-import uet.oop.bomberman.controlSystem.BombControl;
 import uet.oop.bomberman.controlSystem.Collision;
 import uet.oop.bomberman.controlSystem.Direction;
 import uet.oop.bomberman.controlSystem.Sound;

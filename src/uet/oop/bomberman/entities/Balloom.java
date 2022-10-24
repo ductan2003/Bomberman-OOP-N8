@@ -7,7 +7,7 @@ import uet.oop.bomberman.controlSystem.*;
 import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
-public class Balloom extends Enemy{
+public class Balloom extends Enemy {
     private Collision collision;
     private int countTimeDeath = 0;
     private boolean bornByDoll;

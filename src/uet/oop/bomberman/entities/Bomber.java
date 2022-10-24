@@ -1,23 +1,16 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.Map;
 import uet.oop.bomberman.controlSystem.*;
 import uet.oop.bomberman.graphics.Screen;
-import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.graphics.Sprite.*;
@@ -60,13 +53,12 @@ public class Bomber extends DestroyableEntity {
     }
 
 
-
     public boolean isGoToNextLevel() {
         return isGoToNextLevel;
     }
 
     public int getLives() {
-        return  lives;
+        return lives;
     }
 
     public void setLives(int lives) {
@@ -88,7 +80,7 @@ public class Bomber extends DestroyableEntity {
 
     // new Constructor with keyEvent
     public Bomber(int x, int y, Image img, KeyListener keyEvent,
-                  Collision collisionManage, int speed, int lives, long timeRemain) {
+                  Collision collisionManage, int speed, int lives, long timeSet) {
         super(x, y, img);
         this.keyEvent = keyEvent;
         this.speed = speed;
@@ -99,8 +91,8 @@ public class Bomber extends DestroyableEntity {
         count = 0;
         respawn = false;
         timeRespawn = 0;
-        timeSet = timeRemain;
-        this.timeRemain = 0;
+        timeRemain = 0;
+        this.timeSet = timeSet;
         this.lives = lives;
         pauseTime = 0;
     }
@@ -197,8 +189,8 @@ public class Bomber extends DestroyableEntity {
         img = getImg(getDirection());
         updateItems();
         bombControl.updateBomb();
-        timeRemain = timeSet - (Timer.now() - collisionManage.getMap().getTime_begin() - pauseTime) / 100000000;
-        if (timeRemain <= 0) {
+        timeRemain = Math.max(timeSet - (Timer.now() - collisionManage.getMap().getTime_begin() - pauseTime) / 100000000, 0);
+        if (timeRemain == 0) {
             setDead(true);
         }
     }
@@ -208,6 +200,7 @@ public class Bomber extends DestroyableEntity {
         if (entity instanceof Portal && enemyControl.getEnemyList().size() == 0) {
             int nextLevel = collisionManage.getMap().getLevel() + 1;
             if (nextLevel <= 2) {
+                BombermanGame.map.clear();
                 BombermanGame.map.createMap(nextLevel, keyEvent, false);
             } else {
                 BombermanGame.map.setIsWin(true);
@@ -268,7 +261,7 @@ public class Bomber extends DestroyableEntity {
         try {
             gc.setFont(Font.loadFont(Files.newInputStream(Paths.get("res/font/Future Techno Italic 400.ttf")), 20));
             gc.fillText("Time: " + timeRemain, 3 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
-            gc.fillText("Level: " + collisionManage.getMap().getLevel() +"/4", 10 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
+            gc.fillText("Level: " + collisionManage.getMap().getLevel() + "/4", 10 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -303,11 +296,11 @@ public class Bomber extends DestroyableEntity {
                 break;
         }
         for (int i = 0; i < enemyControl.getEnemyList().size(); i++) {
-            if (collisionManage.collide(enemyControl.getEnemyList().get(i), a, b))
+            if (collisionManage.checkCollide(enemyControl.getEnemyList().get(i), this))
                 return true;
         }
         for (int i = 0; i < bombControl.getFlameList().size(); i++) {
-            if (collisionManage.collide(bombControl.getFlameList().get(i), a, b))
+            if (collisionManage.checkCollide(bombControl.getFlameList().get(i), this))
                 return true;
         }
         return false;

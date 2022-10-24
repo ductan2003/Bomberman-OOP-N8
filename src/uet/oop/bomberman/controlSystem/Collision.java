@@ -1,7 +1,6 @@
 package uet.oop.bomberman.controlSystem;
 
 import javafx.util.Pair;
-//import sun.text.resources.ext.FormatData_sr_Latn_ME;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.*;
 
@@ -46,16 +45,14 @@ public class Collision {
      * Check if 2 entities which are not in map collide.
      */
     public boolean checkCollide(Entity entity, Entity entity1) {
-//        System.out.println(entity.getX() + " " + entity.getY());
-//        System.out.println(entity1.getX() + " " + entity1.getY());
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX, entity1.getY() + 2 * FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + 2 * FIX,
-                                                        entity1.getY() + SCALED_SIZE - 2 * FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX,
-                                                        entity1.getY() + 2 * FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - 2 * FIX,
-                                                        entity1.getY() + SCALED_SIZE - 2 * FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + FIX, entity1.getY() + FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + FIX,
+                entity1.getY() + SCALED_SIZE - FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - FIX,
+                entity1.getY() + FIX));
+        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - FIX,
+                entity1.getY() + SCALED_SIZE - FIX));
         return contain(entity, coordinates.get(0))
                 || contain(entity, coordinates.get(1))
                 || contain(entity, coordinates.get(2))
@@ -88,7 +85,7 @@ public class Collision {
     }
 
     /**
-     * Check 2 entities which are in map collide.
+     * Check Bomber can move.
      */
     public boolean canMove(int x, int y, int speed, Direction direction) {
         Entity object1;
@@ -126,7 +123,7 @@ public class Collision {
     }
 
     /**
-     * Check to see if the next position a Bomb.
+     * Check to find if the next position has a Bomb.
      */
     public boolean isNextPosBomb(Entity entity, Direction direction, int speed) {
         if (bombControl.getBombList().size() == 0) return false;
@@ -139,7 +136,7 @@ public class Collision {
     }
 
     /**
-     * Check to see if the next position an Enemy.
+     * Check to find if the next position has an Enemy.
      */
     public boolean isNextPosEnemy(Entity entity, Direction direction, int speed) {
         int countDuplicate = 0;
@@ -280,12 +277,6 @@ public class Collision {
             System.out.println();
         }
 
-//        for (int i = 0; i < height; i++) {
-//            for (int j = 0; j < width; j++) {
-//                System.out.print(formatMap.get(i).get(j));
-//            }
-//            System.out.println();
-//        }
         return formatMap;
     }
 

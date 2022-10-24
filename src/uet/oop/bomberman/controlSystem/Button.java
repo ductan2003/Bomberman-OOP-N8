@@ -44,7 +44,8 @@ public class Button {
     public Text getText() {
         return buttonName;
     }
-    public void setText(Text text){
+
+    public void setText(Text text) {
         this.buttonName = text;
     }
 

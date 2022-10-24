@@ -10,7 +10,7 @@ public class SoundPlay {
 
     SoundPlay(String sFile) {
         this.sFile = sFile;
-        try{
+        try {
             File f = new File("./" + sFile);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
 
@@ -24,7 +24,8 @@ public class SoundPlay {
             e.printStackTrace();
         }
     }
-    public void play(){
+
+    public void play() {
         clip.setFramePosition(0);
         clip.start();
     }
@@ -33,7 +34,7 @@ public class SoundPlay {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
-    public void stop(){
+    public void stop() {
         clip.stop();
     }
 }

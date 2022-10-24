@@ -4,13 +4,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.controlSystem.Camera;
 import uet.oop.bomberman.controlSystem.Collision;
-import uet.oop.bomberman.controlSystem.Direction;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.controlSystem.Direction.DOWN;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
-public class Doll extends Enemy{
+public class Doll extends Enemy {
     private Collision collision;
     private int countTimeDeath = 0;
 

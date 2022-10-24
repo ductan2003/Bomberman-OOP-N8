@@ -1,14 +1,13 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.controlSystem.Timer;
 
 import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Bomb extends Entity {
     private long timeRemain;
     private int count = 0;
-//    private long timeSet;
+    //    private long timeSet;
     private boolean isExploded;
     private int flame;
     private final long EXPLODE = 300;

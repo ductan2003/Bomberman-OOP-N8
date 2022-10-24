@@ -6,18 +6,18 @@ import javafx.util.Pair;
 import uet.oop.bomberman.controlSystem.*;
 
 import java.util.List;
-import java.util.Objects;
 
 import static uet.oop.bomberman.controlSystem.Direction.*;
 import static uet.oop.bomberman.controlSystem.Direction.DOWN;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
-public class Oneal extends Enemy{
+public class Oneal extends Enemy {
     private Collision collision;
     private List<Pair<Integer, Integer>> path;
     private List<Direction> pathDirection;
 
     private int countTimeDeath = 0;
+
     public Oneal(int xUnit, int yUnit, Image img, Collision collision) {
         super(xUnit, yUnit, img);
         this.collision = collision;
@@ -66,7 +66,7 @@ public class Oneal extends Enemy{
                 Direction next = pathDirection.get(1);
                 if (canGoByDirection(collision, next) && !collision.isNextPosBomb(this, next, speed)) {
                     goByDirection(collision, next);
-                } else if (canGoByDirection(collision, tmp) && !collision.isNextPosBomb(this, tmp, speed)){
+                } else if (canGoByDirection(collision, tmp) && !collision.isNextPosBomb(this, tmp, speed)) {
                     goByDirection(collision, tmp);
                 } else super.go(collision);
             }

@@ -1,16 +1,11 @@
 package uet.oop.bomberman.graphics;
 
-//import com.sun.webkit.dom.TextImpl;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import uet.oop.bomberman.Map;
-import uet.oop.bomberman.controlSystem.Button;
 import uet.oop.bomberman.controlSystem.GameMenu;
-import uet.oop.bomberman.controlSystem.Timer;
 
 import java.io.IOException;
 import java.nio.file.Files;

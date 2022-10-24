@@ -1,20 +1,17 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.Camera;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Map;
-import uet.oop.bomberman.controlSystem.Collision;
 import uet.oop.bomberman.controlSystem.Direction;
 import uet.oop.bomberman.controlSystem.Timer;
-import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.graphics.Sprite.*;
 
-public class Flame extends Entity implements Obstacle{
+public class Flame extends Entity implements Obstacle {
     public enum TYPE {
         BRICK, LAST, BODY
     }
+
     private TYPE type;
     private Map map;
     private Direction direction;
@@ -43,11 +40,14 @@ public class Flame extends Entity implements Obstacle{
 
             }
         }
-        if (Timer.now()-timeSet>limit) exploded = true;
+        if (Timer.now() - timeSet > limit) exploded = true;
         count++;
         img = getImg();
     }
-    public boolean isExploded() {return exploded;}
+
+    public boolean isExploded() {
+        return exploded;
+    }
 
     public Image getImg() {
         switch (type) {
@@ -68,14 +68,14 @@ public class Flame extends Entity implements Obstacle{
             case LAST:
                 switch (direction) {
                     case LEFT:
-                        return movingSprite(explosion_horizontal_left_last2,explosion_horizontal_left_last1,
-                                explosion_horizontal_left_last,count,time).getFxImage();
+                        return movingSprite(explosion_horizontal_left_last2, explosion_horizontal_left_last1,
+                                explosion_horizontal_left_last, count, time).getFxImage();
                     case RIGHT:
                         return movingSprite(explosion_horizontal_right_last2, explosion_horizontal_right_last1,
                                 explosion_horizontal_right_last, count, time).getFxImage();
                     case DOWN:
-                        return movingSprite(explosion_vertical_down_last2,explosion_vertical_down_last1,
-                                explosion_vertical_down_last,count,time).getFxImage();
+                        return movingSprite(explosion_vertical_down_last2, explosion_vertical_down_last1,
+                                explosion_vertical_down_last, count, time).getFxImage();
                     case UP:
                         return movingSprite(explosion_vertical_top_last2, explosion_vertical_top_last1,
                                 explosion_vertical_top_last, count, time).getFxImage();
@@ -84,8 +84,8 @@ public class Flame extends Entity implements Obstacle{
                                 count, time).getFxImage();
                 }
             case BRICK:
-                return movingSprite(brick_exploded,brick_exploded1,
-                        brick_exploded2,count,time).getFxImage();
+                return movingSprite(brick_exploded, brick_exploded1,
+                        brick_exploded2, count, time).getFxImage();
         }
         return null;
     }

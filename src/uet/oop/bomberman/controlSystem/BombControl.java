@@ -1,6 +1,5 @@
 package uet.oop.bomberman.controlSystem;
 
-import com.sun.prism.shader.DrawEllipse_ImagePattern_Loader;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.*;
@@ -21,7 +20,7 @@ public class BombControl {
     boolean hasJustSetBomb = false;
 
     /**
-     *Remove bomb and Flame.
+     * Remove bomb and Flame.
      */
     public void updateBomb() {
         for (int i = 0; i < flameList.size(); i++) {
@@ -93,8 +92,8 @@ public class BombControl {
                 if (i == power) type = Flame.TYPE.LAST;
 
                 if (valCheck[j]) {
-                    for (int k = 0; k<bombList.size();k++) {
-                        if (bombList.get(k).getX()/SCALED_SIZE == posX && bombList.get(k).getY()/SCALED_SIZE == posY) {
+                    for (int k = 0; k < bombList.size(); k++) {
+                        if (bombList.get(k).getX() / SCALED_SIZE == posX && bombList.get(k).getY() / SCALED_SIZE == posY) {
                             bombList.get(k).setExploded(true);
                             valCheck[j] = false;
                             break;

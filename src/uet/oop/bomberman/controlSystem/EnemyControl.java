@@ -1,6 +1,5 @@
 package uet.oop.bomberman.controlSystem;
 
-import javafx.util.Pair;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.*;
 

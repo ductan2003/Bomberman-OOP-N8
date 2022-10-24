@@ -2,7 +2,7 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
 
-public class MoveableEntity extends Entity{
+public class MoveableEntity extends Entity {
     protected int speed;
 
     public int getSpeed() {

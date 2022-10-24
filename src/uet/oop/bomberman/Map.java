@@ -6,7 +6,6 @@ import uet.oop.bomberman.controlSystem.Timer;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
@@ -26,17 +25,20 @@ public class Map {
     protected int numberBomberDie = 0;
     protected int numberBomberLife = 3;
 
-    protected int startxPos = 1;
-    protected int startyPos = 1;
+    protected int startXPos = 1;
+    protected int startYPos = 1;
     protected long time_begin;
 
     protected boolean isWin = false;
-    public void setIsWin(boolean is){
+
+    public void setIsWin(boolean is) {
         isWin = is;
     }
-    public boolean getIsWin(){
+
+    public boolean getIsWin() {
         return isWin;
     }
+
     protected Camera camera;
     private List<Entity> entities;
     private List<Pair<Integer, Integer>> balloomPos;
@@ -84,7 +86,7 @@ public class Map {
         try {
             Scanner scanner = new Scanner(file);
 
-            level = scanner.nextInt();
+            this.level = scanner.nextInt();
             height = scanner.nextInt();
             width = scanner.nextInt();
 
@@ -97,8 +99,8 @@ public class Map {
                 for (int j = 0; j < width; j++) {
                     switch (tempStr.charAt(j)) {
                         case 'p':
-                            startxPos = j;
-                            startyPos = i;
+                            startXPos = j;
+                            startYPos = i;
                             tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
                             break;
                         case '#':
@@ -162,7 +164,7 @@ public class Map {
         int bomberHasJustSetBomb = 0;
         int bomberPower = 1;
         int bomberLives = 3;
-        long bomberTimeRemain = 150;
+        long bomberTimeRemain = 180;
 
         if (isContinue) {
             try {
@@ -209,21 +211,21 @@ public class Map {
 
         collision = new Collision(this, bombControl, enemyControl);
 
-        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(),
+        Entity bomberman = new Bomber(startXPos, startYPos, Sprite.player_right.getFxImage(),
                 keyListener, collision, bomberSpeed, bomberLives, bomberTimeRemain);
         entities.add(bomberman);
 
-        for (Pair<Integer, Integer> pos: balloomPos) {
+        for (Pair<Integer, Integer> pos : balloomPos) {
             Enemy ballom = new Balloom(pos.getKey(), pos.getValue(), Sprite.balloom_right1.getFxImage(), collision, false);
             enemyControl.addEnemy(ballom, entities);
         }
 
-        for (Pair<Integer, Integer> pos: onealPos) {
+        for (Pair<Integer, Integer> pos : onealPos) {
             Enemy oneal = new Oneal(pos.getKey(), pos.getValue(), Sprite.oneal_right1.getFxImage(), collision);
             enemyControl.addEnemy(oneal, entities);
         }
 
-        for (Pair<Integer, Integer> pos: dollPos) {
+        for (Pair<Integer, Integer> pos : dollPos) {
             Enemy doll = new Doll(pos.getKey(), pos.getValue(), Sprite.oneal_right1.getFxImage(), collision);
             enemyControl.addEnemy(doll, entities);
         }
@@ -274,7 +276,7 @@ public class Map {
 
             if (entities.get(index) instanceof Doll) {
                 Doll doll = (Doll) entities.get(index);
-                if (doll.getCountTimeDeath()== 35) {
+                if (doll.getCountTimeDeath() == 35) {
                     Balloom b1 = new Balloom(Math.round((doll.getX() + DEFAULT_SIZE) / SCALED_SIZE),
                             Math.round((doll.getY() + DEFAULT_SIZE) / SCALED_SIZE),
                             balloom_right1.getFxImage(), collision, true);
@@ -340,4 +342,8 @@ public class Map {
         return time_begin;
     }
 
+    public void clear(){
+        map.clear();
+        entities.clear();
+    }
 }

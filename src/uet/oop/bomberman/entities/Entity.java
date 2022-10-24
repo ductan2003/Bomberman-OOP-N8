@@ -14,34 +14,20 @@ import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
-
     //Tọa độ Y tính từ góc trái trên trong Canvas
     protected int y;
-
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }
-
     public void setX(int x) {
         this.x = x;
     }
-
     public void setY(int y) {
         this.y = y;
     }
-
-//    public void setXUnit(int x) {
-//        this.x = x * Sprite.SCALED_SIZE;
-//    }
-//
-//    public void setYUnit(int y) {
-//        this.y = y * Sprite.SCALED_SIZE;
-//    }
-
     protected Image img;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas

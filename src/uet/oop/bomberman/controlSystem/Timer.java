@@ -6,6 +6,7 @@ import uet.oop.bomberman.BombermanGame;
 public class Timer {
     private AnimationTimer timer;
     private BombermanGame game;
+    private static long tick;
 
     public Timer(BombermanGame bombermanGame) {
         this.game = bombermanGame;
@@ -16,9 +17,21 @@ public class Timer {
             }
         };
         timer.start();
+        tick = 0;
     }
 
     public static long now() {
         return System.nanoTime()/10;
+    }
+    public static long getTime() {
+        return System.nanoTime()/1000000000;
+    }
+
+    public static void pause() {
+        tick = now();
+    }
+
+    public static long unpause() {
+        return now() - tick;
     }
 }

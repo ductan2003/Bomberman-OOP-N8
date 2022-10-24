@@ -23,18 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BombermanGame extends Application {
-
-
     private GraphicsContext gc;
     public static GameMenu menu;
-    private Canvas canvas;
-    //private List<Entity> stillObjects = new ArrayList<>();
-    private KeyListener keyEvent;
-    public static Map map;
 
+    private Canvas canvas;
+    public static Map map;
+    private KeyListener keyEvent;
     public Screen screen;
     public Timer timer;
-
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -50,6 +46,7 @@ public class BombermanGame extends Application {
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
+
         // Tao scene
         Scene scene = new Scene(root);
         keyEvent = new KeyListener(scene);

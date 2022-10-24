@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import uet.oop.bomberman.BombermanGame;
@@ -32,7 +33,7 @@ public class Bomber extends DestroyableEntity {
     private long timeRemain;
     private boolean respawn;
     private int timeRespawn;
-
+    public static long pauseTime;
     private int lives = 3;
     private static int[] FIX_LENGTH = {0, -4, 4};
     int count = 0;
@@ -49,6 +50,16 @@ public class Bomber extends DestroyableEntity {
         this.direction = direction;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+
+
     public boolean isGoToNextLevel() {
         return isGoToNextLevel;
     }
@@ -60,10 +71,10 @@ public class Bomber extends DestroyableEntity {
 
     // new Constructor with keyEvent
     public Bomber(int x, int y, Image img, KeyListener keyEvent,
-                  Collision collisionManage) {
+                  Collision collisionManage, int speed) {
         super(x, y, img);
         this.keyEvent = keyEvent;
-        speed = 2;
+        this.speed = speed;
         this.collisionManage = collisionManage;
         this.bombControl = collisionManage.getBombControl();
         this.enemyControl = collisionManage.getEnemyControl();
@@ -72,6 +83,7 @@ public class Bomber extends DestroyableEntity {
         respawn = false;
         timeRespawn = 0;
         timeRemain = 150;
+        pauseTime = 0;
     }
 
     public void getBomberInfo() {
@@ -153,14 +165,19 @@ public class Bomber extends DestroyableEntity {
                 bombControl.setHasJustSetBomb(true);
             }
         } else if (keyEvent.pressed(KeyCode.P)) {
-            if (GameMenu.gameState == GameMenu.GAME_STATE.IN_PLAY) GameMenu.gameState = GameMenu.GAME_STATE.IN_PAUSE;
+            if (GameMenu.gameState == GameMenu.GAME_STATE.IN_PLAY) {
+                GameMenu.gameState = GameMenu.GAME_STATE.IN_PAUSE;
+                Timer.pause();
+            }
         } else if (keyEvent.pressed(KeyCode.E)) {
             if (GameMenu.gameState != GameMenu.GAME_STATE.END) GameMenu.gameState = GameMenu.GAME_STATE.END;
+        } else if (keyEvent.pressed(KeyCode.Z)) {
+            collisionManage.saveData();
         } else count = 0;
         img = getImg(getDirection());
         updateItems();
         bombControl.updateBomb();
-        timeRemain = 150 - (Timer.now() - collisionManage.getMap().getTime_begin()) / 100000000;
+        timeRemain = 150 - (Timer.now() - collisionManage.getMap().getTime_begin() - pauseTime) / 100000000;
     }
 
     public void updateItems() {

@@ -2,6 +2,7 @@ package uet.oop.bomberman;
 
 import javafx.util.Pair;
 import uet.oop.bomberman.controlSystem.*;
+import uet.oop.bomberman.controlSystem.Timer;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -10,10 +11,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 import static uet.oop.bomberman.graphics.Sprite.*;
 
@@ -71,6 +70,13 @@ public class Map {
 
         Path path = Paths.get("").toAbsolutePath();
         File file = new File(path.normalize().toString() + "/res/levels/Level" + level + ".txt");
+        boolean contin = false;
+        try {
+            file = new File("Savetest.txt");
+            contin = true;
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
 
         try {
             Scanner scanner = new Scanner(file);
@@ -99,6 +105,10 @@ public class Map {
                             tempList.add(new Brick(j, i, Sprite.brick.getFxImage()));
                             codeList[i][j] = Portal.code;
                             break;
+                        case 'y':
+                            tempList.add(new Portal(j, i, portal.getFxImage()));
+                            codeList[i][j] = Portal.code;
+                            break;
                         case '1':
                             tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
                             balloomPos.add(new Pair<>(j, i));
@@ -110,6 +120,18 @@ public class Map {
                         case '3':
                             tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
                             dollPos.add(new Pair<>(j, i));
+                            break;
+                        case 'f':
+                            tempList.add(new FlameItem(j, i, powerup_flames.getFxImage()));
+                            break;
+                        case 'b':
+                            tempList.add(new FlameItem(j, i, powerup_bombs.getFxImage()));
+                            break;
+                        case 's':
+                            tempList.add(new FlameItem(j, i, powerup_speed.getFxImage()));
+                            break;
+                        case 'm':
+                            tempList.add(new FlameItem(j, i, powerup_bombpass.getFxImage()));
                             break;
                         default:
                             tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
@@ -126,9 +148,52 @@ public class Map {
         camera = new Camera(0, 0, width, height);
         bombControl = new BombControl(this);
         enemyControl = new EnemyControl(bombControl, this);
+
+        //Render Bomb and read Bomber
+        int bomberSpeed = 2;
+        int bomberNumberOfBombs = 1;
+        int bomberHasJustSetBomb = 0;
+        int bomberPower = 1;
+        if (contin) {
+            try {
+                Scanner scanner = new Scanner(file);
+                level = scanner.nextInt();
+                height = scanner.nextInt();
+                width = scanner.nextInt();
+                codeList = new int[height][width];
+                scanner.nextLine();
+                for (int i = 0; i < height; i++) {
+                    String tempStr = scanner.nextLine();
+                    for (int j = 0; j < width; j++) {
+                        switch (tempStr.charAt(j)) {
+                            case '!':
+                                Bomb bomb = new Bomb(j, i, Sprite.bomb.getFxImage());
+                                bombControl.addBomb(bomb);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                bomberSpeed = scanner.nextInt();
+                bomberNumberOfBombs = scanner.nextInt();
+                bomberHasJustSetBomb = scanner.nextInt();
+                bomberPower = scanner.nextInt();
+                scanner.close();
+            } catch (FileNotFoundException exception) {
+                System.out.println(exception.getMessage());
+            }
+        }
+
+        if (bomberHasJustSetBomb == 1) {
+            bombControl.setHasJustSetBomb(true);
+        } else bombControl.setHasJustSetBomb(false);
+        bombControl.setNumberOfBomb(bomberNumberOfBombs);
+        bombControl.setPower(bomberPower);
+
         collision = new Collision(this, bombControl, enemyControl);
 
-        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision);
+        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision, bomberSpeed);
         entities.add(bomberman);
 
         for (Pair<Integer, Integer> pos: balloomPos) {
@@ -236,6 +301,10 @@ public class Map {
 
     public int getLevel() {
         return level;
+    }
+
+    public int[][] getCodeList() {
+        return codeList;
     }
 
     public int getCode(int x, int y) {

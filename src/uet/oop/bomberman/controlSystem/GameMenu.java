@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Map;
+import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -112,6 +113,8 @@ public class GameMenu {
                                   Sound.menu.loop();
                                 System.out.println("[ENTER CONTINUE_PLAY]");
                                 gameState = GAME_STATE.IN_PLAY;
+                                Bomber.pauseTime += Timer.unpause();
+                                System.out.println(Bomber.pauseTime);
                                 break;
                             case GO_TO_MENU:
                                 Sound.menu.stop();
@@ -195,8 +198,8 @@ public class GameMenu {
                         } else {
                             Sound.menu.stop();
                             Sound.lose.loop();
-//                            gc.drawImage(Screen.loser, 0, 0,
-//                                    Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE);
+                            gc.drawImage(Screen.loser, 0, 0,
+                                    Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE);
                         }
 
                         break;

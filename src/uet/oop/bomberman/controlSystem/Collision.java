@@ -292,7 +292,7 @@ public class Collision {
     public void saveData() {
         List<List<Character>> formatMap = formatMapDetailData();
         StringBuilder res = new StringBuilder();
-        res.append(1);
+        res.append(map.getLevel());
         res.append(' ');
         res.append(map.getHeight());
         res.append(' ');

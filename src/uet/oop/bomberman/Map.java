@@ -68,12 +68,12 @@ public class Map {
         dollPos = new ArrayList<>();
         // Read a map file
 
-        boolean con = false;
         Path path = Paths.get("").toAbsolutePath();
         File file = new File(path.normalize().toString() + "/res/levels/Level" + level + ".txt");
+        boolean contin = false;
         try {
             file = new File("Savetest.txt");
-            con = true;
+            contin = true;
         } catch (Exception e) {
             System.out.println("Error");
         }
@@ -121,6 +121,18 @@ public class Map {
                             tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
                             dollPos.add(new Pair<>(j, i));
                             break;
+                        case 'f':
+                            tempList.add(new FlameItem(j, i, powerup_flames.getFxImage()));
+                            break;
+                        case 'b':
+                            tempList.add(new FlameItem(j, i, powerup_bombs.getFxImage()));
+                            break;
+                        case 's':
+                            tempList.add(new FlameItem(j, i, powerup_speed.getFxImage()));
+                            break;
+                        case 'm':
+                            tempList.add(new FlameItem(j, i, powerup_bombpass.getFxImage()));
+                            break;
                         default:
                             tempList.add(new Grass(j, i, Sprite.grass.getFxImage()));
                             break;
@@ -137,35 +149,51 @@ public class Map {
         bombControl = new BombControl(this);
         enemyControl = new EnemyControl(bombControl, this);
 
-        //Render Bomb
-        try {
-            Scanner scanner = new Scanner(file);
-            level = scanner.nextInt();
-            height = scanner.nextInt();
-            width = scanner.nextInt();
-            codeList = new int[height][width];
-            scanner.nextLine();
-            for (int i = 0; i < height; i++) {
-                String tempStr = scanner.nextLine();
-                for (int j = 0; j < width; j++) {
-                    switch (tempStr.charAt(j)) {
-                        case '!':
-                            Bomb bomb = new Bomb(j, i, Sprite.bomb.getFxImage());
-                            bombControl.addBomb(bomb);
-                            break;
-                        default:
-                            break;
+        //Render Bomb and read Bomber
+        int bomberSpeed = 2;
+        int bomberNumberOfBombs = 1;
+        int bomberHasJustSetBomb = 0;
+        int bomberPower = 1;
+        if (contin) {
+            try {
+                Scanner scanner = new Scanner(file);
+                level = scanner.nextInt();
+                height = scanner.nextInt();
+                width = scanner.nextInt();
+                codeList = new int[height][width];
+                scanner.nextLine();
+                for (int i = 0; i < height; i++) {
+                    String tempStr = scanner.nextLine();
+                    for (int j = 0; j < width; j++) {
+                        switch (tempStr.charAt(j)) {
+                            case '!':
+                                Bomb bomb = new Bomb(j, i, Sprite.bomb.getFxImage());
+                                bombControl.addBomb(bomb);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
+                bomberSpeed = scanner.nextInt();
+                bomberNumberOfBombs = scanner.nextInt();
+                bomberHasJustSetBomb = scanner.nextInt();
+                bomberPower = scanner.nextInt();
+                scanner.close();
+            } catch (FileNotFoundException exception) {
+                System.out.println(exception.getMessage());
             }
-            scanner.close();
-        } catch (FileNotFoundException exception) {
-            System.out.println(exception.getMessage());
         }
+
+        if (bomberHasJustSetBomb == 1) {
+            bombControl.setHasJustSetBomb(true);
+        } else bombControl.setHasJustSetBomb(false);
+        bombControl.setNumberOfBomb(bomberNumberOfBombs);
+        bombControl.setPower(bomberPower);
 
         collision = new Collision(this, bombControl, enemyControl);
 
-        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision);
+        Entity bomberman = new Bomber(startxPos, startyPos, Sprite.player_right.getFxImage(), keyListener, collision, bomberSpeed);
         entities.add(bomberman);
 
         for (Pair<Integer, Integer> pos: balloomPos) {

@@ -50,6 +50,16 @@ public class Bomber extends DestroyableEntity {
         this.direction = direction;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+
+
     public boolean isGoToNextLevel() {
         return isGoToNextLevel;
     }
@@ -61,10 +71,10 @@ public class Bomber extends DestroyableEntity {
 
     // new Constructor with keyEvent
     public Bomber(int x, int y, Image img, KeyListener keyEvent,
-                  Collision collisionManage) {
+                  Collision collisionManage, int speed) {
         super(x, y, img);
         this.keyEvent = keyEvent;
-        speed = 2;
+        this.speed = speed;
         this.collisionManage = collisionManage;
         this.bombControl = collisionManage.getBombControl();
         this.enemyControl = collisionManage.getEnemyControl();

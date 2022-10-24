@@ -13,6 +13,6 @@ public class BombItem extends Item{
     @Override
     public void powerUp(Bomber bomber) {
         bomber.getBombControl().setNumberOfBomb(
-                bomber.getBombControl().getNumberOfBomb()+1);
+                bomber.getBombControl().getNumberOfBomb() + 1);
     }
 }

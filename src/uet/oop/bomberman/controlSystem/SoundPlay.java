@@ -15,8 +15,8 @@ public class SoundPlay {
             clip = AudioSystem.getClip();
             clip.open(audioIn);
             // Lower audio
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-18.0f);
+//            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+//            gainControl.setValue(-18.0f);
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
         }
@@ -30,5 +30,14 @@ public class SoundPlay {
     }
     public void stop(){
         clip.stop();
+    }
+
+    public void higher() {
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(+5.0f);
+    }
+    public void lower() {
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-5.0f);
     }
 }

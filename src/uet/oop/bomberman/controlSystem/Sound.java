@@ -4,7 +4,7 @@ public class Sound {
     public static SoundPlay bombExplose = new SoundPlay("res\\sound\\bomb_bang.wav");
     public static SoundPlay startStage = new SoundPlay("res\\sound\\startstage.wav");
     public static SoundPlay bomberDie = new SoundPlay("res\\sound\\bomber_die.wav");
-    public static SoundPlay item = new SoundPlay("res\\sound\\item.wav");
+    //public static SoundPlay item = new SoundPlay("res\\sound\\item.wav");
     public static SoundPlay lose = new SoundPlay("res\\sound\\lose.mid");
     public static SoundPlay menu = new SoundPlay("res\\sound\\menu.wav");
     public static SoundPlay enemyDie = new SoundPlay("res\\sound\\enemy_die.wav");

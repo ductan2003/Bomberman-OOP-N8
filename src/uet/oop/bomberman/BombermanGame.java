@@ -28,7 +28,6 @@ public class BombermanGame extends Application {
 
     private Canvas canvas;
     public static Map map;
-
     private KeyListener keyEvent;
     public Screen screen;
     public Timer timer;

@@ -30,13 +30,14 @@ public class Bomber extends DestroyableEntity {
     private Direction direction;
     private EnemyControl enemyControl;
     private int timeDead = 0;
+    private long timeSet;
     private long timeRemain;
     private boolean respawn;
     private int timeRespawn;
     public static long pauseTime;
     private int lives = 3;
     private static int[] FIX_LENGTH = {0, -4, 4};
-    int count = 0;
+    private int count = 0;
 
     public void setGoToNextLevel(boolean goToNextLevel) {
         isGoToNextLevel = goToNextLevel;
@@ -57,6 +58,8 @@ public class Bomber extends DestroyableEntity {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
+
+
 
     public boolean isGoToNextLevel() {
         return isGoToNextLevel;
@@ -96,7 +99,8 @@ public class Bomber extends DestroyableEntity {
         count = 0;
         respawn = false;
         timeRespawn = 0;
-        this.timeRemain = timeRemain;
+        timeSet = timeRemain;
+        this.timeRemain = 0;
         this.lives = lives;
         pauseTime = 0;
     }
@@ -185,13 +189,18 @@ public class Bomber extends DestroyableEntity {
                 Timer.pause();
             }
         } else if (keyEvent.pressed(KeyCode.E)) {
+            if (GameMenu.gameState != GameMenu.GAME_STATE.END) GameMenu.gameState = GameMenu.GAME_STATE.END;
+        } else if (keyEvent.pressed(KeyCode.Z)) {
             collisionManage.saveData();
             if (GameMenu.gameState != GameMenu.GAME_STATE.END) GameMenu.gameState = GameMenu.GAME_STATE.END;
         } else count = 0;
         img = getImg(getDirection());
         updateItems();
         bombControl.updateBomb();
-        timeRemain = 150 - (Timer.now() - collisionManage.getMap().getTime_begin() - pauseTime) / 100000000;
+        timeRemain = timeSet - (Timer.now() - collisionManage.getMap().getTime_begin() - pauseTime) / 100000000;
+        if (timeRemain <= 0) {
+            setDead(true);
+        }
     }
 
     public void updateItems() {
@@ -253,12 +262,13 @@ public class Bomber extends DestroyableEntity {
         bombControl.renderBombs(gc, camera);
         super.render(gc, camera);
         for (int i = 0; i < lives; i++) {
-            gc.drawImage(heart.getFxImage(), (Screen.WIDTH - 7) * SCALED_SIZE + i * 20, Screen.HEIGHT * SCALED_SIZE);
+            gc.drawImage(heart.getFxImage(), (Screen.WIDTH - 5) * SCALED_SIZE + i * 20, Screen.HEIGHT * SCALED_SIZE);
         }
 
         try {
             gc.setFont(Font.loadFont(Files.newInputStream(Paths.get("res/font/Future Techno Italic 400.ttf")), 20));
-            gc.fillText("Time: " + timeRemain, 4 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
+            gc.fillText("Time: " + timeRemain, 3 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
+            gc.fillText("Level: " + collisionManage.getMap().getLevel() +"/4", 10 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

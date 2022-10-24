@@ -340,8 +340,4 @@ public class Map {
         return time_begin;
     }
 
-    public void clear()
-    {
-
-    }
 }

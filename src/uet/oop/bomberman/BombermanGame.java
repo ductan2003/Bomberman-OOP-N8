@@ -40,6 +40,7 @@ public class BombermanGame extends Application {
 
         // Tao scene
         Scene scene = new Scene(root);
+        stage.setTitle("BOMBERMAN");
         keyEvent = new KeyListener(scene);
         menu = new GameMenu(keyEvent);
         timer = new Timer(this);

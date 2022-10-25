@@ -15,9 +15,9 @@ import uet.oop.bomberman.graphics.Sprite;
 
 
 public class GameMenu {
-    public static enum GAME_STATE {
+    public enum GAME_STATE {
         IN_MENU, IN_PLAY, IN_PAUSE,
-        END, IN_END_STATE;
+        END, IN_END_STATE,
     }
 
     private final int PLAY = 0;
@@ -29,11 +29,9 @@ public class GameMenu {
     List<Button> buttonMenu = new ArrayList<>();
     List<Button> buttonPause = new ArrayList<>();
 
-    private int choosenButton;
-    private int choosenButton1;
-    private int numberReady = 0;
-
-    private KeyListener keyListener;
+    private int choseButton;
+    private int choseButton1;
+    private final KeyListener keyListener;
     public static GAME_STATE gameState;
 
     public GameMenu(KeyListener keyListener) {
@@ -41,31 +39,31 @@ public class GameMenu {
         this.keyListener = keyListener;
 
         Text text = new Text("PLAY");
-        text.setFont(Screen.FUTUREFONT);
+        text.setFont(Screen.FUTURE_FONT);
         text.setFill(Color.BLACK);
         buttonMenu.add(new Button(Screen.WIDTH / 2 * Sprite.SCALED_SIZE - (int) text.getLayoutBounds().getWidth() / 2,
                 Screen.HEIGHT / 2 * Sprite.SCALED_SIZE + (int) text.getLayoutBounds().getHeight() / 2, text));
 
         text = new Text("EXIT");
-        text.setFont(Screen.FUTUREFONT);
+        text.setFont(Screen.FUTURE_FONT);
         text.setFill(Color.BLACK);
         buttonMenu.add(new Button(Screen.WIDTH / 2 * Sprite.SCALED_SIZE - (int) text.getLayoutBounds().getWidth() / 2,
                 Screen.HEIGHT / 2 * Sprite.SCALED_SIZE + 3 * (int) text.getLayoutBounds().getHeight() / 2, text));
 
         text = new Text("CONTINUE GAME");
-        text.setFont(Screen.FUTUREFONT);
+        text.setFont(Screen.FUTURE_FONT);
         text.setFill(Color.BLACK);
         buttonPause.add(new Button(Screen.WIDTH / 2 * Sprite.SCALED_SIZE - (int) text.getLayoutBounds().getWidth() / 2,
                 Screen.HEIGHT / 2 * Sprite.SCALED_SIZE + (int) text.getLayoutBounds().getHeight() / 2, text));
 
         text = new Text("GO TO MENU");
-        text.setFont(Screen.FUTUREFONT);
+        text.setFont(Screen.FUTURE_FONT);
         text.setFill(Color.BLACK);
         buttonPause.add(new Button(Screen.WIDTH / 2 * Sprite.SCALED_SIZE - (int) text.getLayoutBounds().getWidth() / 2,
                 Screen.HEIGHT / 2 * Sprite.SCALED_SIZE + 3 * (int) text.getLayoutBounds().getHeight() / 2, text));
 
-        choosenButton = PLAY;
-        choosenButton1 = CONTINUE_PLAY;
+        choseButton = PLAY;
+        choseButton1 = CONTINUE_PLAY;
     }
 
     public void update() {
@@ -76,7 +74,7 @@ public class GameMenu {
                     delayInput = now;
                     if (keyListener.pressed(KeyCode.ENTER)) {
                         Sound.menuSelect.play();
-                        switch (choosenButton) {
+                        switch (choseButton) {
                             case PLAY:
                                 Sound.backgroundGame.stop();
                                 Sound.menu.loop();
@@ -94,10 +92,10 @@ public class GameMenu {
                         }
                     } else if (keyListener.pressed(KeyCode.UP)) {
                         Sound.menuMove.play();
-                        choosenButton = PLAY;
+                        choseButton = PLAY;
                     } else if (keyListener.pressed(KeyCode.DOWN)) {
                         Sound.menuMove.play();
-                        choosenButton = EXIT;
+                        choseButton = EXIT;
                     }
                 }
                 break;
@@ -109,7 +107,7 @@ public class GameMenu {
                     delayInput = now;
                     if (keyListener.pressed(KeyCode.ENTER)) {
                         Sound.menuSelect.play();
-                        switch (choosenButton1) {
+                        switch (choseButton1) {
                             case CONTINUE_PLAY:
                                 Sound.backgroundGame.stop();
                                 Sound.menu.loop();
@@ -123,14 +121,15 @@ public class GameMenu {
                                 Sound.backgroundGame.loop();
                                 System.out.println("[ENTER GO_TO_MENU]");
                                 gameState = GAME_STATE.IN_MENU;
+                                BombermanGame.map.clear();
                                 break;
                         }
                     } else if (keyListener.pressed(KeyCode.UP)) {
                         Sound.menuMove.play();
-                        choosenButton1 = CONTINUE_PLAY;
+                        choseButton1 = CONTINUE_PLAY;
                     } else if (keyListener.pressed(KeyCode.DOWN)) {
                         Sound.menuMove.play();
-                        choosenButton1 = GO_TO_MENU;
+                        choseButton1 = GO_TO_MENU;
                     }
                 }
                 break;
@@ -144,6 +143,7 @@ public class GameMenu {
                         Sound.win.stop();
                         Sound.lose.stop();
                         Sound.backgroundGame.loop();
+                        BombermanGame.map.clear();
                         gameState = GAME_STATE.IN_MENU;
                     }
                 }
@@ -172,7 +172,7 @@ public class GameMenu {
         switch (gameState) {
             case IN_MENU:
                 for (int i = 0; i < buttonMenu.size(); i++) {
-                    if (choosenButton == i) {
+                    if (choseButton == i) {
                         buttonMenu.get(i).renderChoosen(gc);
                     } else {
                         buttonMenu.get(i).render(gc);
@@ -181,7 +181,7 @@ public class GameMenu {
                 break;
             case IN_PAUSE: {
                 for (int i = 0; i < buttonPause.size(); i++) {
-                    if (choosenButton1 == i) {
+                    if (choseButton1 == i) {
                         buttonPause.get(i).renderChoosen(gc);
                     } else {
                         buttonPause.get(i).render(gc);
@@ -203,7 +203,7 @@ public class GameMenu {
                     gc.drawImage(Screen.loser, 0, 0,
                             Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE);
                 }
-
+                BombermanGame.map.clear();
                 break;
         }
     }

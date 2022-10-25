@@ -16,5 +16,4 @@ public class DestroyableEntity extends MoveableEntity implements Obstacle {
     public boolean isDead() {
         return isDead;
     }
-
 }

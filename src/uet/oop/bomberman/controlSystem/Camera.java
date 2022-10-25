@@ -4,17 +4,11 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.awt.*;
-
 public class Camera {
     private int x;
     private int y;
-    private int width;
-    private int height;
-
-    public Camera() {
-
-    }
+    private final int width;
+    private final int height;
 
     public Camera(int x, int y, int width, int height) {
         this.x = x;

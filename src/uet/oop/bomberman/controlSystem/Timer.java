@@ -4,8 +4,8 @@ import javafx.animation.AnimationTimer;
 import uet.oop.bomberman.BombermanGame;
 
 public class Timer {
-    private AnimationTimer timer;
-    private BombermanGame game;
+    private final AnimationTimer timer;
+    private final BombermanGame game;
     private static long tick;
 
     public Timer(BombermanGame bombermanGame) {

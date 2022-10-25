@@ -40,13 +40,10 @@ public class Map {
     }
 
     protected Camera camera;
-    private List<Entity> entities;
-    private List<Pair<Integer, Integer>> balloomPos;
-    private List<Pair<Integer, Integer>> onealPos;
-    private List<Pair<Integer, Integer>> dollPos;
-    private Collision collision;
-    private BombControl bombControl;
-    private EnemyControl enemyControl;
+    public static List<Entity> entities;
+    public static Collision collision;
+    public static BombControl bombControl;
+    public static EnemyControl enemyControl;
 
     public Map(int level, KeyListener keyListener, boolean isContinue) {
         createMap(level, keyListener, isContinue);
@@ -65,13 +62,13 @@ public class Map {
         numberBomberDie = 0;
         numberBomberLife = 3;
 
-        balloomPos = new ArrayList<>();
-        onealPos = new ArrayList<>();
-        dollPos = new ArrayList<>();
+        List<Pair<Integer, Integer>> balloomPos = new ArrayList<>();
+        List<Pair<Integer, Integer>> onealPos = new ArrayList<>();
+        List<Pair<Integer, Integer>> dollPos = new ArrayList<>();
 
         // Read a map file
         Path path = Paths.get("").toAbsolutePath();
-        File file = new File(path.normalize().toString() + "/res/levels/Level" + level + ".txt");
+        File file = new File(path.normalize() + "/res/levels/Level" + level + ".txt");
 
         // Check if press Continue Old Game
         if (isContinue) {
@@ -155,8 +152,8 @@ public class Map {
 
         // generate camera, bombControl, enemyControl
         camera = new Camera(0, 0, width, height);
-        bombControl = new BombControl(this);
-        enemyControl = new EnemyControl(bombControl, this);
+        bombControl = new BombControl();
+        enemyControl = new EnemyControl();
 
         // generate other entities if press continue game.
         int bomberSpeed = 2;
@@ -170,7 +167,7 @@ public class Map {
             try {
 
                 Scanner scanner = new Scanner(file);
-                level = scanner.nextInt();
+                this.level = scanner.nextInt();
                 height = scanner.nextInt();
                 width = scanner.nextInt();
 
@@ -178,13 +175,10 @@ public class Map {
                 for (int i = 0; i < height; i++) {
                     String tempStr = scanner.nextLine();
                     for (int j = 0; j < width; j++) {
-                        switch (tempStr.charAt(j)) {
-                            case '!':
-                                Bomb bomb = new Bomb(j, i, Sprite.bomb.getFxImage());
-                                bombControl.addBomb(bomb);
-                                break;
-                            default:
-                                break;
+                        if (tempStr.charAt(j) == '!') {
+                            Bomb bomb = new Bomb(j, i, Sprite.bomb.getFxImage());
+                            bombControl.addBomb(bomb);
+                            break;
                         }
                     }
                 }
@@ -205,29 +199,31 @@ public class Map {
 
         if (bomberHasJustSetBomb == 1) {
             bombControl.setHasJustSetBomb(true);
-        } else bombControl.setHasJustSetBomb(false);
+        } else {
+            bombControl.setHasJustSetBomb(false);
+        }
         bombControl.setNumberOfBomb(bomberNumberOfBombs);
         bombControl.setPower(bomberPower);
 
-        collision = new Collision(this, bombControl, enemyControl);
+        collision = new Collision();
 
         Entity bomberman = new Bomber(startXPos, startYPos, Sprite.player_right.getFxImage(),
-                keyListener, collision, bomberSpeed, bomberLives, bomberTimeRemain);
+                keyListener, bomberSpeed, bomberLives, bomberTimeRemain);
         entities.add(bomberman);
 
         for (Pair<Integer, Integer> pos : balloomPos) {
-            Enemy ballom = new Balloom(pos.getKey(), pos.getValue(), Sprite.balloom_right1.getFxImage(), collision, false);
-            enemyControl.addEnemy(ballom, entities);
+            Enemy balloom = new Balloom(pos.getKey(), pos.getValue(), Sprite.balloom_right1.getFxImage(), false);
+            enemyControl.addEnemy(balloom);
         }
 
         for (Pair<Integer, Integer> pos : onealPos) {
-            Enemy oneal = new Oneal(pos.getKey(), pos.getValue(), Sprite.oneal_right1.getFxImage(), collision);
-            enemyControl.addEnemy(oneal, entities);
+            Enemy oneal = new Oneal(pos.getKey(), pos.getValue(), Sprite.oneal_right1.getFxImage());
+            enemyControl.addEnemy(oneal);
         }
 
         for (Pair<Integer, Integer> pos : dollPos) {
-            Enemy doll = new Doll(pos.getKey(), pos.getValue(), Sprite.oneal_right1.getFxImage(), collision);
-            enemyControl.addEnemy(doll, entities);
+            Enemy doll = new Doll(pos.getKey(), pos.getValue(), Sprite.oneal_right1.getFxImage());
+            enemyControl.addEnemy(doll);
         }
     }
 
@@ -258,31 +254,18 @@ public class Map {
                 camera.update(bomber);
                 bomber.getBombControl().updateBomb();
             }
-            if (entities.get(index) instanceof Balloom) {
-                Balloom balloom = (Balloom) entities.get(index);
-                if (balloom.getCountTimeDeath() > 35) {
-                    entities.remove(entities.get(index));
-                    index--;
-                }
-            }
-
-            if (entities.get(index) instanceof Oneal) {
-                Oneal oneal = (Oneal) entities.get(index);
-                if (oneal.getCountTimeDeath() > 35) {
-                    entities.remove(entities.get(index));
-                    index--;
-                }
-            }
-
             if (entities.get(index) instanceof Doll) {
                 Doll doll = (Doll) entities.get(index);
                 if (doll.getCountTimeDeath() == 35) {
                     Balloom b1 = new Balloom(Math.round((doll.getX() + DEFAULT_SIZE) / SCALED_SIZE),
                             Math.round((doll.getY() + DEFAULT_SIZE) / SCALED_SIZE),
-                            balloom_right1.getFxImage(), collision, true);
-                    collision.getEnemyControl().addEnemy(b1, collision.getMap().getEntities());
+                            balloom_right1.getFxImage(), true);
+                    enemyControl.addEnemy(b1);
                 }
-                if (doll.getCountTimeDeath() > 35) {
+            }
+            if (entities.get(index) instanceof Enemy) {
+                Enemy enemy = (Enemy) entities.get(index);
+                if (enemy.getCountTimeDeath() > 35) {
                     entities.remove(entities.get(index));
                     index--;
                 }
@@ -342,8 +325,10 @@ public class Map {
         return time_begin;
     }
 
-    public void clear(){
+    public void clear() {
         map.clear();
         entities.clear();
+        enemyControl.clear();
+        bombControl.clear();
     }
 }

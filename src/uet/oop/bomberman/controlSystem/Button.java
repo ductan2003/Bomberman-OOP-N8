@@ -29,7 +29,7 @@ public class Button {
 
     public void renderChoosen(GraphicsContext gc) {
         gc.strokeText(buttonName.getText(), x, y);
-        gc.setFont(Screen.FUTUREFONT);
+        gc.setFont(Screen.FUTURE_FONT);
         gc.setFill(Color.CHOCOLATE);
         gc.fillText(buttonName.getText(), x, y);
     }

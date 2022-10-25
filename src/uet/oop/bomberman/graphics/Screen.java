@@ -11,26 +11,32 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static uet.oop.bomberman.Map.collision;
+import static uet.oop.bomberman.entities.Bomber.lives;
+import static uet.oop.bomberman.entities.Bomber.timeRemain;
+import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
+import static uet.oop.bomberman.graphics.Sprite.heart;
+
 
 public class Screen {
     public static int WIDTH = 22;
     public static int HEIGHT = 13;
-    public static Font FUTUREFONT;
+    public static Font FUTURE_FONT;
     public static Image backGroundMenu;
     public static Image loser;
     public static Image winner;
 
-    private GraphicsContext gc;
+    private final GraphicsContext gc;
 
     public Screen(Canvas canvas) {
         gc = canvas.getGraphicsContext2D();
         try {
-            FUTUREFONT = Font.loadFont(Files.newInputStream(Paths.get("res/font/Future Techno Italic 400.ttf")), 40);
+            FUTURE_FONT = Font.loadFont(Files.newInputStream(Paths.get("res/font/Future Techno Italic 400.ttf")), 40);
             winner = new Image(Files.newInputStream(Paths.get("res/Menu/winner.png")));
             loser = new Image(Files.newInputStream(Paths.get("res/Menu/loser.png")));
             backGroundMenu = new Image(Files.newInputStream(Paths.get("res/Menu/BG.png")));
         } catch (IOException e) {
-            System.out.println("[IOException] Wrong filepaths.");
+            System.out.println("[IOException] Wrong filepath.");
         }
     }
 
@@ -45,6 +51,16 @@ public class Screen {
             map.getMap().get(i).forEach(g -> g.render(gc, map.getCamera()));
         }
         map.getEntities().forEach(g -> g.render(gc, map.getCamera()));
+        for (int i = 0; i < lives; i++) {
+            gc.drawImage(heart.getFxImage(), (Screen.WIDTH - 5) * SCALED_SIZE + i * 20, Screen.HEIGHT * SCALED_SIZE);
+        }
+        try {
+            gc.setFont(Font.loadFont(Files.newInputStream(Paths.get("res/font/Future Techno Italic 400.ttf")), 20));
+            gc.fillText("Time: " + timeRemain, 3 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
+            gc.fillText("Level: " + collision.getMap().getLevel() + "/4", 10 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void clearScreen(Canvas canvas) {

@@ -1,6 +1,7 @@
 package uet.oop.bomberman.controlSystem;
 
 import javafx.scene.canvas.GraphicsContext;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
@@ -12,12 +13,16 @@ import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
 public class BombControl {
     // Todo: setup bomb
-    private List<Bomb> bombList = new ArrayList<>();
-    private Map map;
+    private final List<Bomb> bombList;
     private int power = 1;
     private int numberOfBomb = 1;
-    private List<Flame> flameList = new ArrayList<>();
+    private final List<Flame> flameList;
     boolean hasJustSetBomb = false;
+
+    public BombControl() {
+        bombList = new ArrayList<>();
+        flameList = new ArrayList<>();
+    }
 
     /**
      * Remove bomb and Flame.
@@ -38,10 +43,6 @@ public class BombControl {
         }
     }
 
-    //    public void getBombInfo() {
-//        System.out.println("Bomb: " + this.);
-//    }
-
     /**
      * Add Bomb to the bombList.
      */
@@ -57,10 +58,9 @@ public class BombControl {
     /**
      * Check to see if a position can set bomb.
      */
-    public boolean canSetBomb(int x, int y, Direction direction) {
+    public boolean canSetBomb(int x, int y) {
         if (bombList.size() == numberOfBomb) return false;
-        if (map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE) instanceof Grass) {
-//            System.out.println("Can Set Bomb" + map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE));
+        if (BombermanGame.map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE) instanceof Grass) {
             return true;
         }
 
@@ -81,7 +81,7 @@ public class BombControl {
         int x = bomb.getX() / SCALED_SIZE;
         int y = bomb.getY() / SCALED_SIZE;
 
-        flameList.add(new Flame(x, y, Direction.CENTER, Flame.TYPE.BODY, map));
+        flameList.add(new Flame(x, y, Direction.CENTER, Flame.TYPE.BODY));
 
         for (int i = 1; i <= power; i++) {
             for (int j = 0; j < 4; j++) {
@@ -92,42 +92,42 @@ public class BombControl {
                 if (i == power) type = Flame.TYPE.LAST;
 
                 if (valCheck[j]) {
-                    for (int k = 0; k < bombList.size(); k++) {
-                        if (bombList.get(k).getX() / SCALED_SIZE == posX && bombList.get(k).getY() / SCALED_SIZE == posY) {
-                            bombList.get(k).setExploded(true);
+                    for (Bomb bomb1 : bombList) {
+                        if (bomb1.getX() / SCALED_SIZE == posX && bomb1.getY() / SCALED_SIZE == posY) {
+                            bomb1.setExploded(true);
                             valCheck[j] = false;
                             break;
                         }
                     }
 
-                    if (!(map.getMap().get(posY).get(posX) instanceof Obstacle)) {
-                        flameList.add(new Flame(posX, posY, valD[j], type, map));
+                    if (!(BombermanGame.map.getMap().get(posY).get(posX) instanceof Obstacle)) {
+                        flameList.add(new Flame(posX, posY, valD[j], type));
                     } else {
                         valCheck[j] = false;
-                        if ((map.getMap().get(posY).get(posX) instanceof Brick)) {
-                            if (map.getCode(posX, posY) == Portal.code) {
-                                map.replace(posX, posY, new Portal(posX, posY, Sprite.portal.getFxImage()));
+                        if ((BombermanGame.map.getMap().get(posY).get(posX) instanceof Brick)) {
+                            if (BombermanGame.map.getCode(posX, posY) == Portal.code) {
+                                BombermanGame.map.replace(posX, posY, new Portal(posX, posY, Sprite.portal.getFxImage()));
                                 break;
                             }
                             int random = (int) (Math.random() * 20);
                             switch (random) {
                                 case 0:
-                                    map.replace(posX, posY, new FlameItem(posX, posY, Sprite.powerup_flames.getFxImage()));
+                                    BombermanGame.map.replace(posX, posY, new FlameItem(posX, posY, Sprite.powerup_flames.getFxImage()));
                                     break;
                                 case 1:
-                                    map.replace(posX, posY, new BombItem(posX, posY, Sprite.powerup_bombs.getFxImage()));
+                                    BombermanGame.map.replace(posX, posY, new BombItem(posX, posY, Sprite.powerup_bombs.getFxImage()));
                                     break;
                                 case 2:
-                                    map.replace(posX, posY, new SpeedItem(posX, posY, Sprite.powerup_speed.getFxImage()));
+                                    BombermanGame.map.replace(posX, posY, new SpeedItem(posX, posY, Sprite.powerup_speed.getFxImage()));
                                     break;
                                 case 3:
-                                    map.replace(posX, posY, new BombPassItem(posX, posY, Sprite.powerup_bombpass.getFxImage()));
+                                    BombermanGame.map.replace(posX, posY, new BombPassItem(posX, posY, Sprite.powerup_bombpass.getFxImage()));
                                     break;
                                 default:
-                                    map.replace(posX, posY, new Grass(posX, posY, Sprite.grass.getFxImage()));
+                                    BombermanGame.map.replace(posX, posY, new Grass(posX, posY, Sprite.grass.getFxImage()));
                                     break;
                             }
-                            flameList.add(new Flame(posX, posY, valD[j], Flame.TYPE.BRICK, map));
+                            flameList.add(new Flame(posX, posY, valD[j], Flame.TYPE.BRICK));
                         }
                     }
                 }
@@ -165,10 +165,6 @@ public class BombControl {
         return numberOfBomb;
     }
 
-    public BombControl(Map map) {
-        this.map = map;
-    }
-
     public void setHasJustSetBomb(boolean hasJustSetBomb) {
         this.hasJustSetBomb = hasJustSetBomb;
     }
@@ -178,7 +174,7 @@ public class BombControl {
     }
 
     public Map getMap() {
-        return map;
+        return BombermanGame.map;
     }
 
     public List<Bomb> getBombList() {
@@ -189,4 +185,8 @@ public class BombControl {
         return flameList;
     }
 
+    public void clear() {
+        bombList.clear();
+        flameList.clear();
+    }
 }

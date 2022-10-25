@@ -1,13 +1,11 @@
 package uet.oop.bomberman;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import uet.oop.bomberman.controlSystem.*;
@@ -17,7 +15,6 @@ import uet.oop.bomberman.graphics.Sprite;
 
 
 public class BombermanGame extends Application {
-    private GraphicsContext gc;
     public static GameMenu menu;
 
     private Canvas canvas;

@@ -9,10 +9,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class KeyListener {
-    private Set<KeyCode> keyList = new HashSet<>();
+    private final Set<KeyCode> keyList = new HashSet<>();
 
     public KeyListener(Scene scene) {
-        KeyEvent event;
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {

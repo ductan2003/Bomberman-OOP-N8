@@ -1,7 +1,6 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.Map;
 import uet.oop.bomberman.controlSystem.Direction;
 import uet.oop.bomberman.controlSystem.Timer;
 
@@ -12,20 +11,18 @@ public class Flame extends Entity implements Obstacle {
         BRICK, LAST, BODY
     }
 
-    private TYPE type;
-    private Map map;
-    private Direction direction;
+    private final TYPE type;
+    private final Direction direction;
     private boolean exploded;
-    private long timeSet;
-    private long limit;
-    private int time = 100;
+    private final long timeSet;
+    private final long limit;
+    private final int time = 100;
 
     private int count = 0;
 
-    public Flame(int xUnit, int yUnit, Direction direction, TYPE type, Map map) {
+    public Flame(int xUnit, int yUnit, Direction direction, TYPE type) {
         super(xUnit, yUnit);
         this.direction = direction;
-        this.map = map;
         this.type = type;
         this.setImg(getImg());
         exploded = false;
@@ -35,11 +32,6 @@ public class Flame extends Entity implements Obstacle {
 
     @Override
     public void update() {
-        for (int i = 0; i < map.getEntities().size(); i++) {
-            if (map.getEntities().get(i) instanceof DestroyableEntity) {
-
-            }
-        }
         if (Timer.now() - timeSet > limit) exploded = true;
         count++;
         img = getImg();

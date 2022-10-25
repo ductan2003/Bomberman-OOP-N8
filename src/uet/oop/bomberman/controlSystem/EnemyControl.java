@@ -7,17 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnemyControl {
-    private List<Enemy> enemyList = new ArrayList<>();
-    private BombControl bombControl;
-    private Map map;
+    private final List<Enemy> enemyList;
 
     public EnemyControl() {
-
-    }
-
-    public EnemyControl(BombControl bombControl, Map map) {
-        this.map = map;
-        this.bombControl = bombControl;
+        enemyList = new ArrayList<>();
     }
 
     public List<Enemy> getEnemyList() {
@@ -27,9 +20,9 @@ public class EnemyControl {
     /**
      * add Enemies to the enemyList and entities.
      */
-    public void addEnemy(Enemy enemy, List<Entity> entities) {
+    public void addEnemy(Enemy enemy) {
         enemyList.add(enemy);
-        entities.add(enemy);
+        Map.entities.add(enemy);
     }
 
     /**
@@ -42,33 +35,25 @@ public class EnemyControl {
             boolean check = false;
             boolean dead = false;
 
-            if (enemyList.get(i) instanceof Balloom) {
-                if (((Balloom) enemyList.get(i)).checkDeath()) {
-                    dead = true;
-                }
+
+            if (enemyList.get(i).checkDeath()) {
+                dead = true;
             }
 
-            if (enemyList.get(i) instanceof Oneal) {
-                if (((Oneal) enemyList.get(i)).checkDeath()) {
-                    dead = true;
-                }
-            }
-
-            if (enemyList.get(i) instanceof Doll) {
-                if (((Doll) enemyList.get(i)).checkDeath()) {
-                    dead = true;
-                }
-            }
 
             if (dead) {
                 enemyList.get(i).setDead(true);
-                enemyList.remove(enemyList.get(i));
+                enemyList.remove(i);
                 if (enemyList.size() == 0) break;
                 check = true;
             }
 
             if (!check) i++;
         }
+    }
+
+    public void clear() {
+        enemyList.clear();
     }
 
 }

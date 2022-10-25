@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Bomb extends Entity {
-    private long timeRemain;
     private int count = 0;
     //    private long timeSet;
     private boolean isExploded;

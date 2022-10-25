@@ -1,35 +1,24 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
 import uet.oop.bomberman.controlSystem.*;
 
 import java.util.List;
 
+import static uet.oop.bomberman.Map.collision;
 import static uet.oop.bomberman.controlSystem.Direction.*;
-import static uet.oop.bomberman.controlSystem.Direction.DOWN;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Oneal extends Enemy {
-    private Collision collision;
     private List<Pair<Integer, Integer>> path;
     private List<Direction> pathDirection;
 
-    private int countTimeDeath = 0;
-
-    public Oneal(int xUnit, int yUnit, Image img, Collision collision) {
+    public Oneal(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-        this.collision = collision;
         speed = 1;
         this.direction = RIGHT;
         this.status = Status.ALIVE;
-        countTimeDeath = 0;
-    }
-
-    @Override
-    public void setDead(boolean dead) {
-        super.setDead(dead);
     }
 
     @Override
@@ -44,10 +33,6 @@ public class Oneal extends Enemy {
         dist = (int) Math.round(Math.sqrt((startX - endX) * (startX - endX) + (startY - endY) * (startY - endY)));
     }
 
-    public int getCountTimeDeath() {
-        return countTimeDeath;
-    }
-
     public void go() {
         //slow the Enemy
         if (count % 2 == 0) return;
@@ -57,21 +42,20 @@ public class Oneal extends Enemy {
         else speed = 1;
 
         if (pathDirection != null && pathDirection.size() < 8) {
-//            System.out.println("Found");
             if (pathDirection.size() == 1) {
                 Direction tmp = pathDirection.get(0);
-                goByDirection(collision, tmp);
+                goByDirection(tmp);
             } else {
                 Direction tmp = pathDirection.get(0);
                 Direction next = pathDirection.get(1);
-                if (canGoByDirection(collision, next) && !collision.isNextPosBomb(this, next, speed)) {
-                    goByDirection(collision, next);
-                } else if (canGoByDirection(collision, tmp) && !collision.isNextPosBomb(this, tmp, speed)) {
-                    goByDirection(collision, tmp);
-                } else super.go(collision);
+                if (canGoByDirection(next) && !collision.isNextPosBomb(this, next, speed)) {
+                    goByDirection(next);
+                } else if (canGoByDirection(tmp) && !collision.isNextPosBomb(this, tmp, speed)) {
+                    goByDirection(tmp);
+                } else super.go();
             }
         } else {
-            super.go(collision);
+            super.go();
         }
     }
 
@@ -92,7 +76,7 @@ public class Oneal extends Enemy {
             Entity bomber = collision.getMap().getEntities().get(0);
             int endX = Math.round((bomber.getX() + DEFAULT_SIZE) / SCALED_SIZE);
             int endY = Math.round((bomber.getY() + DEFAULT_SIZE) / SCALED_SIZE);
-            path = getCoordinateDirection(collision, endY, endX);
+            path = getCoordinateDirection(endY, endX);
 
             if (path != null) {
                 pathDirection = getDirection(path);
@@ -124,23 +108,4 @@ public class Oneal extends Enemy {
         }
         return img;
     }
-
-    public void render(GraphicsContext gc, Camera camera) {
-        if (!isDead)
-            gc.drawImage(img, x - camera.getX(), y - camera.getY());
-        if (status == Status.DEAD && countTimeDeath < 35) {
-            gc.drawImage(img, x - camera.getX(), y - camera.getY());
-        }
-    }
-
-    public boolean checkDeath() {
-        for (int j = 0; j < collision.getBombControl().getFlameList().size(); j++) {
-            if (collision.checkCollide(this, collision.getBombControl().getFlameList().get(j))) {
-                status = Status.DEAD;
-                return true;
-            }
-        }
-        return false;
-    }
-
 }

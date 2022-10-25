@@ -1,6 +1,7 @@
 package uet.oop.bomberman.controlSystem;
 
 import javafx.util.Pair;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.*;
 
@@ -9,32 +10,26 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 
+import static uet.oop.bomberman.Map.bombControl;
+import static uet.oop.bomberman.Map.enemyControl;
 import static uet.oop.bomberman.graphics.Sprite.*;
 
 
 public class Collision {
-    private Map map;
-    private BombControl bombControl;
-    private EnemyControl enemyControl;
     public static final int FIX = 4;
 
-    public Collision(Map map, BombControl bombControl, EnemyControl enemyControl) {
-        this.bombControl = bombControl;
-        this.enemyControl = enemyControl;
-        this.map = map;
+    public Collision() {
     }
 
     /**
      * Check if 2 entities which are not in map collide.
      */
     public boolean collide(Entity entity, Entity entity1) {
-//        System.out.println(entity.getX() + " " + entity.getY());
-//        System.out.println(entity1.getX() + " " + entity1.getY());
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX(), entity1.getY()));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX(), entity1.getY() + SCALED_SIZE));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE, entity1.getY()));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE, entity1.getY() + SCALED_SIZE));
+        coordinates.add(new Pair<>(entity1.getX(), entity1.getY()));
+        coordinates.add(new Pair<>(entity1.getX(), entity1.getY() + SCALED_SIZE));
+        coordinates.add(new Pair<>(entity1.getX() + SCALED_SIZE, entity1.getY()));
+        coordinates.add(new Pair<>(entity1.getX() + SCALED_SIZE, entity1.getY() + SCALED_SIZE));
         return contain(entity, coordinates.get(0))
                 || contain(entity, coordinates.get(1))
                 || contain(entity, coordinates.get(2))
@@ -46,12 +41,12 @@ public class Collision {
      */
     public boolean checkCollide(Entity entity, Entity entity1) {
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + FIX, entity1.getY() + FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + FIX,
+        coordinates.add(new Pair<>(entity1.getX() + FIX, entity1.getY() + 2 * FIX));
+        coordinates.add(new Pair<>(entity1.getX() + FIX,
                 entity1.getY() + SCALED_SIZE - FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - FIX,
-                entity1.getY() + FIX));
-        coordinates.add(new Pair<Integer, Integer>(entity1.getX() + SCALED_SIZE - FIX,
+        coordinates.add(new Pair<>(entity1.getX() + SCALED_SIZE - FIX,
+                entity1.getY() + 2 * FIX));
+        coordinates.add(new Pair<>(entity1.getX() + SCALED_SIZE - FIX,
                 entity1.getY() + SCALED_SIZE - FIX));
         return contain(entity, coordinates.get(0))
                 || contain(entity, coordinates.get(1))
@@ -64,10 +59,10 @@ public class Collision {
      */
     public boolean collide(Entity entity, int x, int y) {
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
-        coordinates.add(new Pair<Integer, Integer>(x, y));
-        coordinates.add(new Pair<Integer, Integer>(x, y + SCALED_SIZE));
-        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE, y));
-        coordinates.add(new Pair<Integer, Integer>(x + SCALED_SIZE, y + SCALED_SIZE));
+        coordinates.add(new Pair<>(x, y));
+        coordinates.add(new Pair<>(x, y + SCALED_SIZE));
+        coordinates.add(new Pair<>(x + SCALED_SIZE, y));
+        coordinates.add(new Pair<>(x + SCALED_SIZE, y + SCALED_SIZE));
         return contain(entity, coordinates.get(0))
                 || contain(entity, coordinates.get(1))
                 || contain(entity, coordinates.get(2))
@@ -92,28 +87,28 @@ public class Collision {
         Entity object2;
         switch (direction) {
             case UP:
-                object1 = map.getEntity(x + FIX, y + speed);
-                object2 = map.getEntity(x + SCALED_SIZE - FIX, y + speed);
+                object1 = BombermanGame.map.getEntity(x + FIX, y + speed);
+                object2 = BombermanGame.map.getEntity(x + SCALED_SIZE - FIX, y + speed);
 //                entity.setY(y + speed);
                 break;
             case DOWN:
-                object1 = map.getEntity(x + FIX, y + SCALED_SIZE + FIX - speed);
-                object2 = map.getEntity(x + SCALED_SIZE - FIX, y + SCALED_SIZE + FIX - speed);
+                object1 = BombermanGame.map.getEntity(x + FIX, y + SCALED_SIZE + FIX - speed);
+                object2 = BombermanGame.map.getEntity(x + SCALED_SIZE - FIX, y + SCALED_SIZE + FIX - speed);
 //                entity.setY(y - speed);
                 break;
             case RIGHT:
-                object1 = map.getEntity(x + speed + SCALED_SIZE - FIX, y + FIX);
-                object2 = map.getEntity(x + speed + SCALED_SIZE - FIX, y + SCALED_SIZE);
+                object1 = BombermanGame.map.getEntity(x + speed + SCALED_SIZE - FIX, y + FIX);
+                object2 = BombermanGame.map.getEntity(x + speed + SCALED_SIZE - FIX, y + SCALED_SIZE);
 //                entity.setX(x + speed);
                 break;
             case LEFT:
-                object1 = map.getEntity(x - speed, y + FIX);
-                object2 = map.getEntity(x - speed, y + SCALED_SIZE);
+                object1 = BombermanGame.map.getEntity(x - speed, y + FIX);
+                object2 = BombermanGame.map.getEntity(x - speed, y + SCALED_SIZE);
 //                entity.setX(x - speed);
                 break;
             default:
-                object1 = map.getEntity(x, y);
-                object2 = map.getEntity(x, y);
+                object1 = BombermanGame.map.getEntity(x, y);
+                object2 = BombermanGame.map.getEntity(x, y);
                 break;
         }
         if (!(object2 instanceof Obstacle) && !(object1 instanceof Obstacle)) {
@@ -192,21 +187,21 @@ public class Collision {
     public List<List<Integer>> formatMapData() {
         List<List<Integer>> formatMap = new ArrayList<>();
 
-        int height = map.getHeight();
-        int width = map.getWidth();
+        int height = BombermanGame.map.getHeight();
+        int width = BombermanGame.map.getWidth();
 
         //Format the entities in map
         for (int i = 0; i < height; i++) {
             List<Integer> row = new ArrayList<>();
             for (int j = 0; j < width; j++) {
-                if (map.getEntityWithMapPos(i, j) instanceof Grass) {
+                if (BombermanGame.map.getEntityWithMapPos(i, j) instanceof Grass) {
                     row.add(0);
                 } else row.add(1);
             }
             formatMap.add(row);
         }
-        //Todo: Format Enemy Map && BomberPos
-        for (Entity entity : map.getEntities()) {
+        //Todo: Format Enemy map && BomberPos
+        for (Entity entity : BombermanGame.map.getEntities()) {
             formatMap.get(entity.getYMapCoordinate(entity.getY())).set(entity.getXMapCoordinate(entity.getX()), 1);
         }
 
@@ -221,33 +216,33 @@ public class Collision {
     public List<List<Character>> formatMapDetailData() {
         List<List<Character>> formatMap = new ArrayList<>();
 
-        int height = map.getHeight();
-        int width = map.getWidth();
+        int height = BombermanGame.map.getHeight();
+        int width = BombermanGame.map.getWidth();
 
         //Format the entities in map
         for (int i = 0; i < height; i++) {
             List<Character> row = new ArrayList<>();
             for (int j = 0; j < width; j++) {
-                if (map.getEntityWithMapPos(i, j) instanceof Grass) {
+                if (BombermanGame.map.getEntityWithMapPos(i, j) instanceof Grass) {
                     row.add(' ');
-                } else if (map.getEntityWithMapPos(i, j) instanceof Wall) {
+                } else if (BombermanGame.map.getEntityWithMapPos(i, j) instanceof Wall) {
                     row.add('#');
-                } else if (map.getEntityWithMapPos(i, j) instanceof FlameItem) {
+                } else if (BombermanGame.map.getEntityWithMapPos(i, j) instanceof FlameItem) {
                     row.add('f');
-                } else if (map.getEntityWithMapPos(i, j) instanceof BombItem) {
+                } else if (BombermanGame.map.getEntityWithMapPos(i, j) instanceof BombItem) {
                     row.add('b');
-                } else if (map.getEntityWithMapPos(i, j) instanceof SpeedItem) {
+                } else if (BombermanGame.map.getEntityWithMapPos(i, j) instanceof SpeedItem) {
                     row.add('s');
-                } else if (map.getEntityWithMapPos(i, j) instanceof BombPassItem) {
+                } else if (BombermanGame.map.getEntityWithMapPos(i, j) instanceof BombPassItem) {
                     row.add('m');
-                } else if (map.getEntityWithMapPos(i, j) instanceof Brick) {
+                } else if (BombermanGame.map.getEntityWithMapPos(i, j) instanceof Brick) {
                     row.add('*');
                 } else row.add(' ');
             }
             formatMap.add(row);
         }
         //Bomber, enemy
-        for (Entity entity : map.getEntities()) {
+        for (Entity entity : BombermanGame.map.getEntities()) {
             int x = Math.round((entity.getX() + DEFAULT_SIZE) / SCALED_SIZE);
             int y = Math.round((entity.getY() + DEFAULT_SIZE) / SCALED_SIZE);
             if (entity instanceof Bomber) {
@@ -268,9 +263,9 @@ public class Collision {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (map.getCode(j, i) == Portal.code && map.getEntityWithMapPos(i, j) instanceof Brick) {
+                if (BombermanGame.map.getCode(j, i) == Portal.code && BombermanGame.map.getEntityWithMapPos(i, j) instanceof Brick) {
                     formatMap.get(i).set(j, 'x');
-                } else if (map.getCode(j, i) == Portal.code) {
+                } else if (BombermanGame.map.getCode(j, i) == Portal.code) {
                     formatMap.get(i).set(j, 'y');
                 }
             }
@@ -283,22 +278,22 @@ public class Collision {
     public void saveData() {
         List<List<Character>> formatMap = formatMapDetailData();
         StringBuilder res = new StringBuilder();
-        res.append(map.getLevel());
+        res.append(BombermanGame.map.getLevel());
         res.append(' ');
-        res.append(map.getHeight());
+        res.append(BombermanGame.map.getHeight());
         res.append(' ');
-        res.append(map.getWidth());
+        res.append(BombermanGame.map.getWidth());
         res.append('\n');
 
-        for (int i = 0; i < map.getHeight(); i++) {
-            for (int j = 0; j < map.getWidth(); j++) {
+        for (int i = 0; i < BombermanGame.map.getHeight(); i++) {
+            for (int j = 0; j < BombermanGame.map.getWidth(); j++) {
                 res.append(formatMap.get(i).get(j));
             }
             res.append('\n');
         }
 
-        if (map.getEntities().get(0) instanceof Bomber) {
-            Bomber bomber = (Bomber) map.getEntities().get(0);
+        if (BombermanGame.map.getEntities().get(0) instanceof Bomber) {
+            Bomber bomber = (Bomber) BombermanGame.map.getEntities().get(0);
             res.append(bomber.getSpeed());
             res.append('\n');
             res.append(bomber.getBombControl().getNumberOfBomb());
@@ -322,28 +317,17 @@ public class Collision {
         } catch (Exception e) {
             System.out.println("Error");
         }
+        formatMap.clear();
     }
 
     /**
      * Check if the coordinate valid.
      */
     public boolean isCoordinateValid(int x, int y) {
-        return x >= 0 && x < map.getHeight() && y >= 0 && y < map.getWidth();
-    }
-
-    public BombControl getBombControl() {
-        return bombControl;
-    }
-
-    public EnemyControl getEnemyControl() {
-        return enemyControl;
-    }
-
-    public Entity getEntity(int xPos, int yPos) {
-        return map.getEntity(xPos, yPos);
+        return x >= 0 && x < BombermanGame.map.getHeight() && y >= 0 && y < BombermanGame.map.getWidth();
     }
 
     public Map getMap() {
-        return map;
+        return BombermanGame.map;
     }
 }

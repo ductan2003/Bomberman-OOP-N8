@@ -35,6 +35,7 @@
 * Người chơi điều khiển Pikachu bằng các phím `↑`, `↓`, `←`, `→` để di chuyển theo hướng muốn đi, `Space` để đặt Bomb.
 * Để dừng trò chơi, nhấn phím `p`.
 * Để thoát trò chơi, nhấn phím `e`.
+* Trong màn hình Pause, để tăng âm lượng: nhấn phím `w`, giảm âm lượng: nhấn phím `s`.
 
 ### Cơ chế game
 

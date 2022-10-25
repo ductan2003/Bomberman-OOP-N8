@@ -92,7 +92,7 @@ public class GameMenu {
         switch (gameState) {
             case IN_MENU:
                 long now = Timer.now();
-                if (now - delayInput > 10000000) {
+                if (now - delayInput > 16000000) {
                     delayInput = now;
                     if (keyListener.pressed(KeyCode.ENTER)) {
                         Sound.menuSelect.play();
@@ -123,12 +123,16 @@ public class GameMenu {
                         if (choosenButton < 0) {
                             choosenButton = 2;
                         }
+                        System.out.println(choosenButton);
+                        System.out.println("DOWN");
                     } else if (keyListener.pressed(KeyCode.DOWN)) {
                         Sound.menuMove.play();
-                        choosenButton++;
+                        choosenButton ++;
                         if (choosenButton > 2) {
                             choosenButton = 0;
                         }
+                        System.out.println(choosenButton);
+                        System.out.println("DOWN");
                    }
               }
                 break;

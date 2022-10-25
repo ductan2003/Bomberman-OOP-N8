@@ -7,9 +7,10 @@ import java.io.IOException;
 public class SoundPlay {
     private Clip clip;
     String sFile;
+
     SoundPlay(String sFile) {
         this.sFile = sFile;
-        try{
+        try {
             File f = new File("./" + sFile);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
             clip = AudioSystem.getClip();
@@ -21,23 +22,32 @@ public class SoundPlay {
             e.printStackTrace();
         }
     }
-    public void play(){
+
+    public void play() {
         clip.setFramePosition(0);
         clip.start();
     }
+
     public void loop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
-    public void stop(){
+
+    public void stop() {
         clip.stop();
     }
 
     public void higher() {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(+5.0f);
+        gainControl.setValue(Math.min(gainControl.getValue() + 5.0f, 6.0f));
     }
+
     public void lower() {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(-5.0f);
+        gainControl.setValue(Math.max(gainControl.getValue() - 5.0f, -70.f));
+    }
+
+    public int getVol() {
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        return (int) ((gainControl.getValue()+70.0)/76*100);
     }
 }

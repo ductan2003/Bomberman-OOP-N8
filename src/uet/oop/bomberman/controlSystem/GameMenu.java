@@ -1,16 +1,24 @@
 package uet.oop.bomberman.controlSystem;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
+
+import static uet.oop.bomberman.Map.collision;
+import static uet.oop.bomberman.entities.Bomber.timeRemain;
+import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
 
 public class GameMenu {
@@ -61,7 +69,7 @@ public class GameMenu {
         text.setFont(Screen.FUTURE_FONT);
         text.setFill(Color.BLACK);
         buttonMenu.add(new Button(Screen.WIDTH / 2 * Sprite.SCALED_SIZE - (int) text.getLayoutBounds().getWidth()
-                        / 2,
+                / 2,
                 Screen.HEIGHT / 2 * Sprite.SCALED_SIZE + 5 * (int) text.getLayoutBounds().getHeight() / 2, text));
 
         text = new Text("CONTINUE PLAY");
@@ -127,27 +135,27 @@ public class GameMenu {
                         System.out.println("DOWN");
                     } else if (keyListener.pressed(KeyCode.DOWN)) {
                         Sound.menuMove.play();
-                        choosenButton ++;
+                        choosenButton++;
                         if (choosenButton > 2) {
                             choosenButton = 0;
                         }
                         System.out.println(choosenButton);
                         System.out.println("DOWN");
-                   }
-              }
+                    }
+                }
                 break;
 
-                case IN_PAUSE:
-                    //Sound.menu.stop();
-                    now = Timer.now();
-                   if (now - delayInput > 10000000) {
+            case IN_PAUSE:
+                //Sound.menu.stop();
+                now = Timer.now();
+                if (now - delayInput > 10000000) {
                     delayInput = now;
                     if (keyListener.pressed(KeyCode.ENTER)) {
                         Sound.menuSelect.play();
                         switch (choosenButton1) {
                             case CONTINUE_PLAY:
-                                  Sound.backgroundGame.stop();
-                                  Sound.menu.loop();
+                                Sound.backgroundGame.stop();
+                                Sound.menu.loop();
                                 System.out.println("[ENTER CONTINUE_PLAY]");
                                 gameState = GAME_STATE.IN_PLAY;
                                 break;
@@ -172,8 +180,8 @@ public class GameMenu {
                         //Sound.backgroundGame.lower();
                         Sound.menu.lower();
                     }
-               }
-                    break;
+                }
+                break;
 
 
             case IN_END_STATE:
@@ -185,23 +193,23 @@ public class GameMenu {
                         Sound.lose.stop();
                         Sound.backgroundGame.loop();
                         switch (choosenButton2) {
-                                case REPLAY:
-                                    System.out.println("[ENTER GO_TO_MENU]");
-                                    gameState = GAME_STATE.IN_MENU;
-                                    break;
-                                case EXIT:
-                                    System.out.println("[ENTER END STATE]");
-                                    gameState = GAME_STATE.END;
-                                    break;
-                                }
-                            } else if (keyListener.pressed(KeyCode.UP)) {
-                                Sound.menuMove.play();
-                                choosenButton2 = REPLAY;
-                            } else if (keyListener.pressed(KeyCode.DOWN)) {
-                                Sound.menuMove.play();
-                                choosenButton2 = EXIT;
-                            }
+                            case REPLAY:
+                                System.out.println("[ENTER GO_TO_MENU]");
+                                gameState = GAME_STATE.IN_MENU;
+                                break;
+                            case EXIT:
+                                System.out.println("[ENTER END STATE]");
+                                gameState = GAME_STATE.END;
+                                break;
+                        }
+                    } else if (keyListener.pressed(KeyCode.UP)) {
+                        Sound.menuMove.play();
+                        choosenButton2 = REPLAY;
+                    } else if (keyListener.pressed(KeyCode.DOWN)) {
+                        Sound.menuMove.play();
+                        choosenButton2 = EXIT;
                     }
+                }
                 break;
 
             case END:
@@ -242,37 +250,38 @@ public class GameMenu {
                         buttonPause.get(i).render(gc);
                     }
                 }
+                gc.fillText("Volume: " + Sound.menu.getVol() + "%", 7 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
                 break;
             }
 
             case IN_END_STATE:
-                        if (BombermanGame.map.getIsWin()) {
-                            Sound.menu.stop();
-                            Sound.win.loop();
-                            gc.drawImage(Screen.winner, 0, 0,
-                                    Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE + 20);
-                            if (choosenButton2 == 2) {
-                                replayButton.renderChoosen(gc);
-                                exitButton.render(gc);
-                            } else {
-                                exitButton.renderChoosen(gc);
-                                replayButton.render(gc);
-                            }
+                if (BombermanGame.map.getIsWin()) {
+                    Sound.menu.stop();
+                    Sound.win.loop();
+                    gc.drawImage(Screen.winner, 0, 0,
+                            Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE + 20);
+                    if (choosenButton2 == 2) {
+                        replayButton.renderChoosen(gc);
+                        exitButton.render(gc);
+                    } else {
+                        exitButton.renderChoosen(gc);
+                        replayButton.render(gc);
+                    }
 
-                        } else {
-                            Sound.menu.stop();
-                            Sound.lose.loop();
-                            gc.drawImage(Screen.loser, 0, 0,
-                                    Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE + 20);
-                            if (choosenButton2 == 2) {
-                                replayButton.renderChoosen(gc);
-                                exitButton.render(gc);
-                            } else {
-                                exitButton.renderChoosen(gc);
-                                replayButton.render(gc);
-                            }
-                        }
-                        break;
+                } else {
+                    Sound.menu.stop();
+                    Sound.lose.loop();
+                    gc.drawImage(Screen.loser, 0, 0,
+                            Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE + 20);
+                    if (choosenButton2 == 2) {
+                        replayButton.renderChoosen(gc);
+                        exitButton.render(gc);
+                    } else {
+                        exitButton.renderChoosen(gc);
+                        replayButton.render(gc);
+                    }
+                }
+                break;
         }
     }
 }

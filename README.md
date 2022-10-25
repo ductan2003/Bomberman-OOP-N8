@@ -33,7 +33,8 @@
 * Game sử dụng bàn phím để điều khiển trò chơi.
 * Trong menu, sử dụng các phím `↑`, `↓` để di chuyển, `Enter` để chọn.
 * Người chơi điều khiển Pikachu bằng các phím `↑`, `↓`, `←`, `→` để di chuyển theo hướng muốn đi, `Space` để đặt Bomb.
-* Để dừng trò chơi, nhấn phím `p`
+* Để dừng trò chơi, nhấn phím `p`.
+* Để thoát trò chơi, nhấn phím `e`.
 
 ### Cơ chế game
 
@@ -54,14 +55,19 @@
    * Xử lý Bomb nổ.
    * Xử lý khi Bomber(Pikachu) sử dụng Item và đi vào Portal.
 * Tùy chọn
-   * Tìm thuật toán tìm đường cho Enemy, cài đặt thêm 1 Enemy Doll.
-   * Thêm hiệu ứng âm thanh.
+   * Tìm thuật toán tìm đường cho Enemy.
+   * Cài đặt thêm 1 Enemy (Doll).
+   * Thêm hiệu ứng âm thanh, menu.
+   * Thêm chế độ lưu trò chơi để tiếp tục chơi sau khi tắt cửa số.
    
 ## 5. Hình ảnh demo
 
 * Menu
+
+![image](https://user-images.githubusercontent.com/100295385/197707986-a7fbbd42-7e74-4827-aedd-b70c68d78a7f.png)
 * GamePlay
-* Bomb nổ
+
+![image](https://user-images.githubusercontent.com/100295385/197708142-b94af6a3-389e-454d-8564-e7bcd3e09ded.png)
 
 ## 6. Sinh viên thực hiện
 

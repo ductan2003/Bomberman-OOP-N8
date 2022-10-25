@@ -6,9 +6,7 @@ import static uet.oop.bomberman.graphics.Sprite.*;
 
 public class Bomb extends Entity {
     private int count = 0;
-    //    private long timeSet;
     private boolean isExploded;
-    private int flame;
     private final long EXPLODE = 300;
 
     public boolean isExploded() {

@@ -15,12 +15,14 @@ import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 public class BombControl {
     // Todo: setup bomb
     private final List<Bomb> bombList;
-    private int power = 1;
-    private int numberOfBomb = 1;
+    private int power;
+    private int numberOfBomb;
     private final List<Flame> flameList;
     boolean hasJustSetBomb = false;
 
     public BombControl() {
+        power = 1;
+        numberOfBomb = 1;
         bombList = new ArrayList<>();
         flameList = new ArrayList<>();
     }

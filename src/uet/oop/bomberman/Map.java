@@ -155,15 +155,15 @@ public class Map {
         bombControl = new BombControl();
         enemyControl = new EnemyControl();
 
-        // generate other entities if press continue game.
         int bomberSpeed = 2;
         int bomberNumberOfBombs = 1;
         int bomberHasJustSetBomb = 0;
         int bomberPower = 1;
         int bomberLives = 3;
         long bomberTimeRemain = 180;
-
         if (isContinue) {
+            // generate other entities if press continue game.
+
             try {
 
                 Scanner scanner = new Scanner(file);
@@ -204,15 +204,14 @@ public class Map {
             } catch (FileNotFoundException exception) {
                 System.out.println(exception.getMessage());
             }
+            if (bomberHasJustSetBomb == 1) {
+                bombControl.setHasJustSetBomb(true);
+            } else {
+                bombControl.setHasJustSetBomb(false);
+            }
+            bombControl.setNumberOfBomb(bomberNumberOfBombs);
+            bombControl.setPower(bomberPower);
         }
-
-        if (bomberHasJustSetBomb == 1) {
-            bombControl.setHasJustSetBomb(true);
-        } else {
-            bombControl.setHasJustSetBomb(false);
-        }
-        bombControl.setNumberOfBomb(bomberNumberOfBombs);
-        bombControl.setPower(bomberPower);
 
         collision = new Collision();
 

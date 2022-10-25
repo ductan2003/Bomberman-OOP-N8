@@ -41,7 +41,7 @@ public class Collision {
      */
     public boolean checkCollide(Entity entity, Entity entity1) {
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
-        coordinates.add(new Pair<>(entity1.getX() + FIX, entity1.getY() + 2 * FIX));
+        coordinates.add(new Pair<>(entity1.getX() + FIX, entity1.getY() + FIX));
         coordinates.add(new Pair<>(entity1.getX() + FIX,
                 entity1.getY() + SCALED_SIZE - FIX));
         coordinates.add(new Pair<>(entity1.getX() + SCALED_SIZE - FIX,
@@ -59,10 +59,10 @@ public class Collision {
      */
     public boolean collide(Entity entity, int x, int y) {
         ArrayList<Pair<Integer, Integer>> coordinates = new ArrayList<>();
-        coordinates.add(new Pair<>(x, y));
-        coordinates.add(new Pair<>(x, y + SCALED_SIZE));
-        coordinates.add(new Pair<>(x + SCALED_SIZE, y));
-        coordinates.add(new Pair<>(x + SCALED_SIZE, y + SCALED_SIZE));
+        coordinates.add(new Pair<>(x + FIX, y + FIX));
+        coordinates.add(new Pair<>(x + FIX, y + SCALED_SIZE - FIX));
+        coordinates.add(new Pair<>(x + SCALED_SIZE - FIX, y + FIX));
+        coordinates.add(new Pair<>(x + SCALED_SIZE - FIX, y + SCALED_SIZE - FIX));
         return contain(entity, coordinates.get(0))
                 || contain(entity, coordinates.get(1))
                 || contain(entity, coordinates.get(2))
@@ -89,22 +89,18 @@ public class Collision {
             case UP:
                 object1 = BombermanGame.map.getEntity(x + FIX, y + speed);
                 object2 = BombermanGame.map.getEntity(x + SCALED_SIZE - FIX, y + speed);
-//                entity.setY(y + speed);
                 break;
             case DOWN:
                 object1 = BombermanGame.map.getEntity(x + FIX, y + SCALED_SIZE + FIX - speed);
                 object2 = BombermanGame.map.getEntity(x + SCALED_SIZE - FIX, y + SCALED_SIZE + FIX - speed);
-//                entity.setY(y - speed);
                 break;
             case RIGHT:
                 object1 = BombermanGame.map.getEntity(x + speed + SCALED_SIZE - FIX, y + FIX);
                 object2 = BombermanGame.map.getEntity(x + speed + SCALED_SIZE - FIX, y + SCALED_SIZE);
-//                entity.setX(x + speed);
                 break;
             case LEFT:
                 object1 = BombermanGame.map.getEntity(x - speed, y + FIX);
                 object2 = BombermanGame.map.getEntity(x - speed, y + SCALED_SIZE);
-//                entity.setX(x - speed);
                 break;
             default:
                 object1 = BombermanGame.map.getEntity(x, y);

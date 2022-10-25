@@ -9,6 +9,7 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uet.oop.bomberman.graphics.Sprite.DEFAULT_SIZE;
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
 public class BombControl {
@@ -59,7 +60,10 @@ public class BombControl {
      * Check to see if a position can set bomb.
      */
     public boolean canSetBomb(int x, int y) {
-        if (bombList.size() == numberOfBomb) return false;
+        if (bombList.size() == numberOfBomb) {
+            System.out.println("Enough Bomb");
+            return false;
+        }
         if (BombermanGame.map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE) instanceof Grass) {
             return true;
         }
@@ -147,6 +151,15 @@ public class BombControl {
         for (Flame flame : flameList) {
             flame.render(gc, camera);
         }
+    }
+
+    public Bomb getBomb(int x, int y) {
+        for (Bomb bomb : bombList) {
+            int a = Math.round((bomb.getX() + DEFAULT_SIZE) / SCALED_SIZE);
+            int b = Math.round((bomb.getY() + DEFAULT_SIZE) / SCALED_SIZE);
+            if (a == x && b == y) return bomb;
+        }
+        return null;
     }
 
     public int getPower() {

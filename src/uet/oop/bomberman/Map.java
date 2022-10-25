@@ -176,9 +176,8 @@ public class Map {
                     String tempStr = scanner.nextLine();
                     for (int j = 0; j < width; j++) {
                         if (tempStr.charAt(j) == '!') {
-                            Bomb bomb = new Bomb(j, i, Sprite.bomb.getFxImage());
+                            Bomb bomb = new Bomb(j, i, Sprite.bomb.getFxImage(), 0);
                             bombControl.addBomb(bomb);
-                            break;
                         }
                     }
                 }
@@ -190,6 +189,16 @@ public class Map {
                 bomberPower = scanner.nextInt();
                 bomberLives = scanner.nextInt();
                 bomberTimeRemain = scanner.nextLong();
+
+                for (int i = 0; i < bombControl.getBombList().size(); i++) {
+                    int x, y;
+                    x = scanner.nextInt();
+                    y = scanner.nextInt();
+                    int count = scanner.nextInt();
+                    if (bombControl.getBomb(y, x) == null)
+                        System.out.println("Wrong index");
+                    bombControl.getBomb(y, x).setCount(count);
+                }
 
                 scanner.close();
             } catch (FileNotFoundException exception) {

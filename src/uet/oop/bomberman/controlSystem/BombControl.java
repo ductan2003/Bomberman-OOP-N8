@@ -16,7 +16,7 @@ public class BombControl {
     // Todo: setup bomb
     private final List<Bomb> bombList;
     private int power = 1;
-    private int numberOfBomb = 2;
+    private int numberOfBomb = 1;
     private final List<Flame> flameList;
     boolean hasJustSetBomb = false;
 

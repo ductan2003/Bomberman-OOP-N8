@@ -157,7 +157,7 @@ public class Map {
 
         // generate other entities if press continue game.
         int bomberSpeed = 2;
-        int bomberNumberOfBombs = 2;
+        int bomberNumberOfBombs = 1;
         int bomberHasJustSetBomb = 0;
         int bomberPower = 1;
         int bomberLives = 3;

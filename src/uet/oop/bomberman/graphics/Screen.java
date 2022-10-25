@@ -42,7 +42,7 @@ public class Screen {
 
 
     public void renderMenu(GameMenu menu) {
-        gc.drawImage(backGroundMenu, 0, 0, WIDTH * Sprite.SCALED_SIZE, HEIGHT * Sprite.SCALED_SIZE);
+        gc.drawImage(backGroundMenu, 0, 0, WIDTH * Sprite.SCALED_SIZE, HEIGHT * Sprite.SCALED_SIZE + 20);
         menu.render(gc);
     }
 

@@ -13,7 +13,7 @@ public class Button {
     private int y;
 
     /**
-     * Constructor 1.
+     * Constructor.
      */
     public Button(int x, int y, Text text) {
         this.x = x;

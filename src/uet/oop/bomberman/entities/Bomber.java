@@ -116,7 +116,7 @@ public class Bomber extends DestroyableEntity {
             int xPos = Math.round(getXMapCoordinate(x + SCALED_SIZE / 2));
             int yPos = Math.round(getYMapCoordinate(y + SCALED_SIZE / 2));
             if (bombControl.canSetBomb(xPos, yPos) && !isDead) {
-                Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage());
+                Bomb newBomb = new Bomb(xPos, yPos, bomb.getFxImage(), 0);
                 bombControl.addBomb(newBomb);
                 bombControl.setHasJustSetBomb(true);
             }

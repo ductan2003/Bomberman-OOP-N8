@@ -307,6 +307,18 @@ public class Collision {
             res.append(bomber.getLives());
             res.append('\n');
             res.append(bomber.getTimeRemain());
+            res.append('\n');
+
+            for (int i = 0; i < bomber.getBombControl().getBombList().size(); i++) {
+                int x = Math.round((bomber.getBombControl().getBombList().get(i).getX() + DEFAULT_SIZE) / SCALED_SIZE);
+                int y = Math.round((bomber.getBombControl().getBombList().get(i).getY() + DEFAULT_SIZE) / SCALED_SIZE);
+                res.append(y);
+                res.append(' ');
+                res.append(x);
+                res.append(' ');
+                res.append(bomber.getBombControl().getBombList().get(i).getCount());
+                res.append('\n');
+            }
         }
 
         try {

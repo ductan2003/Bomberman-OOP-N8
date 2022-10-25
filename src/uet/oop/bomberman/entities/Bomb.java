@@ -19,9 +19,9 @@ public class Bomb extends Entity {
         isExploded = exploded;
     }
 
-    public Bomb(int xUnit, int yUnit, Image img) {
+    public Bomb(int xUnit, int yUnit, Image img, int count) {
         super(xUnit, yUnit, img);
-        count = 0;
+        this.count = count;
 //        timeSet = Timer.now();
         isExploded = false;
     }
@@ -37,6 +37,14 @@ public class Bomb extends Entity {
 
     public Image getImg() {
         return movingSprite(bomb, bomb_1, bomb_2, count, 100).getFxImage();
+    }
+
+    public long getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
 }

@@ -20,7 +20,7 @@ public class Balloom extends Enemy {
         this.bornByDoll = bornByDoll;
         if (bornByDoll) {
             skipBombNewBorn = 0;
-            speed = 2;
+            speed = 1;
         }
     }
 

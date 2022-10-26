@@ -60,7 +60,17 @@
    * Thêm hiệu ứng âm thanh, menu, có thể tăng giảm âm lượng trong màn hình pause.
    * Thêm chế độ lưu trò chơi để tiếp tục chơi sau khi tắt cửa số.
    
-## 5. Hình ảnh demo
+## 5. Cây thừa kế
+* Entity
+
+![image](https://user-images.githubusercontent.com/100295385/198006412-de0bb58b-c5c0-4c56-ae15-1d734394a101.png)
+
+* Game Control
+
+![image](https://user-images.githubusercontent.com/100295385/198007082-13c53872-f06e-49e1-8f9b-39c4871bbfa6.png)
+
+   
+## 6. Hình ảnh demo
 
 * Menu
 
@@ -69,7 +79,7 @@
 
 ![image](https://user-images.githubusercontent.com/100295385/197708142-b94af6a3-389e-454d-8564-e7bcd3e09ded.png)
 
-## 6. Sinh viên thực hiện
+## 7. Sinh viên thực hiện
 
 | Họ và tên  | Mã sinh viên |
 | ------------- |:-------------:|

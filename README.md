@@ -58,7 +58,7 @@
    * Tìm thuật toán tìm đường cho Enemy.
    * Cài đặt thêm 1 Enemy (Doll).
    * Thêm hiệu ứng âm thanh, menu, có thể tăng giảm âm lượng trong màn hình pause.
-   * Thêm chế độ lưu trò chơi để tiếp tục chơi sau khi tắt cửa số.
+   * Thêm chế độ lưu trò chơi để tiếp tục chơi sau khi tắt cửa sổ.
    
 ## 5. Cây thừa kế
 * Entity

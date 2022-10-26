@@ -4,7 +4,6 @@
 
 * Một phiên bản Java mô phỏng lại trò chơi [Bomberman](https://www.youtube.com/watch?v=mKIOVwqgSXM) kinh điển của NES. 
 * Người chơi sẽ di chuyển, đặt bom để giết các enemy, thu thập các item để có tăng sức mạnh, tiêu diệt hết các enemy để tiến lên màn đấu mới.
-* **Insert ảnh GamePlay zô đây*
 
 ## 2. Mô tả về các đối tượng
 
@@ -58,7 +57,7 @@
 * Tùy chọn
    * Tìm thuật toán tìm đường cho Enemy.
    * Cài đặt thêm 1 Enemy (Doll).
-   * Thêm hiệu ứng âm thanh, menu.
+   * Thêm hiệu ứng âm thanh, menu, có thể tăng giảm âm lượng trong màn hình pause.
    * Thêm chế độ lưu trò chơi để tiếp tục chơi sau khi tắt cửa số.
    
 ## 5. Hình ảnh demo

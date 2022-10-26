@@ -125,7 +125,7 @@ public class GameMenu {
                             choosenButton = 2;
                         }
                         System.out.println(choosenButton);
-                        System.out.println("DOWN");
+//                        System.out.println("DOWN");
                     } else if (keyListener.pressed(KeyCode.DOWN)) {
                         Sound.menuMove.play();
                         choosenButton++;
@@ -133,7 +133,7 @@ public class GameMenu {
                             choosenButton = 0;
                         }
                         System.out.println(choosenButton);
-                        System.out.println("DOWN");
+//                        System.out.println("DOWN");
                     }
                 }
                 break;

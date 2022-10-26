@@ -1,30 +1,24 @@
 package uet.oop.bomberman.controlSystem;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
-import static uet.oop.bomberman.Map.collision;
-import static uet.oop.bomberman.entities.Bomber.timeRemain;
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
 
 public class GameMenu {
-    public static enum GAME_STATE {
+    public enum GAME_STATE {
         IN_MENU, IN_PLAY, IN_PAUSE,
-        END, IN_END_STATE;
+        END, IN_END_STATE,
     }
 
     private final int PLAY = 0;
@@ -43,9 +37,8 @@ public class GameMenu {
     private int choosenButton;
     private int choosenButton1;
     private int choosenButton2;
-    private int numberReady = 0;
 
-    private KeyListener keyListener;
+    private final KeyListener keyListener;
     public static GAME_STATE gameState;
 
     public GameMenu(KeyListener keyListener) {
@@ -100,7 +93,7 @@ public class GameMenu {
         switch (gameState) {
             case IN_MENU:
                 long now = Timer.now();
-                if (now - delayInput > 16000000) {
+                if (now - delayInput > 14000000) {
                     delayInput = now;
                     if (keyListener.pressed(KeyCode.ENTER)) {
                         Sound.menuSelect.play();

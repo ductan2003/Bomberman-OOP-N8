@@ -57,7 +57,7 @@ public class Screen {
         try {
             gc.setFont(Font.loadFont(Files.newInputStream(Paths.get("res/font/Future Techno Italic 400.ttf")), 20));
             gc.fillText("Time: " + timeRemain, 3 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
-            gc.fillText("Level: " + collision.getMap().getLevel() + "/4", 10 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
+            gc.fillText("Level: " + map.getLevel() + "/4", 10 * SCALED_SIZE, Screen.HEIGHT * SCALED_SIZE + 16);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

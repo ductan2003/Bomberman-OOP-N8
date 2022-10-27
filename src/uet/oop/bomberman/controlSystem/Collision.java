@@ -268,7 +268,6 @@ public class Collision {
                     formatMap.get(i).set(j, 'y');
                 }
             }
-            System.out.println();
         }
 
         return formatMap;
@@ -330,6 +329,7 @@ public class Collision {
             System.out.println("Error");
         }
         formatMap.clear();
+        System.out.println("Date saved.");
     }
 
     /**

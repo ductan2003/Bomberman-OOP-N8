@@ -126,8 +126,8 @@ public class Bomber extends DestroyableEntity {
                 Timer.pause();
             }
         } else if (keyEvent.pressed(KeyCode.E)) {
+            if (GameMenu.gameState != GameMenu.GAME_STATE.END) GameMenu.gameState = GameMenu.GAME_STATE.IN_END_STATE;
             collision.saveData();
-            if (GameMenu.gameState != GameMenu.GAME_STATE.END) GameMenu.gameState = GameMenu.GAME_STATE.END;
         } else count = 0;
         img = getImg(getDirection());
         updateItems();

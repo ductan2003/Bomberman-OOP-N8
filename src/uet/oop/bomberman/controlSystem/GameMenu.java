@@ -28,6 +28,7 @@ public class GameMenu {
     private final int CONTINUE_PLAY = 0;
     private final int GO_TO_MENU = 1;
     private long delayInput = 0;
+    private boolean isSaved = false;
 
     List<Button> buttonMenu = new ArrayList<>();
     List<Button> buttonPause = new ArrayList<>();
@@ -202,6 +203,9 @@ public class GameMenu {
                         Sound.menuMove.play();
                         choosenButton2 = EXIT;
                     }
+                    if (keyListener.pressed(KeyCode.E)) {
+                        isSaved = true;
+                    }
                 }
                 break;
 
@@ -273,6 +277,11 @@ public class GameMenu {
                         exitButton.renderChoosen(gc);
                         replayButton.render(gc);
                     }
+                }
+                if (isSaved == true) {
+                    gc.drawImage(Screen.saveData, 0, 0,
+                            Screen.WIDTH * Sprite.SCALED_SIZE, Screen.HEIGHT * Sprite.SCALED_SIZE + 20);
+                    gameState = GAME_STATE.END;
                 }
                 break;
         }

@@ -25,6 +25,7 @@ public class Screen {
     public static Image backGroundMenu;
     public static Image loser;
     public static Image winner;
+    public static Image saveData;
 
     private final GraphicsContext gc;
 
@@ -35,6 +36,7 @@ public class Screen {
             winner = new Image(Files.newInputStream(Paths.get("res/Menu/winner.png")));
             loser = new Image(Files.newInputStream(Paths.get("res/Menu/loser.png")));
             backGroundMenu = new Image(Files.newInputStream(Paths.get("res/Menu/BG.png")));
+            saveData = new Image(Files.newInputStream(Paths.get("res/Menu/saveData.png")));
         } catch (IOException e) {
             System.out.println("[IOException] Wrong filepath.");
         }

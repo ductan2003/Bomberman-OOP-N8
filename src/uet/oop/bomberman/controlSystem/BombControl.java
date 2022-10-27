@@ -55,7 +55,7 @@ public class BombControl {
         }
         bombList.add(bomb);
         Sound.putBomb.play();
-        System.out.println("Bomb: " + bomb.getCoordinateInfo());
+//        System.out.println("Bomb: " + bomb.getCoordinateInfo());
     }
 
     /**
@@ -63,7 +63,6 @@ public class BombControl {
      */
     public boolean canSetBomb(int x, int y) {
         if (bombList.size() == numberOfBomb) {
-            System.out.println("Enough Bomb");
             return false;
         }
         if (BombermanGame.map.getEntity(x * SCALED_SIZE, y * SCALED_SIZE) instanceof Grass) {

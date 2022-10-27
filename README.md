@@ -4,7 +4,6 @@
 
 * Một phiên bản Java mô phỏng lại trò chơi [Bomberman](https://www.youtube.com/watch?v=mKIOVwqgSXM) kinh điển của NES. 
 * Người chơi sẽ di chuyển, đặt bom để giết các enemy, thu thập các item để có tăng sức mạnh, tiêu diệt hết các enemy để tiến lên màn đấu mới.
-* **Insert ảnh GamePlay zô đây*
 
 ## 2. Mô tả về các đối tượng
 
@@ -23,7 +22,7 @@
 * *Enemy* là đối tượng mà Pikachu phải tiêu diệt hết để có thể qua màn chơi mới. Tùy loại enemy mà có chức năng khác nhau. Các Enemy được sử dụng trong trò chơi như sau:
    * ![Balloom](https://user-images.githubusercontent.com/100295385/197356275-0f04c45b-2c04-4962-86b3-7b59a88c18ca.png) *Balloom* là Enemy đơn giản nhất, di chuyển ngẫu nhiên với tốc độ cố định.
    * ![Oneal](https://user-images.githubusercontent.com/100295385/197356374-69d59524-e8fc-4c27-9901-df55ea1fa632.png) *Oneal* là Enemy có thể tìm được đường đi đến Pikachu trong một bán kính nhất định (Sử dụng thuật toán BFS), Oneal sẽ tăng tốc nếu tìm được Pikachu.
-   * ![Doll](https://user-images.githubusercontent.com/100295385/197376461-8b5d6e5c-713f-4113-b1fb-d1abdc4f1f96.png) *Doll* là Enemy di chuyển ngẫu nhiên và châm nhất. Sau khi chết, Doll lần lượt sẽ sinh ra 1 Balloom mới với tốc độ nhanh hơn Balloom bình thường.
+   * ![Doll](https://user-images.githubusercontent.com/100295385/197376461-8b5d6e5c-713f-4113-b1fb-d1abdc4f1f96.png) *Doll* là Enemy di chuyển ngẫu nhiên và châm nhất. Sau khi chết, Doll lần lượt sẽ sinh ra 1 Balloom mới.
 
    
 ## 3. Mô tả game play
@@ -58,10 +57,20 @@
 * Tùy chọn
    * Tìm thuật toán tìm đường cho Enemy.
    * Cài đặt thêm 1 Enemy (Doll).
-   * Thêm hiệu ứng âm thanh, menu.
-   * Thêm chế độ lưu trò chơi để tiếp tục chơi sau khi tắt cửa số.
+   * Thêm hiệu ứng âm thanh, menu, có thể tăng giảm âm lượng trong màn hình pause.
+   * Thêm chế độ lưu trò chơi để tiếp tục chơi sau khi tắt cửa sổ.
    
-## 5. Hình ảnh demo
+## 5. Cây thừa kế
+* Entity
+
+![image](https://user-images.githubusercontent.com/100295385/198006412-de0bb58b-c5c0-4c56-ae15-1d734394a101.png)
+
+* Game Control
+
+![image](https://user-images.githubusercontent.com/100295385/198007082-13c53872-f06e-49e1-8f9b-39c4871bbfa6.png)
+
+   
+## 6. Hình ảnh demo
 
 * Menu
 
@@ -70,7 +79,7 @@
 
 ![image](https://user-images.githubusercontent.com/100295385/197708142-b94af6a3-389e-454d-8564-e7bcd3e09ded.png)
 
-## 6. Sinh viên thực hiện
+## 7. Sinh viên thực hiện
 
 | Họ và tên  | Mã sinh viên |
 | ------------- |:-------------:|

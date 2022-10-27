@@ -123,6 +123,7 @@ public class Bomber extends DestroyableEntity {
         } else if (keyEvent.pressed(KeyCode.P)) {
             if (GameMenu.gameState == GameMenu.GAME_STATE.IN_PLAY) {
                 GameMenu.gameState = GameMenu.GAME_STATE.IN_PAUSE;
+                collision.saveData();
                 Timer.pause();
             }
         } else if (keyEvent.pressed(KeyCode.E)) {

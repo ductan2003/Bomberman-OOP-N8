@@ -1,9 +1,12 @@
 package uet.oop.bomberman.controlSystem;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.util.Pair;
+//import sun.font.GraphicComponent;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.graphics.Screen;
 
 
 import java.util.ArrayList;
@@ -272,6 +275,7 @@ public class Collision {
     }
 
     public void saveData() {
+//        gc.drawImage(Screen.loser, )
         List<List<Character>> formatMap = formatMapDetailData();
         StringBuilder res = new StringBuilder();
         res.append(BombermanGame.map.getLevel());

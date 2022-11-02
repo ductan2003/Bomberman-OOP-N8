@@ -81,7 +81,7 @@
 
 ## 7. Video demo
 
-*Link: https://youtu.be/MPJGYvJj9TA
+* Link: https://youtu.be/MPJGYvJj9TA
 
 ## 8. Sinh viên thực hiện
 

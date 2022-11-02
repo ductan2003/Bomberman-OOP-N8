@@ -79,7 +79,11 @@
 
 ![image](https://user-images.githubusercontent.com/100295385/197708142-b94af6a3-389e-454d-8564-e7bcd3e09ded.png)
 
-## 7. Sinh viên thực hiện
+## 7. Video demo
+
+*Link: https://youtu.be/MPJGYvJj9TA
+
+## 8. Sinh viên thực hiện
 
 | Họ và tên  | Mã sinh viên |
 | ------------- |:-------------:|
